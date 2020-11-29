@@ -24,3 +24,6 @@ yarn-error.log*
 
 #Database JSON file
 /server/config/config.json
+
+#Node Modules
+/node_modules

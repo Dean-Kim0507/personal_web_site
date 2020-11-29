@@ -1,0 +1,14 @@
+html {
+	box-sizing: border-box;
+	height: 100%;
+  }
+  *, *:before, *:after {
+	box-sizing: inherit;
+  }
+
+
+.createBlog {
+	margin-top:5%;
+	width: 80%;
+	margin: 5% 5% 0 5%;
+}

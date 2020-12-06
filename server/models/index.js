@@ -34,4 +34,11 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.blogDataAdmin = require('./blogData')(sequelize, Sequelize);
+db.blogComments = require('./blogComments')(sequelize, Sequelize);
+
+db.blogDataAdmin.hasMany(db.blogComments, {
+  foreignKey: "blog_id",
+  sourceKey: 'blog_id'
+})
 module.exports = db;

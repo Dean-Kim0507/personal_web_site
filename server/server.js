@@ -6,6 +6,8 @@ const blogData = require('./controllers/blogDataController/blogCreateController'
 const blogList = require('./controllers/blogDataController/blogListController');
 const retrieveBlog = require('./controllers/blogDataController/blogRetrieveController');
 const updateBlog = require('./controllers/blogDataController/blogUpdateController');
+const deleteBlog = require('./controllers/blogDataController/blogDeleteController');
+const blogComments = require('./controllers/blogDataController/blogCommentsController');
 const port = process.env.PORT || 4000;
 const cors = require('cors');
 const Blogdata = require('./models');
@@ -38,7 +40,9 @@ app.use('/communitypost/senddata', sendData);
 app.use('/blog/create', blogData)
 app.use('/blog/list', blogList)
 app.use('/blog/retrieveblog', retrieveBlog)
-app.use('Upload success', updateBlog)
+app.use('/blog/update', updateBlog)
+app.use('/blog/delete', deleteBlog)
+app.use('/blog/comments', blogComments)
 
 app.listen(port, function () {
   console.log(`connected ${port} port!`);

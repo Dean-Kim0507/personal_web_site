@@ -46,6 +46,11 @@ html {
 
 }
 
+.ReadBlogList_delete_button {
+	float:right;
+}
+
 .ReadBlogList_update_button{
 	float:right;
 }
+

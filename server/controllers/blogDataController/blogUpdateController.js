@@ -79,14 +79,14 @@ router.post('/', async function (req, res) {
 		await Blogdata.blogDataAdmin.update({
 			writer: writer,
 			title: title,
-			description: desc
-		}, { where: { id: id } })
+			description: desc,
+			imagespath: stringImagesPath
+		}, { where: { blog_id: id } })
 			.then(result => {
-				// res.json(result);
-				console.log(result)
+				if (result > 0) res.json('Update success');
 			})
 			.catch(err => {
-				console.error(err);
+				res.json(err.errno);
 			});
 	}
 	else {
@@ -94,14 +94,12 @@ router.post('/', async function (req, res) {
 			writer: writer,
 			title: title,
 			description: desc,
-			imagespath: stringImagesPath
-		}, { where: { id: id } })
+		}, { where: { blog_id: id } })
 			.then(result => {
-				// res.json(result);
-				console.log(result)
+				if (result > 0) res.json('Update success');
 			})
 			.catch(err => {
-				console.error(err);
+				res.json(err);
 			});
 	}
 })

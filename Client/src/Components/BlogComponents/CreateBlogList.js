@@ -57,12 +57,12 @@ function CreateBlogList(props) {
 					}}>
 
 					<FormGroup>
-						<Label for="title">Name</Label>
+						<Label for="title">Title</Label>
 						<Input type="text" name="title" placeholder="TITLE" />
 					</FormGroup>
 					<FormGroup>
-						<Label for="writer">Title</Label>
-						<Input type="text" name="writer" placeholder="NAME" />
+						<Label for="writer">Writer</Label>
+						<Input type="text" name="writer" placeholder="WRITER" />
 					</FormGroup>
 					<FormGroup>
 						<Label for="desc">Text Area</Label>

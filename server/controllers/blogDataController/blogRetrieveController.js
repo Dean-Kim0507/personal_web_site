@@ -25,7 +25,7 @@ router.post('/', async function (req, res) {
 
 	Blogdata.blogDataAdmin.findOne({
 		where: {
-			id: id
+			blog_id: id
 		}
 	})
 		.then(results => {

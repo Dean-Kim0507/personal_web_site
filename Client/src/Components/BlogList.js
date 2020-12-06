@@ -22,6 +22,7 @@ function BlogList(props) {
 	let splittedImagePaths;
 	let splittedImagePaths_preview;
 	let temp_allBlogs = [];
+	let temp_comments = [];
 	let [allBlogs, setAllBlogs] = useState([]);
 	// let show = null;
 	const [show, setShow] = useState(false);
@@ -41,14 +42,40 @@ function BlogList(props) {
 		}
 		setImages(splittedImagePaths);
 	}
-	//Get all blog list from the back end side
+	//Integreate two object (blog information, blog comments)
 	useEffect(() => {
-		const res = axios.post("/blog/list")
+		axios.post("/blog/list")
 			.then(response => {
 				console.log(response.data);
-				for (let i = response.data.length - 1; i >= 0; i--) {
-					temp_allBlogs.push(response.data[i]);
+				//to show current blog at the first.
+				for (let i = response.data[0].length - 1; i >= 0; i--) {
+					let temp_data = {
+						id: Number,
+						writer: String,
+						title: String,
+						desc: String,
+						imagePaths: String,
+						comments: Array,
+						createdAt: String,
+						updatedAt: String
+					}
+					temp_data.id = Number.parseInt(response.data[0].[i].id);
+					temp_data.writer = response.data[0].[i].writer;
+					temp_data.title = response.data[0].[i].title;
+					temp_data.desc = response.data[0].[i].desc;
+					temp_data.imagePaths = response.data[0].[i].imagePaths;
+					temp_data.createdAt = response.data[0].[i].createdAt;
+					temp_data.updatedAt = response.data[0].[i].updatedAt;
+					temp_comments = [];
+					for (let i = response.data[1].length - 1; i >= 0; i--) {
+						if (temp_data.id === response.data[1].[i].blog_id) {
+							temp_comments.push(response.data[1].[i].blog_comment);
+						}
+					}
+					temp_data.comments = temp_comments;
+					temp_allBlogs.push(temp_data);
 				}
+
 				setAllBlogs(temp_allBlogs);
 			})
 	}, []);
@@ -68,7 +95,7 @@ function BlogList(props) {
 
 							return (
 								splittedImagePaths_preview[0] &&
-								<Card className="blogList_thumbnail">
+								<Card className="blogList_thumbnail" key={data.id}>
 									<Card.Header>{data.title}</Card.Header>
 									<Card.Img
 										alt="171x180"
@@ -85,14 +112,14 @@ function BlogList(props) {
 					< Modal show={show} onHide={handleClose} className="blogList_modal"
 						centered={true} size={'lg'}
 					>
-						<Modal.Header closeButton />
+						<Modal.Header closeButton>{data.writer}</Modal.Header>
 						<ReadBlogList id={data.id}
-							writer={data.writer}
 							title={data.title}
 							desc={data.desc}
 							imagePathArray={images}
 							createdAt={data.createdAt}
 							updatedAt={data.updatedAt}
+							comments={data.comments}
 							className="blogList_detailedBlog"
 						>
 						</ReadBlogList>

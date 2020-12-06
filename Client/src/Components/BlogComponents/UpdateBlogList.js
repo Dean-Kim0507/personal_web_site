@@ -14,6 +14,10 @@ function UpdateBlogList(props) {
 		setPictures([...pictures, picture]);
 	};
 	let [retrievedData, setRetrievedData] = useState(null);
+	let [title, setTitle] = useState(null);
+	let [writer, setWriter] = useState(null);
+	let [id, setId] = useState(null);
+	let [desc, setDesc] = useState(null);
 	const formData = new FormData();
 	let temp_data;
 	let info =
@@ -31,15 +35,18 @@ function UpdateBlogList(props) {
 		axios.post("/blog/retrieveblog", info)
 			.then(response => {
 				temp_data = response.data;
-				if (temp_data != null) {
+				if (temp_data.imagespath != null) {
 					splittedImagePaths = temp_data.imagespath.split(',');
 					for (let a = 0; a < splittedImagePaths.length; a++) {
 						splittedImagePaths[a] = splittedImagePaths[a].substring(16, splittedImagePaths[a].length);
 					}
 					temp_data.imagespath = splittedImagePaths;
 				}
-				console.log(temp_data)
-				setRetrievedData(temp_data)
+				setRetrievedData(temp_data);
+				setWriter(temp_data.writer);
+				setId(temp_data.blog_id);
+				setDesc(temp_data.description);
+				setTitle(temp_data.title);
 			})
 	}, [])
 
@@ -50,7 +57,7 @@ function UpdateBlogList(props) {
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
-		formData.append('id', retrievedData.id)
+		formData.append('id', retrievedData.blog_id)
 		formData.append('writer', e.target.writer.value);
 		formData.append('title', e.target.title.value);
 		formData.append('desc', e.target.desc.value);
@@ -72,15 +79,18 @@ function UpdateBlogList(props) {
 		await axios.post("/blog/update", formData)
 			.then(
 				response => {
+					console.log(response)
 					_uploadResult = response.data;
-					if (_uploadResult === 'Upload success') history.push('/bloglist');
+					if (_uploadResult === 'Update success') history.push('/bloglist');
 					else {
-						errNum = '100';
+						console.log(response.data.original.errno)
+						errNum = response.data.original.errno;
 						errPage = 'UpdateBlogList.js'
 						history.push(`/errorpage/${errNum}/${errPage}`);
 					}
 				})
 			.catch(function (error) {
+				console.log(error);
 				errNum = '101';
 				errPage = 'UpdateBlogList.js'
 				history.push(`/errorpage/${errNum}/${errPage}`);
@@ -88,29 +98,37 @@ function UpdateBlogList(props) {
 			});
 
 	}
+
+	async function handleChange(event) {
+
+		let targetName = event.target.name;
+		if (targetName === 'title') setTitle(event.target.value);
+		else if (targetName === 'writer') setWriter(event.target.value);
+		else if (targetName === 'desc') setDesc(event.target.value);
+
+	}
+
 	return (
 		<div className='updateBlogList_whole'>
-			<form action='' method="post" enctype="multipart/form-data"
+			<form action='' method="post" encType="multipart/form-data"
 				// send the images to Backend Node js express
 				onSubmit={onSubmit}>
-
 				{
 					retrievedData &&
-
 					<>
-						{console.log('return: ' + retrievedData.id)}
+						{console.log('return: ' + retrievedData.title)}
 						{console.log('return: ' + temp_data)}
 						<FormGroup>
 							<Label for="title">Title</Label>
-							<Input type="text" name="title" placeholder="TITLE" value={retrievedData.title} />
+							<Input type="text" name="title" placeholder="TITLE" value={title} onChange={handleChange} />
 						</FormGroup>
 						<FormGroup>
 							<Label for="writer">Writer</Label>
-							<Input type="text" name="writer" placeholder="NAME" value={retrievedData.writer} />
+							<Input type="text" name="writer" placeholder="NAME" value={writer} onChange={handleChange} />
 						</FormGroup>
 						<FormGroup>
 							<Label for="desc">Text Area</Label>
-							<Input type="textarea" name="desc" placeholder="TEXT" value={retrievedData.description} />
+							<Input type="textarea" name="desc" placeholder="TEXT" value={desc} onChange={handleChange} />
 						</FormGroup>
 					</>
 				}

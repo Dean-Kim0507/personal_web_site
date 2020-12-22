@@ -4,18 +4,21 @@ import ReactDOM from "react-dom";
 import Body from "./Body";
 import Head from "./Head";
 // import Footer from "./Footer";
-import Test from './Test.js';
+import Test from './Test';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
-
+import { Provider } from 'react-redux';
+import store from './store';
 
 ReactDOM.render(
 	<div className="body">
-		<Head/>
-		<Body/>
-		{/* <Test/> */}
-		{/* <Footer/> */}
+		<Provider store={store}>
+			<Head />
+			<Body />
+			{/* <Test/> */}
+			{/* <Footer/> */}
+		</Provider>
 	</div>,
 	document.querySelector("#container")
 );

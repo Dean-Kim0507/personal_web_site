@@ -8,6 +8,8 @@ const retrieveBlog = require('./controllers/blogDataController/blogRetrieveContr
 const updateBlog = require('./controllers/blogDataController/blogUpdateController');
 const deleteBlog = require('./controllers/blogDataController/blogDeleteController');
 const blogComments = require('./controllers/blogDataController/blogCommentsController');
+const registration_user = require('./controllers/registrationController');
+const login = require('./controllers/loginController');
 const port = process.env.PORT || 4000;
 const cors = require('cors');
 const Blogdata = require('./models');
@@ -37,12 +39,14 @@ app.use(express.json())
 
 app.use('/communitypost/receivedata', receiveData);
 app.use('/communitypost/senddata', sendData);
-app.use('/blog/create', blogData)
-app.use('/blog/list', blogList)
-app.use('/blog/retrieveblog', retrieveBlog)
-app.use('/blog/update', updateBlog)
-app.use('/blog/delete', deleteBlog)
-app.use('/blog/comments', blogComments)
+app.use('/blog/create', blogData);
+app.use('/blog/list', blogList);
+app.use('/blog/retrieveblog', retrieveBlog);
+app.use('/blog/update', updateBlog);
+app.use('/blog/delete', deleteBlog);
+app.use('/blog/comments', blogComments);
+app.use('/registration', registration_user);
+app.use('/login', login);
 
 app.listen(port, function () {
   console.log(`connected ${port} port!`);

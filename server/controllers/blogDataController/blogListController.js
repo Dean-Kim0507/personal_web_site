@@ -29,10 +29,8 @@ router.post('/', async function (req, res) {
 
     .then(results => {
       findAllResults = results;
-      console.log('1');
 
       for (let i = 0; i < findAllResults.length; i++) {
-
 
         let eachData = {
           id: String,
@@ -40,7 +38,7 @@ router.post('/', async function (req, res) {
           title: String,
           desc: String,
           imagePaths: Array,
-          comments: Array,
+          // comments: Array,
           createdAt: String,
           updatedAt: String
         };
@@ -52,20 +50,20 @@ router.post('/', async function (req, res) {
         eachData.createdAt = String(findAllResults[i].dataValues.createdAt);
         eachData.updatedAt = String(findAllResults[i].dataValues.updatedAt);
         datas.push(eachData);
-        console.log('2');
       }
-      allData.push(datas);
+      res.send(datas);
+      // allData.push(datas);
     })
 
-  Blogdata.blogcomments.findAll()
+    // Blogdata.blogcomments.findAll()
 
-    .then(results => {
+    //   .then(results => {
 
-      allData.push(results);
-      console.log('results: ', results);
-      console.log('allData: ', allData);
-      res.send(allData);
-    })
+    //     allData.push(results);
+    //     console.log('results: ', results);
+    //     console.log('allData: ', allData);
+    //     res.send(allData);
+    //   })
 
     .then(err => {
       res.json(err);

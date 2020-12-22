@@ -28,7 +28,21 @@ router.post('/', async function (req, res) {
 		}
 	})
 		.then(result => {
-			if (result > 0) res.json('Delete success');
+			console.log('blogData Delete success');
+		})
+
+		.catch(err => {
+			res.json(err);
+		})
+
+	await Blogdata.blogcomments.destroy({
+		where: {
+			blog_id: id
+		}
+	})
+		.then(result => {
+			console.log('Commenta Delete success');
+			res.json('Delete success')
 		})
 
 		.catch(err => {

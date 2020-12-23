@@ -10,6 +10,7 @@ const deleteBlog = require('./controllers/blogDataController/blogDeleteControlle
 const blogComments = require('./controllers/blogDataController/blogCommentsController');
 const registration_user = require('./controllers/registrationController');
 const login = require('./controllers/loginController');
+const verifySignUp = require("./middleware/verifySignUp");
 const port = process.env.PORT || 4000;
 const cors = require('cors');
 const Blogdata = require('./models');
@@ -26,11 +27,7 @@ Blogdata.sequelize.sync()
     process.exit();
   });
 
-// const corsOptions = {
-//   origin: "*",
-//   methods: "GET, PUT, PATCH, POST, DELETE",
-//   exposedHeaders: "*"
-//   };
+
 
 app.use(cors());
 
@@ -45,7 +42,7 @@ app.use('/blog/retrieveblog', retrieveBlog);
 app.use('/blog/update', updateBlog);
 app.use('/blog/delete', deleteBlog);
 app.use('/blog/comments', blogComments);
-app.use('/registration', registration_user);
+app.use('/registration', verifySignUp.checkDuplicateUsernameOrEmail, registration_user);
 app.use('/login', login);
 
 app.listen(port, function () {

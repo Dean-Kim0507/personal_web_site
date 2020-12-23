@@ -13,9 +13,13 @@ function Register(props) {
 	const [lastName, setLastName] = useState(null);
 	const [email, setEmail] = useState(null);
 	const [userIdFeedBack, setUserIdFeedBack] = useState(null);
+	const [emailFeedBack, setEmailFeedBack] = useState(null);
 	const [userIdInvalid, setUserIdInvalid] = useState();
+	const [emailInvalid, setEmailInvalid] = useState();
 	const [passwordInvalid, setPasswordInvalid] = useState();
 
+	const userMessage = 'A user with that user name already exists';
+	const emailMessage = 'A user with that email already exists';
 	let _userID;
 	let _password;
 	let _confirm_password;
@@ -42,17 +46,33 @@ function Register(props) {
 				.then(
 					response => {
 						_uploadResult = response.data;
+						console.log(response);
 						if (_uploadResult === 'Registration success') {
 							alert("Signing Up Success! Please Login Again");
 							history.push('/login');
 						}
 						else {
-							history.push(`/errorpage/${response.status}/${"Registration"}/${response.data}`);
+							console.log(response.data);
+							if (_uploadResult == 'userID, email duplication') {
+								setUserIdInvalid(true);
+								setUserIdFeedBack(userMessage);
+								setEmailInvalid(true);
+								setEmailFeedBack(emailMessage);
+							}
+							if (_uploadResult == 'userID duplication') {
+								setUserIdInvalid(true);
+								setUserIdFeedBack(userMessage);
+							}
+							if (_uploadResult == 'email duplication') {
+								setEmailInvalid(true);
+								setEmailFeedBack(emailMessage);
+							}
 						}
 					}
 				)
 				.catch(function (error) {
-					console.log(error);
+					console.log(error.message);
+					history.push(`/errorpage/${error.status}/${"Registration"}/${error.message}`);
 				});
 		}
 
@@ -130,6 +150,15 @@ function Register(props) {
 	const onChangeEmail = (e) => {
 		const e_mail = e.target.value;
 		setEmail(e_mail);
+		const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+		if (!regExp.test(e_mail)) {
+			setEmailInvalid(true);
+			setEmailFeedBack('Please provide a valid Email.');
+		}
+		else {
+			setEmailInvalid(false);
+			setEmail(e_mail);
+		}
 	}
 
 	return (
@@ -194,10 +223,15 @@ function Register(props) {
 
 			<Form.Group as={Col} md="4" controlId="email">
 				<Form.Label>Email address</Form.Label>
-				<Form.Control type="email" placeholder="Email address" onChange={onChangeEmail} required />
+				<Form.Control
+					type="email"
+					placeholder="Email address"
+					onChange={onChangeEmail}
+					isInvalid={emailInvalid}
+					required />
 				<Form.Control.Feedback type="invalid">
-					Please provide a valid Email.
-         		</Form.Control.Feedback>
+					{emailFeedBack}
+				</Form.Control.Feedback>
 			</Form.Group>
 			<Button type="submit">Submit</Button>
 

@@ -16,7 +16,7 @@ function LoginPage(props) {
 			password: password
 		}
 
-		props.onClick(login_Data);
+		// props.onClick(login_Data);
 
 		axios.post("/login", login_Data)
 			.then(

@@ -11,9 +11,11 @@ const express = require('express');
 const router = express.Router();
 const Register_user = require('../models');
 const bcrypt = require('bcrypt');
+const { user } = require('../mysql');
+
 
 router.post('/', async function (req, res) {
-	console.log(req.body)
+
 	const userID = req.body.userID;
 	const firstName = req.body.firstName;
 	const lastName = req.body.lastName;
@@ -24,14 +26,10 @@ router.post('/', async function (req, res) {
 	await bcrypt
 		.genSalt(saltRounds)
 		.then(salt => {
-			console.log(`Salt: ${salt}`);
-
 			return bcrypt.hash(req.body.password, salt);
 		})
 		.then(hash => {
-			console.log(`Hash: ${hash}`);
 			password = hash;
-
 		})
 		.catch(err => console.error(err.message));
 	Register_user.user_mywebsite.create({
@@ -39,8 +37,12 @@ router.post('/', async function (req, res) {
 		password: (String)(password),
 		firstName: firstName,
 		lastName: lastName,
-		email: email
-	})
+		email: email,
+		user_mywebsite_role_mywebsite: {
+			userID: userID,
+			roleID: 2
+		}
+	}, { include: [Register_user.user_mywebsite_role_mywebsite] })
 		.then(() => {
 			res.json('Registration success');
 		})

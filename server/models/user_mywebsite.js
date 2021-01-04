@@ -26,6 +26,11 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
+		profile_img_path: {
+			field: 'profile_img_path',
+			type: DataTypes.TEXT,
+			allowNull: true,
+		},
 	}, {
 		freezeTableName: true,
 		timestamps: true,

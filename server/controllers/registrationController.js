@@ -6,23 +6,37 @@
  * Map: (Client) Register -> (Server) server -> registerController
  */
 'use strict';
-let crypto = require('crypto');
+// let crypto = require('crypto');
 const express = require('express');
 const router = express.Router();
 const Register_user = require('../models');
 const bcrypt = require('bcrypt');
 const { user } = require('../mysql');
 
-
 router.post('/', async function (req, res) {
-
+	console.log('imgfile: ', req.files.imgFile)
 	const userID = req.body.userID;
 	const firstName = req.body.firstName;
 	const lastName = req.body.lastName;
 	const email = req.body.email;
+	const profileImg = req.files.imgFile;
+	let profileImgName;
 	const saltRounds = 10;
 	let password;
 
+	//save profile image
+	if (profileImg.name.indexOf(' ') != -1) {
+		profileImgName = profileImg.name.replace(/ /g, '');
+	}
+	else profileImgName = profileImg.name;
+	const imagePath = '../Client/public/uploadImages/profileImg/' + userID + "profileImg" + Date.now() + profileImgName;
+	profileImg.mv(imagePath
+		, function (err) {
+			if (err) return res.status(500).send(err);
+		}
+	);
+
+	// hasing and salting password
 	await bcrypt
 		.genSalt(saltRounds)
 		.then(salt => {
@@ -32,22 +46,29 @@ router.post('/', async function (req, res) {
 			password = hash;
 		})
 		.catch(err => console.error(err.message));
-	Register_user.user_mywebsite.create({
+
+	await Register_user.user_mywebsite.create({
 		userID: userID,
 		password: (String)(password),
 		firstName: firstName,
 		lastName: lastName,
 		email: email,
-		user_mywebsite_role_mywebsite: {
-			userID: userID,
-			roleID: 2
-		}
-	}, { include: [Register_user.user_mywebsite_role_mywebsite] })
+		profile_img_path: imagePath
+
+	})
 		.then(() => {
-			res.json('Registration success');
+			Register_user.user_mywebsite_role_mywebsite.create({
+				userID: userID,
+				roleID: 2
+			})
+		})
+		.then(() => {
+			console.log('success')
+			res.json({ message: 'Registration success' });
 		})
 		.catch(err => {
-			res.json(err);
+			console.log(err)
+			res.status(500).json({ message: err.message });
 		});
 
 });

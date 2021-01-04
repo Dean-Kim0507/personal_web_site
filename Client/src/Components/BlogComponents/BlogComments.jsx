@@ -26,9 +26,11 @@ function BlogComments(props) {
 	//create new comment
 	const sendComment = (e) => {
 		e.preventDefault();
+		let comment_value = e.target.comment_form_control.value;
 		setCommentMode('create');
-		setComment_create_value(e.target.comment_form_control.value);
+		setComment_create_value(comment_value);
 		setComment_form_control_value('');
+		setCommentButton(true);
 	}
 
 	// when comment is empty, submit button is disabled

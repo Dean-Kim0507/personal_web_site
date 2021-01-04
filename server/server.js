@@ -14,6 +14,8 @@ const verifySignUp = require("./middleware/verifySignUp");
 const port = process.env.PORT || 4000;
 const cors = require('cors');
 const Blogdata = require('./models');
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
 
 // default option to connect database by sequelize
 Blogdata.sequelize.sync()

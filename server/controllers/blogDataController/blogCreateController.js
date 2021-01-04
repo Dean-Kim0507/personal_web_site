@@ -13,8 +13,6 @@
  */
 const express = require('express');
 const router = express.Router();
-const fileUpload = require('express-fileupload');
-router.use(fileUpload());
 const Blogdata = require('../../models');
 
 router.post('/', async function (req, res) {
@@ -25,10 +23,10 @@ router.post('/', async function (req, res) {
   let type = req.body.mode;
 
   let uploadedImages = req.files;
+  console.log(req.files);
   let imagesPath = [];
   let imgFile;
   let imgFileName;
-  let randomNumber;
 
   //create mode
   if (type === 'create') {
@@ -38,9 +36,10 @@ router.post('/', async function (req, res) {
       if (Array.isArray(uploadedImages.images)) {
         for (let i = 0; i < uploadedImages.images.length; i++) {
           imgFile = uploadedImages.images[i];
-          if (imgFile.name.indexOf(',') != -1) {
-            randomNumber = Math.floor(Math.random() * 10000);
-            imgFileName = randomNumber + '.jpg';
+          if (imgFile.name.indexOf(',') != -1 || imgFile.name.indexOf(' ') != -1) {
+            imgFileName = imgFile.name;
+            imgFileName = imgFileName.replace(/ /g, '');
+            imgFileName = imgFileName.replace(/,/g, '');
           }
           else imgFileName = imgFile.name;
           imagesPath[i] = '../Client/public/uploadImages/blog/' + "blogImg" + Date.now() + imgFileName;
@@ -55,9 +54,10 @@ router.post('/', async function (req, res) {
       //if user just upload a image
       else {
         imgFile = uploadedImages.images;
-        if (imgFile.name.indexOf(',') != -1) {
-          randomNumber = Math.floor(Math.random() * 10000);
-          imgFileName = randomNumber + '.jpg';
+        if (imgFile.name.indexOf(',') != -1 || imgFile.name.indexOf(' ')) {
+          imgFileName = imgFile.name;
+          imgFileName = imgFileName.replace(/ /g, '');
+          imgFileName = imgFileName.replace(/,/g, '');
         }
         else imgFileName = imgFile.name;
         imagesPath[0] = '../Client/public/uploadImages/blog/' + "blogImg" + Date.now() + imgFileName;

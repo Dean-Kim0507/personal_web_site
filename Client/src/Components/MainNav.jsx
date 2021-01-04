@@ -1,8 +1,33 @@
 import React, { useState } from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
+import { useSelector, useDispatch } from "react-redux";
+import { Navbar, Nav, Image, Modal, Button, Col, Spinner } from 'react-bootstrap';
+import { Link } from "react-router-dom";
+import { logout } from "../Actions/auth";
 
 function MainNav(props) {
-	var state = useState();
+	const dispatch = useDispatch();
+	const [show, setShow] = useState(false);
+	const handleClose = () => setShow(false);
+	const handleShow = () => setShow(true);
+	const [loading, setLoading] = useState(false);
+	const { isLoggedIn, user } = useSelector(state => state.auth);
+
+	const IMG_WIDTH = 45;
+	const IMG_LENGTH = 50;
+
+	const logOut = () => {
+		setLoading(true);
+		dispatch(logout());
+	};
+
+	let imagePath;
+	if (isLoggedIn) {
+		imagePath = user.profileImg;
+		if (imagePath != null) {
+			imagePath = imagePath.substring(16, imagePath.length);
+		}
+		else imagePath = "./uploadImages/img_user.jpg"
+	}
 	return (
 		<div>
 			<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
@@ -28,13 +53,58 @@ function MainNav(props) {
 						<Nav.Link disabled href="#">My Project</Nav.Link>
 						<Nav.Link href="/community">Community</Nav.Link>
 					</Nav>
-					<Nav>
-						<Nav.Item>
-							<Nav.Link href="/login">Login</Nav.Link>
-						</Nav.Item>
-					</Nav>
+					{isLoggedIn ?
+						<>
+							<Image src={imagePath}
+								width={IMG_WIDTH}
+								height={IMG_LENGTH}
+								alt="171x180"
+								roundedCircle />
+							<Nav>
+								<Nav.Item>
+									<Nav.Link href="/profile">{user.firstName}</Nav.Link>
+								</Nav.Item>
+							</Nav>
+						</>
+						: null
+
+					}
+					{isLoggedIn ?
+						<Nav>
+							<Nav.Item>
+								<Nav.Link onClick={handleShow}>Logout</Nav.Link>
+							</Nav.Item>
+						</Nav>
+						: <Nav>
+							<Nav.Item>
+								<Nav.Link href="/login">Login</Nav.Link>
+							</Nav.Item>
+						</Nav>
+					}
 				</Navbar.Collapse>
 			</Navbar>
+			<Modal show={show} onHide={handleClose}>
+				<Modal.Header closeButton />
+				<Modal.Body>
+					<h5>Are you sure you want to Logout?</h5>
+					<Col md={{ span: 3, offset: 9 }}>
+						{loading ?
+							<Button variant="light" href="/login" onClick={logOut} >
+								<Spinner
+									as="span"
+									animation="border"
+									size="sm"
+									role="status"
+									aria-hidden="true"
+								/>
+							</Button>
+							: <Button variant="light" href="/login" onClick={logOut} >
+								Logout
+          				</Button>
+						}
+					</Col>
+				</Modal.Body>
+			</Modal>
 
 			<hr />
 		</div>

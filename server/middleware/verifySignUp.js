@@ -4,6 +4,7 @@ const User = db.user_mywebsite;
 checkDuplicateUsernameOrEmail = (req, res, next) => {
 	let userID_err = false;
 	let email_err = false;
+	console.log('middle ware', req.body)
 	// UserID
 	User.findOne({
 		where: {
@@ -13,7 +14,6 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
 		if (user) {
 			userID_err = true;
 		}
-
 		// Email
 		User.findOne({
 			where: {
@@ -24,15 +24,15 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
 				email_err = true;
 			}
 			if (userID_err && email_err) {
-				res.send("userID, email duplication");
+				res.send({ message: "userID, email duplication" });
 				return;
 			}
 			else if (userID_err) {
-				res.send("userID duplication");
+				res.send({ message: "userID duplication" });
 				return;
 			}
 			else if (email_err) {
-				res.send("email duplication");
+				res.send({ message: "email duplication" });
 				return;
 			}
 
@@ -40,6 +40,7 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
 		});
 	});
 };
+
 const verifySignUp = {
 	checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,
 };

@@ -1,7 +1,19 @@
-import React, { useState } from "react";
-import { Button, Form, Col, Alert } from 'react-bootstrap';
-import axios from 'axios';
+import React, { useState, useEffect, useCallback } from "react";
+import { Button, Form, Col, Figure } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../Actions/auth";
+import ImageUploader from 'react-images-upload';
+import {
+	d_userMessage,
+	d_emailMessage,
+	v_passwordMessage,
+	v_confirmPasswordMessage,
+	v_idMessage,
+	v_emailMessage,
+	v_fNMessage,
+	v_lNMessage
+} from "./message";
 
 function Register(props) {
 	const [validated, setValidated] = useState(false);
@@ -17,13 +29,16 @@ function Register(props) {
 	const [userIdInvalid, setUserIdInvalid] = useState();
 	const [emailInvalid, setEmailInvalid] = useState();
 	const [passwordInvalid, setPasswordInvalid] = useState();
+	const [pictures, setPictures] = useState(null);
+	const dispatch = useDispatch();
+	const { message } = useSelector(state => state.message);
+	const IMG_WIDTH = 171;
+	const IMG_LENGTH = 180;
 
-	const userMessage = 'A user with that user name already exists';
-	const emailMessage = 'A user with that email already exists';
+	let [profileImageURL, setProfileImageURL] = useState(null);
 	let _userID;
 	let _password;
 	let _confirm_password;
-	let _uploadResult;
 	let history = useHistory();
 
 	const handleSubmit = (event) => {
@@ -42,47 +57,50 @@ function Register(props) {
 				lastName: lastName,
 				email: email
 			}
-			axios.post("/registration", user_data)
-				.then(
-					response => {
-						_uploadResult = response.data;
-						console.log(response);
-						if (_uploadResult === 'Registration success') {
-							alert("Signing Up Success! Please Login Again");
-							history.push('/login');
-						}
-						else {
-							console.log(response.data);
-							if (_uploadResult == 'userID, email duplication') {
-								setUserIdInvalid(true);
-								setUserIdFeedBack(userMessage);
-								setEmailInvalid(true);
-								setEmailFeedBack(emailMessage);
-							}
-							if (_uploadResult == 'userID duplication') {
-								setUserIdInvalid(true);
-								setUserIdFeedBack(userMessage);
-							}
-							if (_uploadResult == 'email duplication') {
-								setEmailInvalid(true);
-								setEmailFeedBack(emailMessage);
-							}
-						}
-					}
-				)
-				.catch(function (error) {
-					console.log(error.message);
-					history.push(`/errorpage/${error.status}/${"Registration"}/${error.message}`);
-				});
+			dispatch(register(user_data, pictures));
 		}
-
 	};
+
+	useEffect(() => {
+
+		if (message === 'Registration success') {
+			alert("Signing Up Success! Please Login Again");
+			history.push('/login');
+		}
+		else {
+			// console.log(response.data);
+			if (message == 'userID, email duplication') {
+				setUserIdInvalid(true);
+				setUserIdFeedBack(d_userMessage);
+				setEmailInvalid(true);
+				setEmailFeedBack(d_emailMessage);
+			}
+			else if (message == 'userID duplication') {
+				setUserIdInvalid(true);
+				setUserIdFeedBack(d_userMessage);
+				setEmailInvalid(false);
+			}
+			else if (message == 'email duplication') {
+				setEmailInvalid(true);
+				setEmailFeedBack(d_emailMessage);
+				setUserIdInvalid(false);
+			}
+			else {
+				console.log('error: ', message)
+			}
+		}
+	})
+
+	const uploadSingleFile = picture => {
+		setProfileImageURL(URL.createObjectURL(picture[0]));
+		setPictures(picture[0]);
+	}
 
 	const onChangeUserID = (e) => {
 		_userID = e.target.value;
 		if (_userID === undefined || _userID.length < 8 || _userID.length > 20) {
 			setUserIdInvalid(true);
-			setUserIdFeedBack("Please choose a user ID with 8 to 20 characters.");
+			setUserIdFeedBack(v_idMessage);
 		}
 		else {
 			setUserIdInvalid(false);
@@ -148,21 +166,27 @@ function Register(props) {
 	};
 
 	const onChangeEmail = (e) => {
+
 		const e_mail = e.target.value;
 		setEmail(e_mail);
 		const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 		if (!regExp.test(e_mail)) {
 			setEmailInvalid(true);
-			setEmailFeedBack('Please provide a valid Email.');
+			setEmailFeedBack(v_emailMessage);
+			console.log('email false')
 		}
 		else {
 			setEmailInvalid(false);
 			setEmail(e_mail);
+			console.log('email true')
 		}
 	}
 
 	return (
-		<Form noValidate validated={validated} onSubmit={handleSubmit}>
+		< Form
+			noValidate validated={validated}
+			onSubmit={handleSubmit}
+		>
 			<Form.Group as={Col} md="4" controlId="userId">
 				<Form.Label>User ID</Form.Label>
 				<Form.Control type="text" placeholder="User ID" onChange={onChangeUserID} isInvalid={userIdInvalid} minLength="8" maxLength="20" required />
@@ -175,8 +199,8 @@ function Register(props) {
 				<Form.Label>Password</Form.Label>
 				<Form.Control type="password" placeholder="Password" onChange={onChangePassword} isInvalid={passwordInvalid} minLength="8" maxLength="20" required />
 				<Form.Control.Feedback type="invalid">
-					Please choose a new password with at least 8 characters
-          		</Form.Control.Feedback>
+					{v_passwordMessage}
+				</Form.Control.Feedback>
 			</Form.Group>
 
 			<Form.Group as={Col} md="4" controlId="confirm_password">
@@ -190,8 +214,8 @@ function Register(props) {
 					minLength="8" maxLength="20"
 				/>
 				<Form.Control.Feedback type="invalid">
-					Please choose a new password with at least 8 characters and make sure this matches your password.
-          		</Form.Control.Feedback>
+					{v_confirmPasswordMessage}
+				</Form.Control.Feedback>
 			</Form.Group>
 
 			<Form.Group as={Col} md="4" controlId="firstName">
@@ -201,10 +225,11 @@ function Register(props) {
 					type="text"
 					placeholder="First name"
 					onChange={onChangeFirstName}
+					maxLength="100"
 				/>
 				<Form.Control.Feedback type="invalid">
-					Please provide a valid First Name.
-					</Form.Control.Feedback>
+					{v_fNMessage}
+				</Form.Control.Feedback>
 			</Form.Group>
 
 			<Form.Group as={Col} md="4" controlId="lastName">
@@ -214,12 +239,12 @@ function Register(props) {
 					type="text"
 					placeholder="Last name"
 					onChange={onChangeLastName}
+					maxLength="100"
 				/>
 				<Form.Control.Feedback type="invalid">
-					Please provide a valid Last Name.
+					{v_lNMessage}
 				</Form.Control.Feedback>
 			</Form.Group>
-
 
 			<Form.Group as={Col} md="4" controlId="email">
 				<Form.Label>Email address</Form.Label>
@@ -228,14 +253,51 @@ function Register(props) {
 					placeholder="Email address"
 					onChange={onChangeEmail}
 					isInvalid={emailInvalid}
+					maxLength="200"
 					required />
 				<Form.Control.Feedback type="invalid">
 					{emailFeedBack}
 				</Form.Control.Feedback>
 			</Form.Group>
+
+			{ profileImageURL ?
+				<Figure>
+					<Figure.Image
+						width={IMG_WIDTH}
+						height={IMG_LENGTH}
+						alt="171x180"
+						src={profileImageURL}
+					/>
+					<Figure.Caption>
+						Profile Image
+					</Figure.Caption>
+				</Figure>
+				: <Figure>
+					<Figure.Image
+						width={IMG_WIDTH}
+						height={IMG_LENGTH}
+						alt="171x180"
+						src="./uploadImages/img_user.jpg"
+					/>
+					<Figure.Caption>
+						Profile Image
+					</Figure.Caption>
+				</Figure>
+			}
+			<ImageUploader
+				buttonText='Choose Profile Image'
+				onChange={uploadSingleFile}
+				imgExtension={['.jpg', '.gif', '.png', '.gif']}
+				maxFileSize={5242880}
+				singleImage={true}
+				withIcon={false}
+				withPreview={false}
+			/>
+
 			<Button type="submit">Submit</Button>
 
-		</Form>
+		</Form >
+
 	);
 }
 

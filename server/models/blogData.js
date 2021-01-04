@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			autoIncrement: true,
-			primaryKey: true
+			primaryKey: true,
+			foreignKey: true
 		},
 		writer: {
 			field: 'writer',

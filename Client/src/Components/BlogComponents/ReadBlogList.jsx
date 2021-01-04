@@ -12,7 +12,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Card, Carousel, Image, Button, Modal, Badge } from 'react-bootstrap';
+import { Card, Carousel, Image, Button, Modal } from 'react-bootstrap';
 import BlogComments from './BlogComments'
 const format = require('date-format');
 
@@ -71,8 +71,6 @@ function ReadBlogList(props) {
 				<Card.Body >
 					<Card.Title>
 						{title}
-
-
 					</Card.Title>
 					<Card.Text>
 						{desc}

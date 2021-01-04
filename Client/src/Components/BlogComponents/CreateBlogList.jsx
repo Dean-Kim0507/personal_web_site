@@ -43,7 +43,7 @@ function CreateBlogList(props) {
 								formData.append('images', pictures[pictures.length - 1][i]);
 							}
 						}
-						console.log(formData);
+						console.log(pictures);
 						const res = await axios.post("/blog/create", formData)
 							.then(
 								response => {

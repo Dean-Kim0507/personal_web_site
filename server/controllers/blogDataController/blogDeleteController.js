@@ -16,11 +16,41 @@ const router = express.Router();
 const fileUpload = require('express-fileupload');
 router.use(fileUpload());
 const Blogdata = require('../../models');
+const fs = require('fs');
 
 router.post('/', async function (req, res) {
 
 	let id = Number.parseInt(req.body.id);
 	let writer = req.body.writer;
+
+	await Blogdata.blogDataAdmin.findOne({
+		where: {
+			blog_id: id
+		}
+	})
+		.then(data => {
+			let imagePath = data.imagespath;
+			splittedImagePaths = [];
+			if (imagePath != null) {
+				if (imagePath.indexOf(',') != -1) {
+					splittedImagePaths = imagePath.split(',');
+					for (let a = 0; a < splittedImagePaths.length; a++) {
+						fs.unlink(splittedImagePaths[a], function (err) {
+							if (err) throw err;
+						})
+					}
+				}
+				else {
+					fs.unlink(imagePath, function (err) {
+						if (err) throw err;
+					})
+				}
+			}
+		})
+
+		.catch(err => {
+			res.json(err);
+		})
 
 	await Blogdata.blogDataAdmin.destroy({
 		where: {

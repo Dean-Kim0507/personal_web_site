@@ -173,12 +173,10 @@ function Register(props) {
 		if (!regExp.test(e_mail)) {
 			setEmailInvalid(true);
 			setEmailFeedBack(v_emailMessage);
-			console.log('email false')
 		}
 		else {
 			setEmailInvalid(false);
 			setEmail(e_mail);
-			console.log('email true')
 		}
 	}
 

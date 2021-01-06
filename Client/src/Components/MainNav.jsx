@@ -26,7 +26,7 @@ function MainNav(props) {
 		if (imagePath != null) {
 			imagePath = imagePath.substring(16, imagePath.length);
 		}
-		else imagePath = "./uploadImages/img_user.jpg"
+		else imagePath = "./uploadImages/icon/img_user.jpg"
 	}
 	return (
 		<div>
@@ -36,16 +36,15 @@ function MainNav(props) {
 			<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
 				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="mainNav">
-					<Navbar.Brand href="#">
-						<img
-							alt=""
-							src="../images/logo/logo1.svg"
-							width="30"
-							height="30"
+					<Navbar.Brand href="/home">
+						<Image
+							src="./uploadImages/icon/dh_icon.gif"
+							width="60"
+							height="40"
 							className="d-inline-block align-top"
 						/>{' '}
-			DEAN'S
-			</Navbar.Brand>
+					DEAN'S
+					</Navbar.Brand>
 					<Nav className="mr-auto">
 						<Nav.Link href="/home">Home</Nav.Link>
 						<Nav.Link href="/bloglist">Blog</Nav.Link>
@@ -62,7 +61,7 @@ function MainNav(props) {
 								roundedCircle />
 							<Nav>
 								<Nav.Item>
-									<Nav.Link href="/profile">{user.firstName}</Nav.Link>
+									<Nav.Link href="/myaccount">Hello, {user.firstName}<br />My Account</Nav.Link>
 								</Nav.Item>
 							</Nav>
 						</>

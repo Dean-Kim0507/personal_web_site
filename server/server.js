@@ -10,6 +10,7 @@ const deleteBlog = require('./controllers/blogDataController/blogDeleteControlle
 const blogComments = require('./controllers/blogDataController/blogCommentsController');
 const registration_user = require('./controllers/registrationController');
 const login = require('./controllers/loginController');
+const update_user = require('./controllers/userUpdateController');
 const verifySignUp = require("./middleware/verifySignUp");
 const port = process.env.PORT || 4000;
 const cors = require('cors');
@@ -46,6 +47,7 @@ app.use('/blog/delete', deleteBlog);
 app.use('/blog/comments', blogComments);
 app.use('/registration', verifySignUp.checkDuplicateUsernameOrEmail, registration_user);
 app.use('/login', login);
+app.use('/userupdate', update_user);
 
 app.listen(port, function () {
   console.log(`connected ${port} port!`);

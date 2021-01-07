@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../Actions/auth";
 import ImageUploader from 'react-images-upload';
+import '../css/Registration.css';
 import {
 	d_userMessage,
 	d_emailMessage,
@@ -184,104 +185,105 @@ function Register(props) {
 		< Form
 			noValidate validated={validated}
 			onSubmit={handleSubmit}
+			className="registration_form"
 		>
-			<Form.Group as={Col} md="4" controlId="userId">
-				<Form.Label>User ID</Form.Label>
-				<Form.Control type="text" placeholder="User ID" onChange={onChangeUserID} isInvalid={userIdInvalid} minLength="8" maxLength="20" required />
-				<Form.Control.Feedback type="invalid">
-					{userIdFeedBack}
-				</Form.Control.Feedback>
-			</Form.Group>
+			<h1>Create a New Account</h1>
+			<hr />
+			<Col md={{ offset: 4 }}>
+				<Form.Group as={Col} md="4" className="registration_form_group">
+					<Form.Label className="registration_form_label">User ID</Form.Label>
+					<Form.Control type="text" placeholder="User ID" onChange={onChangeUserID} isInvalid={userIdInvalid} minLength="8" maxLength="20" required />
+					<Form.Control.Feedback type="invalid">
+						{userIdFeedBack}
+					</Form.Control.Feedback>
+				</Form.Group>
 
-			<Form.Group as={Col} md="4" controlId="password">
-				<Form.Label>Password</Form.Label>
-				<Form.Control type="password" placeholder="Password" onChange={onChangePassword} isInvalid={passwordInvalid} minLength="8" maxLength="20" required />
-				<Form.Control.Feedback type="invalid">
-					{v_passwordMessage}
-				</Form.Control.Feedback>
-			</Form.Group>
+				<Form.Group as={Col} md="4" className="registration_form_group">
+					<Form.Label className="registration_form_label">Password</Form.Label>
+					<Form.Control type="password" placeholder="Password" onChange={onChangePassword} isInvalid={passwordInvalid} minLength="8" maxLength="20" required />
+					<Form.Control.Feedback type="invalid">
+						{v_passwordMessage}
+					</Form.Control.Feedback>
+				</Form.Group>
 
-			<Form.Group as={Col} md="4" controlId="confirm_password">
-				<Form.Label>Confirm Password</Form.Label>
-				<Form.Control
-					type="password"
-					placeholder="Confirm Password"
-					required
-					isInvalid={confirmPassword_invalid}
-					onChange={onChangeConfirmPassword}
-					minLength="8" maxLength="20"
-				/>
-				<Form.Control.Feedback type="invalid">
-					{v_confirmPasswordMessage}
-				</Form.Control.Feedback>
-			</Form.Group>
+				<Form.Group as={Col} md="4" className="registration_form_group">
+					<Form.Label className="registration_form_label">Confirm Password</Form.Label>
+					<Form.Control
+						type="password"
+						placeholder="Confirm Password"
+						required
+						isInvalid={confirmPassword_invalid}
+						onChange={onChangeConfirmPassword}
+						minLength="8" maxLength="20"
+					/>
+					<Form.Control.Feedback type="invalid">
+						{v_confirmPasswordMessage}
+					</Form.Control.Feedback>
+				</Form.Group>
 
-			<Form.Group as={Col} md="4" controlId="firstName">
-				<Form.Label>First name</Form.Label>
-				<Form.Control
-					required
-					type="text"
-					placeholder="First name"
-					onChange={onChangeFirstName}
-					maxLength="100"
-				/>
-				<Form.Control.Feedback type="invalid">
-					{v_fNMessage}
-				</Form.Control.Feedback>
-			</Form.Group>
+				<Form.Group as={Col} md="4" className="registration_form_group">
+					<Form.Label className="registration_form_label">First name</Form.Label>
+					<Form.Control
+						required
+						type="text"
+						placeholder="First name"
+						onChange={onChangeFirstName}
+						maxLength="100"
+					/>
+					<Form.Control.Feedback type="invalid">
+						{v_fNMessage}
+					</Form.Control.Feedback>
+				</Form.Group>
 
-			<Form.Group as={Col} md="4" controlId="lastName">
-				<Form.Label>Last name</Form.Label>
-				<Form.Control
-					required
-					type="text"
-					placeholder="Last name"
-					onChange={onChangeLastName}
-					maxLength="100"
-				/>
-				<Form.Control.Feedback type="invalid">
-					{v_lNMessage}
-				</Form.Control.Feedback>
-			</Form.Group>
+				<Form.Group as={Col} md="4" className="registration_form_group">
+					<Form.Label className="registration_form_label">Last name</Form.Label>
+					<Form.Control
+						required
+						type="text"
+						placeholder="Last name"
+						onChange={onChangeLastName}
+						maxLength="100"
+					/>
+					<Form.Control.Feedback type="invalid">
+						{v_lNMessage}
+					</Form.Control.Feedback>
+				</Form.Group>
 
-			<Form.Group as={Col} md="4" controlId="email">
-				<Form.Label>Email address</Form.Label>
-				<Form.Control
-					type="email"
-					placeholder="Email address"
-					onChange={onChangeEmail}
-					isInvalid={emailInvalid}
-					maxLength="200"
-					required />
-				<Form.Control.Feedback type="invalid">
-					{emailFeedBack}
-				</Form.Control.Feedback>
-			</Form.Group>
+				<Form.Group as={Col} md="4" className="registration_form_group">
+					<Form.Label className="registration_form_label">Email address</Form.Label>
+					<Form.Control
+						type="email"
+						placeholder="Email address"
+						onChange={onChangeEmail}
+						isInvalid={emailInvalid}
+						maxLength="200"
+						required />
+					<Form.Control.Feedback type="invalid">
+						{emailFeedBack}
+					</Form.Control.Feedback>
+				</Form.Group>
+			</Col>
 
-			{ profileImageURL ?
-				<Figure>
+			<Figure className="registration_figure">
+				{profileImageURL ?
 					<Figure.Image
 						width={IMG_WIDTH}
 						height={IMG_LENGTH}
 						alt="171x180"
 						src={profileImageURL}
+						roundedCircle
 					/>
-					<Figure.Caption>
-						Profile Image
-					</Figure.Caption>
-				</Figure>
-				: <Figure>
+					:
 					<Figure.Image
 						width={IMG_WIDTH}
 						height={IMG_LENGTH}
 						alt="171x180"
-						src="./uploadImages/img_user.jpg"
+						src="./uploadImages/icon/img_user.jpg"
+						roundedCircle
 					/>
-					<Figure.Caption>
-						Profile Image
-					</Figure.Caption>
-				</Figure>
-			}
+				}
+			</Figure>
+
 			<ImageUploader
 				buttonText='Choose Profile Image'
 				onChange={uploadSingleFile}
@@ -291,9 +293,9 @@ function Register(props) {
 				withIcon={false}
 				withPreview={false}
 			/>
-
-			<Button type="submit">Submit</Button>
-
+			<p>
+				<Button className="registration_join_button" type="submit">Sign Up</Button>
+			</p>
 		</Form >
 
 	);

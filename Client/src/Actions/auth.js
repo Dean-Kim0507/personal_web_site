@@ -5,6 +5,8 @@ import {
 	LOGIN_FAIL,
 	LOGOUT,
 	SET_MESSAGE,
+	UPDATE_SUCCESS,
+	UPDATE_FAIL
 } from "./types";
 
 import AuthService from "../Services/Auth.service";
@@ -89,4 +91,41 @@ export const logout = () => (dispatch) => {
 	dispatch({
 		type: LOGOUT,
 	});
+};
+
+export const userUpdate = (user_data, imgFile) => (dispatch) => {
+	return AuthService.userUpdate(user_data, imgFile)
+		.then(
+			(response) => {
+				dispatch({
+					type: UPDATE_SUCCESS,
+				});
+
+				dispatch({
+					type: SET_MESSAGE,
+					payload: response.data.message,
+				});
+				console.log('actions: ', response.data.message)
+				return Promise.resolve();
+			},
+			(error) => {
+				const message =
+					(error.response &&
+						error.response.data &&
+						error.response.data.message) ||
+					error.message ||
+					error.toString();
+
+				dispatch({
+					type: UPDATE_FAIL,
+				});
+
+				dispatch({
+					type: SET_MESSAGE,
+					payload: message,
+				});
+
+				return Promise.reject();
+			}
+		);
 };

@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { CardDeck, Card, Image, ListGroup, Button, Col, Form } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
+import ImageUploader from 'react-images-upload';
 import '../css/MyAccount.css';
+import { register } from "../Actions/auth";
 import {
 	d_userMessage,
 	d_emailMessage,
@@ -26,6 +28,9 @@ function MyAccount(props) {
 	const [email, setEmail] = useState(user.email);
 	const [emailInvalid, setEmailInvalid] = useState();
 	const [emailFeedBack, setEmailFeedBack] = useState(null);
+	const [pictures, setPictures] = useState(null);
+	const dispatch = useDispatch();
+	let [profileImageURL, setProfileImageURL] = useState(null);
 	let imagePath;
 
 	if (!isLoggedIn) {
@@ -52,14 +57,14 @@ function MyAccount(props) {
 		else {
 			setUserEdit(false);
 			event.preventDefault();
-			// const user_data = {
-			// 	userID: userID,
-			// 	password: password,
-			// 	firstName: firstName,
-			// 	lastName: lastName,
-			// 	email: email
-			// }
-			// dispatch(register(user_data, pictures));
+
+			const user_data = {
+				userID: user.userID,
+				firstName: firstName,
+				lastName: lastName,
+				email: email
+			}
+			dispatch(register(user_data, pictures));
 		}
 
 	}
@@ -89,28 +94,52 @@ function MyAccount(props) {
 		}
 	}
 
+	const uploadSingleFile = picture => {
+		setProfileImageURL(URL.createObjectURL(picture[0]));
+		setPictures(picture[0]);
+	}
+
 	return (
 		<CardDeck className="myAccount">
 			{userEdit ?
-
 				<Card>
 					< Form
 						noValidate validated={validated}
 						onSubmit={handleSubmit}
 					>
-						<Col md={{ offset: 1 }}>
-							<h2>Hello {user.firstName} {user.lastName}</h2>
-						</Col>
-						<Col md={{ offset: 1 }}>
+						<h2>Hello {user.firstName} {user.lastName}</h2>
+						{profileImageURL != null ?
 							<Image variant="top"
+								className="myAccount_profileImage"
+								src={profileImageURL}
+								width={171}
+								height={180}
+								roundedCircle
+							/>
+							: <Image variant="top"
+								className="myAccount_profileImage"
 								src={imagePath}
 								width={171}
 								height={180}
-								rounded
+								roundedCircle
 							/>
-						</Col>
+						}
+						<ImageUploader
+							buttonText='Edit Photo'
+							onChange={uploadSingleFile}
+							imgExtension={['.jpg', '.gif', '.png', '.gif']}
+							maxFileSize={5242880}
+							singleImage={true}
+							withIcon={false}
+							withPreview={false}
+							label={false}
+
+						/>
+
+
+
 						<Card.Body>
-							<Col md={{ span: 10, offset: 0 }}>
+							<Col md={{ offset: 0 }}>
 								<Card.Text>
 									<ListGroup variant="flush">
 										<ListGroup.Item>User ID: <strong>{user.userID}</strong></ListGroup.Item>
@@ -175,17 +204,14 @@ function MyAccount(props) {
 				</Card>
 
 				: <Card>
-					<Col md={{ offset: 1 }}>
-						<h2>Hello {user.firstName} {user.lastName}</h2>
-					</Col>
-					<Col md={{ offset: 1 }}>
-						<Image variant="top"
-							src={imagePath}
-							width={171}
-							height={180}
-							rounded
-						/>
-					</Col>
+					<h2>Hello {user.firstName} {user.lastName}</h2>
+					<Image variant="top"
+						className="myAccount_profileImage"
+						src={imagePath}
+						width={171}
+						height={180}
+						roundedCircle
+					/>
 					<Card.Body>
 						<Col md={{ span: 10, offset: 0 }}>
 							<Card.Text>

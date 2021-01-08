@@ -1,12 +1,40 @@
 .myAccount{
 	margin-top: 7%;
+	padding:3%;
+}
+.myAccount_userInformation {
+	width: 40%;
+	position: absolute;
+  	left: 0px;
+	margin-left: 5%;
+}
+
+.myAccount_userMenu {
+width: 40%;
+position: absolute;
+  right: 0px;
+  margin-right: 15%;
+}
+
+.myAccount_userInformation_cardText {
+	padding:3%;
+}
+
+.myAccount_userInformation_listGroup{
+	display: block; 
+	margin: 0px 
+	auto;
 }
 
 .myAccount_profileImage{
-	margin-left:30.5%;
+	display: block; 
+	margin: 0px 
+	auto; 
 }
-
-h2{
-	padding:10px;
+.myAccount_imageUploader{
 	text-align: center;
+}
+h2{
+	text-align: center;
+	padding:3%;
 }

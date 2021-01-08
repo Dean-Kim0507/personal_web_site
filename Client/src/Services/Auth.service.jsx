@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "./Auth.header";
 let formData;
 //if registration success, return "Registration success"
 const register = async (user_data, imgFile) => {
@@ -38,7 +39,6 @@ const logout = () => {
 };
 
 const userUpdate = async (user_data, imgFile) => {
-	console.log(user_data, imgFile)
 	formData = new FormData();
 	formData.append('userID', user_data.userID);
 	formData.append('firstName', user_data.firstName);
@@ -48,9 +48,15 @@ const userUpdate = async (user_data, imgFile) => {
 	for (var pair of formData.entries()) { console.log(pair[0] + ', ' + pair[1]); }
 	return await axios.post("/userupdate", formData
 		, {
-			headers: { 'Content-Type': 'multipart/form-data' }
+			headers: authHeader()
 		}
 	)
+		.then((response) => {
+			if (response.data.accessToken) {
+				localStorage.setItem("user", JSON.stringify(response.data));
+			}
+			return response.data;
+		});
 }
 export default {
 	register,

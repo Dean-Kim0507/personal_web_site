@@ -19,7 +19,7 @@ function MainNav(props) {
 		setLoading(true);
 		dispatch(logout());
 	};
-
+	console.log(user)
 	let imagePath;
 	if (isLoggedIn) {
 		imagePath = user.profileImg;

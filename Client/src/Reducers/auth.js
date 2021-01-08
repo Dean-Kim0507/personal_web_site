@@ -49,13 +49,13 @@ export default function (state = initialState, action) {
 			return {
 				...state,
 				isLoggedIn: true,
-				user: payload.user,
+				user: payload.user
 			};
 		case UPDATE_FAIL:
 			return {
 				...state,
 				isLoggedIn: true,
-				user: payload.user,
+				user: user
 			};
 		default:
 			return state;

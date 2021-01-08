@@ -96,16 +96,17 @@ export const logout = () => (dispatch) => {
 export const userUpdate = (user_data, imgFile) => (dispatch) => {
 	return AuthService.userUpdate(user_data, imgFile)
 		.then(
-			(response) => {
+			(data) => {
 				dispatch({
 					type: UPDATE_SUCCESS,
+					payload: { user: data }
 				});
 
 				dispatch({
 					type: SET_MESSAGE,
-					payload: response.data.message,
+					payload: data.message,
 				});
-				console.log('actions: ', response.data.message)
+				console.log('actions: ', data)
 				return Promise.resolve();
 			},
 			(error) => {

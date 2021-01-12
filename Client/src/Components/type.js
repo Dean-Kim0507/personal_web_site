@@ -1,3 +1,11 @@
-export const WRONG_PASSWORD = "Wrong password.";
-export const USER_NOT_FOUND = "User Not found.";
-export const LOGIN_SUCCESS = "Login Success.";
+export const WRONG_PASSWORD = "WRONG_PASSWORD";
+export const USER_NOT_FOUND = "USER_NOT_FOUND";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const USER_UPDATE_SUCCESS = "USER_UPDATE_SUCCESS";
+export const RESET_PASSWORD = "RESET_PASSWORD";
+export const USER_UPDATE = "USER_UPDATE";
+export const DELETE_ACCOUNT = "DELETE_ACCOUNT";
+export const DELETE_ACCOUNT_SUCCESS = "DELETE_ACCOUNT_SUCCESS";
+export const USER_DELETE_WRONG_PASSWORD = "USER_DELETE_WRONG_PASSWORD";
+
+

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { CardDeck, Card, Image, ListGroup, Button, Col, Form, Row } from 'react-bootstrap';
+import { CardDeck, Card, Image, ListGroup, Button, Col, Form, Row, Alert, Spinner, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import ImageUploader from 'react-images-upload';
 import '../css/MyAccount.css';
-import { userUpdate } from "../Actions/auth";
+import { userUpdate, logout } from "../Actions/auth";
+import { useHistory } from "react-router-dom";
 import {
 	d_userMessage,
 	d_emailMessage,
@@ -13,15 +14,29 @@ import {
 	v_idMessage,
 	v_emailMessage,
 	v_fNMessage,
-	v_lNMessage
+	v_lNMessage,
+	user_update,
+	delete_user
 } from "./message";
+import {
+	RESET_PASSWORD,
+	USER_UPDATE,
+	WRONG_PASSWORD,
+	USER_NOT_FOUND,
+	USER_UPDATE_SUCCESS,
+	DELETE_ACCOUNT,
+	USER_DELETE_WRONG_PASSWORD,
+	DELETE_ACCOUNT_SUCCESS
+} from "./type";
+import {
+	SET_MESSAGE
+} from "../Actions/types";
 
 function MyAccount(props) {
 	const { isLoggedIn, user } = useSelector(state => state.auth);
 	const { message } = useSelector(state => state.message);
 	const IMG_WIDTH = 171;
 	const IMG_LENGTH = 180;
-	const mailImagePath = "./uploadImages/icon/mail.jpg";
 	const [userEdit, setUserEdit] = useState(false);
 	const [validated, setValidated] = useState(false);
 	const [firstName, setFirstName] = useState(user.firstName);
@@ -30,22 +45,89 @@ function MyAccount(props) {
 	const [emailInvalid, setEmailInvalid] = useState();
 	const [emailFeedBack, setEmailFeedBack] = useState(null);
 	const [pictures, setPictures] = useState(null);
+	const [showResetPassword, setShowResetPassword] = useState(true);
+	const [passwordInvalid, setPasswordInvalid] = useState();
+	const [password, setPassword] = useState(null);
+	const [confirmPassword, setConfirmPassword] = useState(null);
+	const [confirmPassword_invalid, setConfirmPassword_invalid] = useState();
+	const [resetPasswordValidated, setResetPasswordValidated] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [showAlert, setShowAlert] = useState(false);
+	const [showDeleteAccountAlert, setShowDeleteAccountAlert] = useState(false);
+	const [alertMessage, setAlertMessage] = useState(null);
+	const [showDeleteUser, setShowDeleteUser] = useState(false);
+	const wrongPasswordMsg = 'Your password you entered is incorrect.';
+	const somethingWrongMsg = 'Something Wrong, Please try again';
+	const basicProfileImgPath = "./uploadImages/icon/img_user.jpg";
+	const resetPasswordImgPath = "/uploadImages/icon/reset_password.svg";
+	const deleteAccountImgPath = "/uploadImages/icon/remove_user.svg";
+	const blogImgPath = "/uploadImages/icon/blog.svg";
+	const communityImgPath = "/uploadImages/icon/community.svg";
+
 	const dispatch = useDispatch();
 	let [profileImageURL, setProfileImageURL] = useState(null);
 	let imagePath;
+	let history = useHistory();
+	let _password;
+	let _confirm_password;
 
-	if (!isLoggedIn) {
-		return <Redirect to="/home" />;
+
+	//Setting a Image Path 
+	imagePath = user.profileImg;
+	if (imagePath != null) {
+		imagePath = imagePath.substring(16, imagePath.length);
 	}
-	else {
-		imagePath = user.profileImg;
-		if (imagePath != null) {
-			imagePath = imagePath.substring(16, imagePath.length);
+	else imagePath = basicProfileImgPath;
+
+	useEffect(() => {
+		if (message == USER_UPDATE_SUCCESS) {
+			setShowResetPassword(true);
+			setShowAlert(false);
+			setUserEdit(false);
+			dispatch({
+				type: SET_MESSAGE,
+				payload: null,
+			});
+			setLoading(false);
+			alert(user_update);
 		}
-		else imagePath = "./uploadImages/icon/img_user.jpg"
+		else if (message == WRONG_PASSWORD) {
+			setLoading(false);
+			setAlertMessage(wrongPasswordMsg)
+			setShowAlert(true);
+			dispatch({
+				type: SET_MESSAGE,
+				payload: null,
+			});
+		}
+		else if (message == USER_NOT_FOUND) {
+			setLoading(false);
+			setAlertMessage(somethingWrongMsg)
+			setShowAlert(true);
+			dispatch({
+				type: SET_MESSAGE,
+				payload: null,
+			});
+		}
+		else if (message == DELETE_ACCOUNT_SUCCESS) {
+			setLoading(false);
+			dispatch(logout());
+			alert(delete_user);
+			history.push('/home');
+		}
+		else if (message == USER_DELETE_WRONG_PASSWORD) {
+			setLoading(false);
+			setAlertMessage(wrongPasswordMsg)
+			setShowDeleteAccountAlert(true);
+			dispatch({
+				type: SET_MESSAGE,
+				payload: null,
+			});
+		}
+	})
+	console.log(message)
 
-	}
-
+	//USER_EDIT METHOD
 	const editUser = () => {
 		setUserEdit(true);
 	}
@@ -56,6 +138,7 @@ function MyAccount(props) {
 		setLastName(user.lastName);
 		setEmail(user.email);
 		setProfileImageURL(null);
+		setLoading(false);
 	}
 
 	const handleSubmit = (event) => {
@@ -66,15 +149,20 @@ function MyAccount(props) {
 			setValidated(true);
 		}
 		else {
-			setUserEdit(false);
+			setLoading(true);
 			const user_data = {
 				userID: user.userID,
 				firstName: firstName,
 				lastName: lastName,
-				email: email
+				email: email,
+				type: USER_UPDATE
 			}
 			console.log(user_data)
 			dispatch(userUpdate(user_data, pictures));
+			setFirstName(user.firstName);
+			setLastName(user.lastName);
+			setEmail(user.email);
+			setProfileImageURL(null);
 		}
 		console.log(message)
 	}
@@ -109,6 +197,105 @@ function MyAccount(props) {
 		setPictures(picture[0]);
 	}
 
+	//RESET_PASSWORD METHOD
+	//validating password, password must be between 8 and 20 letter.
+	const onChangePassword = (e) => {
+		_password = e.target.value;
+		if (_password === undefined || _password.length < 8 || _password.length > 20) {
+			setPasswordInvalid(true);
+			setPassword(_password);
+		}
+		else if (confirmPassword != null && _password != confirmPassword) {
+			setPasswordInvalid(false);
+			setConfirmPassword_invalid(true);
+			setPassword(_password);
+		}
+		else if (confirmPassword != null && _password === confirmPassword) {
+			setPasswordInvalid(false);
+			setConfirmPassword_invalid(false);
+			setPassword(_password);
+		}
+		else {
+			setPasswordInvalid(() => false);
+			setPassword(_password);
+			if (_password != confirmPassword) {
+				setConfirmPassword_invalid(true);
+			}
+		}
+	};
+
+	//validating confirm password, confirm password must be between 8 and 20 letter and the same as password.
+	const onChangeConfirmPassword = (e) => {
+
+		_confirm_password = e.target.value;
+		if (_confirm_password === undefined || _confirm_password.length < 8 || _confirm_password.length > 20) {
+			setConfirmPassword_invalid(true);
+			setConfirmPassword(_confirm_password);
+		}
+		else if (password != null && _confirm_password != password) {
+			setConfirmPassword_invalid(true);
+			setConfirmPassword(_confirm_password);
+		}
+		else if (password != null && _confirm_password === password) {
+			setConfirmPassword_invalid(false);
+			setConfirmPassword(_confirm_password);
+		}
+		else {
+			setConfirmPassword_invalid(true);
+			setConfirmPassword(_confirm_password);
+		}
+	};
+
+	const resetPasswordSubmit = (event) => {
+		event.preventDefault();
+		const form = event.currentTarget;
+		if (form.checkValidity() === false) {
+			event.stopPropagation();
+			setResetPasswordValidated(true);
+		}
+		else {
+			setLoading(true);
+			const user_data = {
+				userID: user.userID,
+				currentPassword: event.target.myAccount_resetPassword_currentPassword.value,
+				newPassword: password,
+				type: RESET_PASSWORD
+			}
+			console.log(user_data)
+			dispatch(userUpdate(user_data));
+		}
+	}
+
+	const cancelResetPassword = () => {
+		setShowResetPassword(true);
+		setPassword(null);
+		setConfirmPassword(null);
+		setResetPasswordValidated(false);
+		setConfirmPassword_invalid(false);
+		setPasswordInvalid(false);
+	}
+
+	// Delete User account
+	const deleteUserAccount = (event) => {
+		event.preventDefault();
+
+		setLoading(true);
+		const user_data = {
+			userID: user.userID,
+			password: event.target.myAccount_delete_account.value,
+			type: DELETE_ACCOUNT
+		}
+		console.log(user_data)
+		dispatch(userUpdate(user_data));
+
+	}
+	const deleteUserClose = () => setShowDeleteUser(false);
+	const deleteUserShow = () => setShowDeleteUser(true);
+
+	if (!isLoggedIn) {
+		return <Redirect to="/home" />;
+	}
+
 	return (
 		<CardDeck className="myAccount">
 			{userEdit ?
@@ -123,15 +310,15 @@ function MyAccount(props) {
 								<Image variant="top"
 									className="myAccount_profileImage"
 									src={profileImageURL}
-									width={171}
-									height={180}
+									width={IMG_WIDTH}
+									height={IMG_LENGTH}
 									roundedCircle
 								/>
 								: <Image variant="top"
 									className="myAccount_profileImage"
 									src={imagePath}
-									width={171}
-									height={180}
+									width={IMG_WIDTH}
+									height={IMG_LENGTH}
 									roundedCircle
 								/>
 							}
@@ -207,20 +394,24 @@ function MyAccount(props) {
 							<Card.Footer>
 								<Col md={{ span: 10, offset: 8 }}>
 									<Button variant="light" type="button" onClick={cancelEdit}>Cancel</Button>
-									<Button variant="light" type="submit">Update</Button>
+									{loading ?
+										<Button variant="light" type="submit"><Spinner animation="border" size="sm" /></Button>
+										: <Button variant="light" type="submit">Update</Button>
+									}
 								</Col>
 							</Card.Footer>
 						</Form>
 					</Card>
 				</div>
+
 				: <div className="myAccount_userInformation">
 					<Card >
 						<h2>Hello {user.firstName} {user.lastName}</h2>
 						<Image variant="top"
 							className="myAccount_profileImage"
 							src={imagePath}
-							width={171}
-							height={180}
+							width={IMG_WIDTH}
+							height={IMG_LENGTH}
 							roundedCircle
 						/>
 						<Card.Body className="myAccount_userInformation_cardText">
@@ -245,65 +436,162 @@ function MyAccount(props) {
 				</div>
 			}
 
-			<CardDeck>
-				<div className="myAccount_userMenu">
-					<Row>
-						<Card>
-							<Card.Img variant="top"
-								src="/uploadImages/icon/reset_password.jpg"
-								width={171}
-								height={180} />
-							<Card.Body>
-								<Card.Title>Reset Password</Card.Title>
-							</Card.Body>
-						</Card>
-						<Card>
-							<Card.Img variant="top" src="holder.js/100px160" />
-							<Card.Body>
-								<Card.Title>Card title</Card.Title>
-								<Card.Text>
-									This is a wider card with supporting text below as a natural lead-in to
-									additional content. This content is a little bit longer.
-      							</Card.Text>
-							</Card.Body>
-							<Card.Footer>
-								<small className="text-muted">Last updated 3 mins ago</small>
-							</Card.Footer>
-						</Card>
-					</Row>
-					<Row>
-						<Card>
-							<Card.Img variant="top" src="holder.js/100px160" />
-							<Card.Body>
-								<Card.Title>Card title</Card.Title>
-								<Card.Text>
-									This card has supporting text below as a natural lead-in to additional
-        content.{' '}
-								</Card.Text>
-							</Card.Body>
-							<Card.Footer>
-								<small className="text-muted">Last updated 3 mins ago</small>
-							</Card.Footer>
-						</Card>
-						<Card>
-							<Card.Img variant="top" src="holder.js/100px160" />
-							<Card.Body>
-								<Card.Title>Card title</Card.Title>
-								<Card.Text>
-									This is a wider card with supporting text below as a natural lead-in to
-									additional content. This card has even longer content than the first to
-									show that equal height action.
-      </Card.Text>
-							</Card.Body>
-							<Card.Footer>
-								<small className="text-muted">Last updated 3 mins ago</small>
-							</Card.Footer>
-						</Card>
-					</Row>
-				</div>
-			</CardDeck>
+			{showResetPassword ?
+				<CardDeck>
+					<div className="myAccount_userMenu">
+						<Row className="myAccount_userMenu_firstLine">
+							<Card
+								className='myAccount_resetPassword'
+								onClick={() => setShowResetPassword(false)}
+							>
+								<Card.Img variant="top"
+									src={resetPasswordImgPath}
+									width={IMG_WIDTH}
+									height={IMG_LENGTH} />
+								<Card.Body>
+									<Card.Title>Reset Password</Card.Title>
+								</Card.Body>
+							</Card>
+							<Card
+								className='myAccount_deleteUser'
+								onClick={deleteUserShow}
+							>
+								<Card.Img variant="top"
+									className="myAccount_resetPassword_img"
+									src={deleteAccountImgPath}
+									width={IMG_WIDTH}
+									height={IMG_LENGTH} />
+								<Card.Body>
+									<Card.Title>Delete Account</Card.Title>
+								</Card.Body>
+							</Card>
+						</Row>
+						<Row className='myAccount_userMenu_secondLine'>
+							<Card
+								className='myAccount_blog'
+								onClick={() => history.push('/bloglist')} >
+								<Card.Img variant="top"
+									src={blogImgPath}
+									width={IMG_WIDTH}
+									height={IMG_LENGTH} />
+								<Card.Body>
+									<Card.Title>Go to Blog</Card.Title>
+								</Card.Body>
+							</Card>
+							<Card
+								className='myAccount_community'
+								onClick={() => history.push('/community')} >
+								<Card.Img variant="top"
+									src={communityImgPath}
+									width={IMG_WIDTH}
+									height={IMG_LENGTH} />
+								<Card.Body>
+									<Card.Title>Go to Community</Card.Title>
+								</Card.Body>
+							</Card>
+						</Row>
+					</div>
+				</CardDeck>
 
+				:
+				<Form className='myAccount_resetPassword_form'
+					noValidate validated={resetPasswordValidated}
+					onSubmit={resetPasswordSubmit}>
+					<h1>Reset Password</h1>
+					<Form.Group>
+						<Form.Label >
+							Current Password
+    					</Form.Label>
+						<Form.Control type="password" placeholder="Current Password"
+							name="myAccount_resetPassword_currentPassword" />
+					</Form.Group>
+					<Form.Group className="myAccount_resetPassword_form_password">
+						<Form.Label className="myAccount_resetPassword_form_password_label">New Password</Form.Label>
+						<Form.Control
+							type="password"
+							placeholder="New Password"
+							onChange={onChangePassword}
+							isInvalid={passwordInvalid}
+							minLength="8"
+							maxLength="20"
+							required />
+						<Form.Control.Feedback type="invalid">
+							{v_passwordMessage}
+						</Form.Control.Feedback>
+					</Form.Group>
+					<Form.Group className="myAccount_resetPassword_form_repeatedPassword">
+						<Form.Label className="myAccount_resetPassword_form_repeatedPassword_label">New Password Repeated</Form.Label>
+						<Form.Control
+							type="password"
+							placeholder="New Password Repeated"
+							required
+							isInvalid={confirmPassword_invalid}
+							onChange={onChangeConfirmPassword}
+							minLength="8" maxLength="20"
+						/>
+						<Form.Control.Feedback type="invalid">
+							{v_confirmPasswordMessage}
+						</Form.Control.Feedback>
+					</Form.Group>
+					<Col md={{ span: 10, offset: 8 }}>
+						<Button variant="light" type="button" onClick={cancelResetPassword}>Cancel</Button>
+						{loading ?
+							<Button variant="light" type='submit'><Spinner animation="border" size="sm" /></Button>
+							: <Button variant="light" type='submit'>Update</Button>
+						}
+					</Col>
+					<Alert
+						className="myAccount_resetPassword_alert"
+						show={showAlert}
+						variant={'danger'}
+						onClose={() => setShowAlert(false)} dismissible>
+						{alertMessage}
+					</Alert>
+				</Form>
+			}
+			<Modal show={showDeleteUser} onHide={deleteUserClose}>
+				<Modal.Header closeButton>
+					<Modal.Title>DELETE ACCOUNT</Modal.Title>
+				</Modal.Header>
+				<Form onSubmit={deleteUserAccount}>
+					<Modal.Body>
+						<p>Do you want to delete this account, permanently?</p>
+
+						<Form.Group>
+							<Form.Label >
+								Password
+    					</Form.Label>
+							<Form.Control type="password" placeholder="Password"
+								name="myAccount_delete_account"
+								required />
+						</Form.Group>
+						<Alert
+							className="myAccount_delete_account_alert"
+							show={showDeleteAccountAlert}
+							variant={'danger'}
+							onClose={() => setShowDeleteAccountAlert(false)} dismissible>
+							{alertMessage}
+						</Alert>
+					</Modal.Body>
+					<Modal.Footer>
+						<Button variant="secondary" onClick={deleteUserClose}>
+							Close
+          				</Button>
+						{loading ?
+							<Button variant="danger" type="submit">
+								<Spinner animation="border" size="sm" />
+							</Button>
+							: <Button variant="danger" type="submit">
+								DELETE ACCOUNT
+          						</Button>
+						}
+
+					</Modal.Footer>
+				</Form>
+			</Modal>
 		</CardDeck >
+
+
 	);
 
 }

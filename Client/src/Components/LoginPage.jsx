@@ -44,6 +44,7 @@ function LoginPage(props) {
 					setLoading(false);
 				});
 		}
+
 		if (message == WRONG_PASSWORD || message == USER_NOT_FOUND) {
 
 			setLoading(false);

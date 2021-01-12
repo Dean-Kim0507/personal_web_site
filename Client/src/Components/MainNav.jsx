@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Navbar, Nav, Image, Modal, Button, Col, Spinner } from 'react-bootstrap';
-import { Link } from "react-router-dom";
 import { logout } from "../Actions/auth";
 
 function MainNav(props) {
@@ -11,7 +10,7 @@ function MainNav(props) {
 	const handleShow = () => setShow(true);
 	const [loading, setLoading] = useState(false);
 	const { isLoggedIn, user } = useSelector(state => state.auth);
-
+	const basicProfileImgPath = "./uploadImages/icon/img_user.jpg";
 	const IMG_WIDTH = 45;
 	const IMG_LENGTH = 50;
 
@@ -26,7 +25,7 @@ function MainNav(props) {
 		if (imagePath != null) {
 			imagePath = imagePath.substring(16, imagePath.length);
 		}
-		else imagePath = "./uploadImages/icon/img_user.jpg"
+		else imagePath = basicProfileImgPath;
 	}
 	return (
 		<div>
@@ -43,7 +42,7 @@ function MainNav(props) {
 							height="40"
 							className="d-inline-block align-top"
 						/>{' '}
-					DEAN'S
+						{/* DEAN'S */}
 					</Navbar.Brand>
 					<Nav className="mr-auto">
 						<Nav.Link href="/home">Home</Nav.Link>

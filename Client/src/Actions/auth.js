@@ -6,7 +6,9 @@ import {
 	LOGOUT,
 	SET_MESSAGE,
 	UPDATE_SUCCESS,
-	UPDATE_FAIL
+	UPDATE_FAIL,
+	DELETE_ACCOUNT,
+	DELETE_ACCOUNT_SUCCESS
 } from "./types";
 
 import AuthService from "../Services/Auth.service";
@@ -79,7 +81,6 @@ export const login = (userID, password) => (dispatch) => {
 					type: SET_MESSAGE,
 					payload: message,
 				});
-
 				return Promise.reject();
 			}
 		);
@@ -97,6 +98,18 @@ export const userUpdate = (user_data, imgFile) => (dispatch) => {
 	return AuthService.userUpdate(user_data, imgFile)
 		.then(
 			(data) => {
+				// if (data.message == DELETE_ACCOUNT_SUCCESS) {
+				// 	dispatch({
+				// 		type: LOGOUT
+				// 	});
+
+				// 	dispatch({
+				// 		type: SET_MESSAGE,
+				// 		payload: data.message,
+				// 	});
+				// 	return Promise.resolve();
+				// }
+				// else {
 				dispatch({
 					type: UPDATE_SUCCESS,
 					payload: { user: data }
@@ -106,8 +119,8 @@ export const userUpdate = (user_data, imgFile) => (dispatch) => {
 					type: SET_MESSAGE,
 					payload: data.message,
 				});
-				console.log('actions: ', data)
 				return Promise.resolve();
+				// }
 			},
 			(error) => {
 				const message =

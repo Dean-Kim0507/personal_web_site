@@ -10,4 +10,7 @@ export const v_fNMessage = 'Please provide a valid First Name.';
 export const v_lNMessage = 'Please provide a valid Last Name.';
 export const l_wrongPassword = 'The password you’ve entered is incorrect.';
 export const l_wrongUser = 'The User ID you’ve entered is incorrect.';
+export const user_update = 'Update Success!';
+export const delete_user = 'Thank you for using my website, See you again!';
+
 

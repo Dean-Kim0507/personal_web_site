@@ -13,9 +13,11 @@ const login_user = require('../models');
 const bcrypt = require('bcrypt');
 const config = require("../config/auth.config");
 let jwt = require("jsonwebtoken");
-const { useRouteMatch } = require('react-router');
 
 router.post('/', async function (req, res) {
+	const USER_NOT_FOUND = 'USER_NOT_FOUND';
+	const WRONG_PASSWORD = 'WRONG_PASSWORD';
+	const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 	let passwordIsValid;
 	login_user.user_mywebsite.findOne({
 		where: {
@@ -24,7 +26,7 @@ router.post('/', async function (req, res) {
 	})
 		.then(async user => {
 			if (!user) {
-				return res.send({ message: "User Not found." });
+				return res.status(400).send({ message: USER_NOT_FOUND });
 			}
 			await bcrypt.compare(req.body.password, user.password, function (err, result) {
 				if (result) {
@@ -32,7 +34,6 @@ router.post('/', async function (req, res) {
 					let token = jwt.sign({ id: user.userID }, config.secret, {
 						expiresIn: 60 * 60 * 24 // 24 hours
 					});
-					console.log(token);
 					return res.send({
 						userID: user.userID,
 						firstName: user.firstName,
@@ -41,13 +42,13 @@ router.post('/', async function (req, res) {
 						profileImg: user.profile_img_path,
 						createdAt: user.createdAt,
 						upatedAt: user.upatedAt,
-						message: "Login Success.",
+						message: LOGIN_SUCCESS,
 						accessToken: token
 					});
 				}
 				else {
-					return res.send({
-						message: "Wrong password.",
+					return res.status(400).send({
+						message: WRONG_PASSWORD,
 						accessToken: null
 					});
 				}

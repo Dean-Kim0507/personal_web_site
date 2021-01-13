@@ -8,7 +8,11 @@ import {
 	UPDATE_SUCCESS,
 	UPDATE_FAIL,
 	DELETE_ACCOUNT,
-	DELETE_ACCOUNT_SUCCESS
+	DELETE_ACCOUNT_SUCCESS,
+	LOGIN_INVALID,
+	LOGIN_VALID,
+	UNAUTHORIZED,
+	NO_TOKEN_PROVIDED
 } from "./types";
 
 import AuthService from "../Services/Auth.service";
@@ -63,6 +67,7 @@ export const login = (userID, password) => (dispatch) => {
 					type: SET_MESSAGE,
 					payload: data.message,
 				});
+
 				return Promise.resolve();
 			},
 			(error) => {
@@ -129,16 +134,68 @@ export const userUpdate = (user_data, imgFile) => (dispatch) => {
 						error.response.data.message) ||
 					error.message ||
 					error.toString();
+				console.log(message);
+				if (message == UNAUTHORIZED || message == NO_TOKEN_PROVIDED) {
+					dispatch({
+						type: LOGIN_INVALID,
+					});
+
+					dispatch({
+						type: SET_MESSAGE,
+						payload: message,
+					});
+					localStorage.removeItem("user");
+				}
+				else {
+					dispatch({
+						type: UPDATE_FAIL,
+					});
+
+					dispatch({
+						type: SET_MESSAGE,
+						payload: message,
+					});
+				}
+				return Promise.reject();
+			}
+		);
+};
+
+
+export const loginValid = (userID) => (dispatch) => {
+	return AuthService.loginValid(userID)
+		.then(
+			(data) => {
+				console.log('loginVaild')
+				dispatch({
+					type: LOGIN_VALID
+				});
 
 				dispatch({
-					type: UPDATE_FAIL,
+					type: SET_MESSAGE,
+					payload: data.message,
+				});
+				return Promise.resolve();
+				// }
+			},
+			(error) => {
+				const message =
+					(error.response &&
+						error.response.data &&
+						error.response.data.message) ||
+					error.message ||
+					error.toString();
+				//If Token was not valid or not provided
+
+				dispatch({
+					type: LOGIN_INVALID,
 				});
 
 				dispatch({
 					type: SET_MESSAGE,
 					payload: message,
 				});
-
+				localStorage.removeItem("user");
 				return Promise.reject();
 			}
 		);

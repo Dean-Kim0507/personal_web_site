@@ -11,6 +11,7 @@ const blogComments = require('./controllers/blogDataController/blogCommentsContr
 const registration_user = require('./controllers/registrationController');
 const login = require('./controllers/loginController');
 const update_user = require('./controllers/userUpdateController');
+const userController = require('./controllers/userController');
 const verifySignUp = require("./middleware/verifySignUp");
 const authJwt = require("./middleware/authJwt");
 const port = process.env.PORT || 4000;
@@ -49,6 +50,7 @@ app.use('/blog/comments', blogComments);
 app.use('/registration', verifySignUp.checkDuplicateUsernameOrEmail, registration_user);
 app.use('/login', login);
 app.use('/userupdate', authJwt.verifyToken, update_user);
+app.get('/islogedin', authJwt.verifyToken, userController.loginValid);
 
 app.listen(port, function () {
   console.log(`connected ${port} port!`);

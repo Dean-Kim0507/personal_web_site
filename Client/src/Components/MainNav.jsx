@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Navbar, Nav, Image, Modal, Button, Col, Spinner } from 'react-bootstrap';
 import { logout } from "../Actions/auth";
+import { loginValid } from "../Actions/auth";
 
 function MainNav(props) {
 	const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function MainNav(props) {
 		setLoading(true);
 		dispatch(logout());
 	};
-	console.log(user)
+
 	let imagePath;
 	if (isLoggedIn) {
 		imagePath = user.profileImg;
@@ -27,6 +28,12 @@ function MainNav(props) {
 		}
 		else imagePath = basicProfileImgPath;
 	}
+
+	useEffect(() => {
+		dispatch(loginValid);
+		console.log('MainNav LoginValid');
+		console.log(isLoggedIn);
+	})
 	return (
 		<div>
 			<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">

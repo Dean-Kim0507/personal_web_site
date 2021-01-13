@@ -39,9 +39,9 @@ function MyAccount(props) {
 	const IMG_LENGTH = 180;
 	const [userEdit, setUserEdit] = useState(false);
 	const [validated, setValidated] = useState(false);
-	const [firstName, setFirstName] = useState(user.firstName);
-	const [lastName, setLastName] = useState(user.lastName);
-	const [email, setEmail] = useState(user.email);
+	const [firstName, setFirstName] = useState();
+	const [lastName, setLastName] = useState();
+	const [email, setEmail] = useState();
 	const [emailInvalid, setEmailInvalid] = useState();
 	const [emailFeedBack, setEmailFeedBack] = useState(null);
 	const [pictures, setPictures] = useState(null);
@@ -126,10 +126,15 @@ function MyAccount(props) {
 		}
 	})
 	console.log(message)
-
+	if (!isLoggedIn) {
+		return <Redirect to="/home" />;
+	}
 	//USER_EDIT METHOD
 	const editUser = () => {
 		setUserEdit(true);
+		setFirstName(user.firstName);
+		setLastName(user.lastName);
+		setEmail(user.email);
 	}
 
 	const cancelEdit = () => {
@@ -292,9 +297,7 @@ function MyAccount(props) {
 	const deleteUserClose = () => setShowDeleteUser(false);
 	const deleteUserShow = () => setShowDeleteUser(true);
 
-	if (!isLoggedIn) {
-		return <Redirect to="/home" />;
-	}
+
 
 	return (
 		<CardDeck className="myAccount">
@@ -419,9 +422,9 @@ function MyAccount(props) {
 								<Card.Text >
 									<ListGroup variant="flush" className="myAccount_userInformation_listGroup">
 										<ListGroup.Item>User ID: <strong>{user.userID}</strong></ListGroup.Item>
-										<ListGroup.Item>First Name: <strong>{firstName}</strong></ListGroup.Item>
-										<ListGroup.Item>Last Name: <strong>{lastName}</strong></ListGroup.Item>
-										<ListGroup.Item>E-Mail: <strong>{email}</strong></ListGroup.Item>
+										<ListGroup.Item>First Name: <strong>{user.firstName}</strong></ListGroup.Item>
+										<ListGroup.Item>Last Name: <strong>{user.lastName}</strong></ListGroup.Item>
+										<ListGroup.Item>E-Mail: <strong>{user.email}</strong></ListGroup.Item>
 									</ListGroup>
 								</Card.Text>
 							</Col>

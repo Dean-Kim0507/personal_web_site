@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form, Spinner, Alert } from 'react-bootstrap';
-import axios from 'axios';
 import { useHistory, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';
 import { login } from "../Actions/auth";
-import { l_wrongPassword, l_wrongUser } from './message'
-import { WRONG_PASSWORD, USER_NOT_FOUND, LOGIN_SUCCESS } from './type'
+import { l_wrongPassword, l_wrongUser } from './message';
+import { WRONG_PASSWORD, USER_NOT_FOUND, LOGIN_SUCCESS } from './type';
+import '../css/Login.css';
 
 function LoginPage(props) {
 	const [loading, setLoading] = useState(false);
@@ -49,7 +49,6 @@ function LoginPage(props) {
 
 			setLoading(false);
 		}
-
 	}
 
 	useEffect(() => {
@@ -80,7 +79,7 @@ function LoginPage(props) {
 
 	return (
 		<>
-			<h1>Login</h1>
+			<h1 className="LoginPage_login">Login</h1>
 			<Form noValidate validated={validated} onSubmit={handleSubmit}>
 				<Form.Group >
 					<Form.Label>User ID</Form.Label>

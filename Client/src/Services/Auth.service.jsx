@@ -88,9 +88,21 @@ const userUpdate = async (user_data, imgFile) => {
 			else return response.data;
 		})
 }
+
+const loginValid = (userID) => {
+	return axios.get("/islogedin", userID, { headers: authHeader() })
+		.then((res) => {
+			return res;
+		})
+		.catch((error) => {
+			localStorage.removeItem("user");
+			return error;
+		})
+}
 export default {
 	register,
 	login,
 	logout,
-	userUpdate
+	userUpdate,
+	loginValid
 };

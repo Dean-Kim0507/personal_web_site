@@ -12,5 +12,6 @@ export const l_wrongPassword = 'The password you’ve entered is incorrect.';
 export const l_wrongUser = 'The User ID you’ve entered is incorrect.';
 export const user_update = 'Update Success!';
 export const delete_user = 'Thank you for using my website, See you again!';
+export const v_session_expired = 'Session is expired, Please login again';
 
 

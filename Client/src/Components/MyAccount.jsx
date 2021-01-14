@@ -16,7 +16,8 @@ import {
 	v_fNMessage,
 	v_lNMessage,
 	user_update,
-	delete_user
+	delete_user,
+	v_session_expired
 } from "./message";
 import {
 	RESET_PASSWORD,
@@ -26,7 +27,8 @@ import {
 	USER_UPDATE_SUCCESS,
 	DELETE_ACCOUNT,
 	USER_DELETE_WRONG_PASSWORD,
-	DELETE_ACCOUNT_SUCCESS
+	DELETE_ACCOUNT_SUCCESS,
+	UNAUTHORIZED
 } from "./type";
 import {
 	SET_MESSAGE
@@ -71,13 +73,14 @@ function MyAccount(props) {
 	let _password;
 	let _confirm_password;
 
-
-	//Setting a Image Path 
-	imagePath = user.profileImg;
-	if (imagePath != null) {
-		imagePath = imagePath.substring(16, imagePath.length);
+	if (user != null) {
+		//Setting a Image Path 
+		imagePath = user.profileImg;
+		if (imagePath != null) {
+			imagePath = imagePath.substring(16, imagePath.length);
+		}
+		else imagePath = basicProfileImgPath;
 	}
-	else imagePath = basicProfileImgPath;
 
 	useEffect(() => {
 		if (message == USER_UPDATE_SUCCESS) {
@@ -123,6 +126,11 @@ function MyAccount(props) {
 				type: SET_MESSAGE,
 				payload: null,
 			});
+		}
+		else if (message == UNAUTHORIZED) {
+			dispatch(logout());
+			history.push('/home');
+			alert(v_session_expired);
 		}
 	})
 	console.log(message)

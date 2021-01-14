@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Navbar, Nav, Image, Modal, Button, Col, Spinner } from 'react-bootstrap';
 import { logout } from "../Actions/auth";
-import { loginValid } from "../Actions/auth";
+import { useHistory } from "react-router-dom";
+import AuthService from "../Services/Auth.service";
+import {
+	v_session_expired
+} from "./message";
 
 function MainNav(props) {
 	const dispatch = useDispatch();
@@ -14,13 +18,13 @@ function MainNav(props) {
 	const basicProfileImgPath = "./uploadImages/icon/img_user.jpg";
 	const IMG_WIDTH = 45;
 	const IMG_LENGTH = 50;
+	let imagePath;
 
 	const logOut = () => {
 		setLoading(true);
 		dispatch(logout());
 	};
 
-	let imagePath;
 	if (isLoggedIn) {
 		imagePath = user.profileImg;
 		if (imagePath != null) {
@@ -30,14 +34,17 @@ function MainNav(props) {
 	}
 
 	useEffect(() => {
-		dispatch(loginValid);
-		console.log('MainNav LoginValid');
-		console.log(isLoggedIn);
-	})
+		if (isLoggedIn) {
+			AuthService.loginValid()
+				.catch((error) => {
+					alert(v_session_expired);
+					logOut();
+				})
+		}
+	}, [])
 	return (
 		<div>
 			<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
-
 			</Navbar>
 			<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
 				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -110,7 +117,6 @@ function MainNav(props) {
 					</Col>
 				</Modal.Body>
 			</Modal>
-
 			<hr />
 		</div>
 	);

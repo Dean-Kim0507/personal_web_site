@@ -5,9 +5,7 @@ import {
 	LOGIN_FAIL,
 	LOGOUT,
 	UPDATE_SUCCESS,
-	UPDATE_FAIL,
-	LOGIN_VALID,
-	LOGIN_INVALID
+	UPDATE_FAIL
 } from "../Actions/types";
 
 const user = JSON.parse(localStorage.getItem("user"));
@@ -58,18 +56,6 @@ export default function (state = initialState, action) {
 				...state,
 				isLoggedIn: true,
 				user: user
-			};
-		case LOGIN_VALID:
-			return {
-				...state,
-				isLoggedIn: true,
-				user: user
-			};
-		case LOGIN_INVALID:
-			return {
-				...state,
-				isLoggedIn: false,
-				user: null
 			};
 		default:
 			return state;

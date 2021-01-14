@@ -9,8 +9,6 @@ import {
 	UPDATE_FAIL,
 	DELETE_ACCOUNT,
 	DELETE_ACCOUNT_SUCCESS,
-	LOGIN_INVALID,
-	LOGIN_VALID,
 	UNAUTHORIZED,
 	NO_TOKEN_PROVIDED
 } from "./types";
@@ -103,23 +101,11 @@ export const userUpdate = (user_data, imgFile) => (dispatch) => {
 	return AuthService.userUpdate(user_data, imgFile)
 		.then(
 			(data) => {
-				// if (data.message == DELETE_ACCOUNT_SUCCESS) {
-				// 	dispatch({
-				// 		type: LOGOUT
-				// 	});
 
-				// 	dispatch({
-				// 		type: SET_MESSAGE,
-				// 		payload: data.message,
-				// 	});
-				// 	return Promise.resolve();
-				// }
-				// else {
 				dispatch({
 					type: UPDATE_SUCCESS,
 					payload: { user: data }
 				});
-
 				dispatch({
 					type: SET_MESSAGE,
 					payload: data.message,
@@ -135,67 +121,27 @@ export const userUpdate = (user_data, imgFile) => (dispatch) => {
 					error.message ||
 					error.toString();
 				console.log(message);
-				if (message == UNAUTHORIZED || message == NO_TOKEN_PROVIDED) {
-					dispatch({
-						type: LOGIN_INVALID,
-					});
+				// // if (message == UNAUTHORIZED || message == NO_TOKEN_PROVIDED) {
+				// 	dispatch({
+				// 		type: LOGIN_INVALID,
+				// 	});
 
-					dispatch({
-						type: SET_MESSAGE,
-						payload: message,
-					});
-					localStorage.removeItem("user");
-				}
-				else {
-					dispatch({
-						type: UPDATE_FAIL,
-					});
-
-					dispatch({
-						type: SET_MESSAGE,
-						payload: message,
-					});
-				}
-				return Promise.reject();
-			}
-		);
-};
-
-
-export const loginValid = (userID) => (dispatch) => {
-	return AuthService.loginValid(userID)
-		.then(
-			(data) => {
-				console.log('loginVaild')
-				dispatch({
-					type: LOGIN_VALID
-				});
-
-				dispatch({
-					type: SET_MESSAGE,
-					payload: data.message,
-				});
-				return Promise.resolve();
+				// 	dispatch({
+				// 		type: SET_MESSAGE,
+				// 		payload: message,
+				// 	});
+				// 	localStorage.removeItem("user");
 				// }
-			},
-			(error) => {
-				const message =
-					(error.response &&
-						error.response.data &&
-						error.response.data.message) ||
-					error.message ||
-					error.toString();
-				//If Token was not valid or not provided
-
+				// else {
 				dispatch({
-					type: LOGIN_INVALID,
+					type: UPDATE_FAIL,
 				});
 
 				dispatch({
 					type: SET_MESSAGE,
 					payload: message,
 				});
-				localStorage.removeItem("user");
+				// }
 				return Promise.reject();
 			}
 		);

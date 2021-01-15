@@ -2,9 +2,29 @@ import React, { Component, useState, useEffect } from 'react';
 import { Button, Image, Card, CardDeck, ListGroup, CardColumns } from 'react-bootstrap';
 import '../css/Home.css';
 import myPicutre from '../images/myPicture/HomeMyPicture.jpg';
-
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	UNAUTHORIZED
+} from "./type";
+import {
+	SET_MESSAGE
+} from "../Actions/types";
 function Home(props) {
-	var state = useState();
+
+	const { message } = useSelector(state => state.message);
+	const dispatch = useDispatch();
+	let history = useHistory();
+	useEffect(() => {
+		if (message == UNAUTHORIZED) {
+			dispatch({
+				type: SET_MESSAGE,
+				payload: null,
+			});
+			history.push('/login');
+		}
+	}, [message])
+
 	return (
 		<div className="container_home">
 			<Card className="bg-dark text-black" text="dark">

@@ -129,13 +129,13 @@ function MyAccount(props) {
 		}
 		else if (message == UNAUTHORIZED) {
 			dispatch(logout());
-			history.push('/home');
+			history.push('/login');
 			alert(v_session_expired);
 		}
 	})
 	console.log(message)
 	if (!isLoggedIn) {
-		return <Redirect to="/home" />;
+		return <Redirect to="/login" />;
 	}
 	//USER_EDIT METHOD
 	const editUser = () => {

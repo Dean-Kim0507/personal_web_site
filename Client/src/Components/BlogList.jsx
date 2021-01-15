@@ -16,20 +16,38 @@ import { Modal, Button, Card, CardColumns, Badge } from 'react-bootstrap';
 import '../css/BlogList.css'
 import axios from 'axios';
 import ReadBlogList from './BlogComponents/ReadBlogList';
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	UNAUTHORIZED
+} from "./type";
+import {
+	SET_MESSAGE
+} from "../Actions/types";
 const format = require('date-format');
-
 function BlogList(props) {
-
+	const { message } = useSelector(state => state.message);
+	const dispatch = useDispatch();
+	const [show, setShow] = useState(false);
+	const [data, setData] = useState(null);
+	const [images, setImages] = useState(null);
+	const handleClose = () => setShow(false);
+	let history = useHistory();
 	let splittedImagePaths;
 	let splittedImagePaths_preview;
 	let temp_allBlogs = [];
 	let [allBlogs, setAllBlogs] = useState([]);
 	let nowDate = format.asString('MM-dd-yyyy', new Date());
-	const [show, setShow] = useState(false);
-	const [data, setData] = useState(null);
-	const [images, setImages] = useState(null);
-	const handleClose = () => setShow(false);
 
+	useEffect(() => {
+		if (message == UNAUTHORIZED) {
+			dispatch({
+				type: SET_MESSAGE,
+				payload: null,
+			});
+			history.push('/login');
+		}
+	}, [message])
 	// When user select the thumbnail, that function will be worked for retrieving the selected blog,
 	const handleShow = (data) => {
 		setShow(true);

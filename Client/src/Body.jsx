@@ -12,6 +12,7 @@ import LoginPage from './Components/LoginPage';
 import Registration from './Components/Registration';
 import ForgotIDPassword from './Components/ForgotIDPassword';
 import MyAccount from './Components/MyAccount';
+import Head from './Components/MainNav';
 // import Switch from 'react-bootstrap/esm/Switch';
 import NotFound from './PageNotfound';
 
@@ -21,6 +22,7 @@ const Body = (props) => {
 		<div>
 			<Router>
 				<Switch>
+					<Route exact path="/" component={Head}></Route>
 					<Route exact path="/home" component={Home}></Route>
 					<Route exact path="/resume" component={Resume}></Route>
 					<Route path="/community" component={Community}></Route>

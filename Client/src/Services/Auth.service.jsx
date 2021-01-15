@@ -7,9 +7,15 @@ import {
 	WRONG_PASSWORD,
 	USER_UPDATE_SUCCESS,
 	DELETE_ACCOUNT,
-	DELETE_ACCOUNT_SUCCESS
+	DELETE_ACCOUNT_SUCCESS,
+	UNAUTHORIZED
 } from "../Components/type";
+import {
+	SET_MESSAGE
+} from "../Actions/types";
+import { useDispatch, useSelector } from "react-redux";
 let formData;
+
 //if registration success, return "Registration success"
 const register = async (user_data, imgFile) => {
 	console.log(user_data, imgFile)
@@ -92,6 +98,7 @@ const userUpdate = async (user_data, imgFile) => {
 const loginValid = () => {
 	return axios.get("/islogedin", { headers: authHeader() })
 }
+
 export default {
 	register,
 	login,

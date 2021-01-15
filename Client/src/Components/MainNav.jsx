@@ -4,9 +4,11 @@ import { Navbar, Nav, Image, Modal, Button, Col, Spinner } from 'react-bootstrap
 import { logout } from "../Actions/auth";
 import { useHistory } from "react-router-dom";
 import AuthService from "../Services/Auth.service";
+import { withRouter } from 'react-router';
 import {
 	v_session_expired
 } from "./message";
+import { loginValid } from "../Actions/auth";
 
 function MainNav(props) {
 	const dispatch = useDispatch();
@@ -19,6 +21,7 @@ function MainNav(props) {
 	const IMG_WIDTH = 45;
 	const IMG_LENGTH = 50;
 	let imagePath;
+	let history = useHistory();
 
 	const logOut = () => {
 		setLoading(true);
@@ -35,11 +38,13 @@ function MainNav(props) {
 
 	useEffect(() => {
 		if (isLoggedIn) {
-			AuthService.loginValid()
-				.catch((error) => {
-					alert(v_session_expired);
-					logOut();
-				})
+			// AuthService.loginValid()
+			// 	.catch((error) => {
+			// 		alert(v_session_expired);
+			// 		logOut();
+			// 	})
+			dispatch(loginValid());
+			history.push('/login');
 		}
 	}, [])
 	return (
@@ -79,7 +84,6 @@ function MainNav(props) {
 							</Nav>
 						</>
 						: null
-
 					}
 					{isLoggedIn ?
 						<Nav>

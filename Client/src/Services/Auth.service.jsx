@@ -35,14 +35,19 @@ const register = async (user_data, imgFile) => {
 }
 
 const login = (userID, password) => {
+	const basicProfileImgPath = "./uploadImages/icon/img_user.jpg";
 	const login_Data = {
 		userID: userID,
 		password: password
 	}
 	return axios.post("/login", login_Data)
-		.then((response) => {
-			console.log(response.data)
+		.then(async (response) => {
 			if (response.data.accessToken) {
+				//Setting up the image path 
+				if (response.data.profileImg != null) {
+					response.data.profileImg = response.data.profileImg.substring(16, response.data.profileImg.length);
+				}
+				else response.data.profileImg = basicProfileImgPath;
 				localStorage.setItem("user", JSON.stringify(response.data));
 			}
 			return response.data;
@@ -54,6 +59,7 @@ const logout = () => {
 };
 
 const userUpdate = async (user_data, imgFile) => {
+	const basicProfileImgPath = "./uploadImages/icon/img_user.jpg";
 	formData = new FormData();
 	if (user_data.type === USER_UPDATE) {
 		formData.append('userID', user_data.userID);
@@ -80,17 +86,18 @@ const userUpdate = async (user_data, imgFile) => {
 			headers: authHeader()
 		}
 	)
-		.then((response) => {
-			if (response.message == USER_UPDATE_SUCCESS) {
+		.then(async (response) => {
+			if (response.data.message == USER_UPDATE_SUCCESS) {
 				if (response.data.accessToken) {
+					if (response.data.profileImg != null) {
+						response.data.profileImg = response.data.profileImg.substring(16, response.data.profileImg.length);
+					}
+					else { response.data.profileImg = basicProfileImgPath; }
+					localStorage.removeItem("user");
 					localStorage.setItem("user", JSON.stringify(response.data));
+					return response.data;
 				}
-				return response.data;
 			}
-			// else if (response.message == DELETE_ACCOUNT_SUCCESS) {
-			// 	logout();
-			// 	return response.data;
-			// }
 			else return response.data;
 		})
 }

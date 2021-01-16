@@ -3,13 +3,20 @@ import axios from 'axios';
 import { Button, FormGroup, Label, Input } from 'reactstrap';
 import ImageUploader from "react-images-upload";
 import { useHistory } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+	UNAUTHORIZED
+} from "../type";
+import {
+	SET_MESSAGE
+} from "../../Actions/types";
 
 function UpdateBlogList(props) {
-
+	const { message } = useSelector(state => state.message);
 	const [pictures, setPictures] = useState([]);
 	const [imgUploader, setImgUploader] = useState(false);
 	const [imgButton, setImgButton] = useState(true);
+	const dispatch = useDispatch();
 	const onDrop = picture => {
 		setPictures([...pictures, picture]);
 	};
@@ -30,6 +37,17 @@ function UpdateBlogList(props) {
 	let _uploadResult = '';
 	let errNum;
 	let errPage;
+
+	useEffect(() => {
+		if (message == UNAUTHORIZED) {
+			dispatch({
+				type: SET_MESSAGE,
+				payload: null,
+			});
+			history.push('/login');
+		}
+	}, [message])
+
 
 	useEffect(() => {
 		axios.post("/blog/retrieveblog", info)

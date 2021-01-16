@@ -32,8 +32,7 @@ router.post('/', async function (req, res) {
 				if (result) {
 					//algorithm: (default) HS256 
 					let token = jwt.sign({ id: user.userID }, config.secret, {
-						expiresIn: 5
-						// 60 * 60 * 24 // 24 hours
+						expiresIn: 60 * 60 * 24 // 24 hours
 					});
 					return res.send({
 						userID: user.userID,

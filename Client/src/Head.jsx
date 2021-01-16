@@ -1,11 +1,17 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import MainNav from "./Components/MainNav";
-function Head (props){
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+function Head(props) {
 
-	return(
-		<div>
-			<MainNav/>
-		</div>
+	return (
+		<Router>
+			<Switch>
+				<Route path="/" component={MainNav}></Route>
+			</Switch>
+		</Router>
+		// <div>
+		// 	<MainNav />
+		// </div>
 	);
 }
 

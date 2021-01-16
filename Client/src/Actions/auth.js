@@ -56,9 +56,11 @@ export const register = (user_data, imgFile) => (dispatch) => {
 };
 
 export const login = (userID, password) => (dispatch) => {
+
 	return AuthService.login(userID, password)
 		.then(
 			(data) => {
+				console.log(data.profileImg)
 				dispatch({
 					type: LOGIN_SUCCESS,
 					payload: { user: data },
@@ -102,8 +104,8 @@ export const logout = () => (dispatch) => {
 export const userUpdate = (user_data, imgFile) => (dispatch) => {
 	return AuthService.userUpdate(user_data, imgFile)
 		.then(
-			(data) => {
-
+			async (data) => {
+				console.log(data)
 				dispatch({
 					type: UPDATE_SUCCESS,
 					payload: { user: data }

@@ -68,19 +68,10 @@ function MyAccount(props) {
 
 	const dispatch = useDispatch();
 	let [profileImageURL, setProfileImageURL] = useState(null);
-	let imagePath;
+	let imagePath = user.profileImg;
 	let history = useHistory();
 	let _password;
 	let _confirm_password;
-
-	if (user != null) {
-		//Setting a Image Path 
-		imagePath = user.profileImg;
-		if (imagePath != null) {
-			imagePath = imagePath.substring(16, imagePath.length);
-		}
-		else imagePath = basicProfileImgPath;
-	}
 
 	useEffect(() => {
 		if (message == USER_UPDATE_SUCCESS) {
@@ -129,10 +120,17 @@ function MyAccount(props) {
 		}
 		else if (message == UNAUTHORIZED) {
 			dispatch(logout());
-			history.push('/login');
+			// history.push('/login');
 			alert(v_session_expired);
 		}
 	})
+
+	useEffect(() => {
+		if (pictures != null) {
+			setProfileImageURL(URL.createObjectURL(pictures));
+		}
+	}, [pictures])
+
 	console.log(message)
 	if (!isLoggedIn) {
 		return <Redirect to="/login" />;
@@ -170,7 +168,6 @@ function MyAccount(props) {
 				email: email,
 				type: USER_UPDATE
 			}
-			console.log(user_data)
 			dispatch(userUpdate(user_data, pictures));
 			setFirstName(user.firstName);
 			setLastName(user.lastName);
@@ -206,7 +203,6 @@ function MyAccount(props) {
 	}
 
 	const uploadSingleFile = picture => {
-		setProfileImageURL(URL.createObjectURL(picture[0]));
 		setPictures(picture[0]);
 	}
 
@@ -274,7 +270,6 @@ function MyAccount(props) {
 				newPassword: password,
 				type: RESET_PASSWORD
 			}
-			console.log(user_data)
 			dispatch(userUpdate(user_data));
 		}
 	}
@@ -298,7 +293,6 @@ function MyAccount(props) {
 			password: event.target.myAccount_delete_account.value,
 			type: DELETE_ACCOUNT
 		}
-		console.log(user_data)
 		dispatch(userUpdate(user_data));
 
 	}
@@ -327,7 +321,7 @@ function MyAccount(props) {
 								/>
 								: <Image variant="top"
 									className="myAccount_profileImage"
-									src={imagePath}
+									src={user.profileImg}
 									width={IMG_WIDTH}
 									height={IMG_LENGTH}
 									roundedCircle
@@ -403,7 +397,7 @@ function MyAccount(props) {
 								</Col>
 							</Card.Body>
 							<Card.Footer>
-								<Col md={{ span: 10, offset: 8 }}>
+								<Col md={{ span: 10, offset: 7 }}>
 									<Button variant="light" type="button" onClick={cancelEdit}>Cancel</Button>
 									{loading ?
 										<Button variant="light" type="submit"><Spinner animation="border" size="sm" /></Button>
@@ -420,7 +414,7 @@ function MyAccount(props) {
 						<h2>Hello {user.firstName} {user.lastName}</h2>
 						<Image variant="top"
 							className="myAccount_profileImage"
-							src={imagePath}
+							src={user.profileImg}
 							width={IMG_WIDTH}
 							height={IMG_LENGTH}
 							roundedCircle

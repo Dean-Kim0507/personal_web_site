@@ -9,22 +9,41 @@
  * (Retrieving from Database) Http: ReadBlogList (server) - > BlogList.js (Client)
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, FormGroup, Label, Input } from 'reactstrap';
+import { Image } from 'react-bootstrap';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import ImageUploader from "react-images-upload";
 import '../../css/CreateBlogList.css';
+import { useDispatch, useSelector } from "react-redux";
+import {
+	UNAUTHORIZED
+} from "../type";
+import {
+	SET_MESSAGE
+} from "../../Actions/types";
 
 function CreateBlogList(props) {
-
+	const { isLoggedIn, user } = useSelector(state => state.auth);
+	const { message } = useSelector(state => state.message);
 	const [pictures, setPictures] = useState([]);
 	const formData = new FormData();
+	const dispatch = useDispatch();
 	let history = useHistory();
 	let _uploadResult = '';
 	const onDrop = picture => {
 		setPictures([...pictures, picture]);
 	};
+	useEffect(() => {
+		if (message == UNAUTHORIZED) {
+			dispatch({
+				type: SET_MESSAGE,
+				payload: null,
+			});
+			history.push('/login');
+		}
+	}, [message])
 
 	return (
 		<div className="createBlog">
@@ -55,15 +74,21 @@ function CreateBlogList(props) {
 								console.log(error);
 							});
 					}}>
-
+					{isLoggedIn ?
+						<FormGroup>
+							<Label for="writer">{user.userID}</Label>
+							<Input type="text" name="writer" value={user.userID} />
+						</FormGroup>
+						: <FormGroup>
+							<Label for="writer">Writer</Label>
+							<Input type="text" name="writer" placeholder="WRITER" />
+						</FormGroup>
+					}
 					<FormGroup>
 						<Label for="title">Title</Label>
 						<Input type="text" name="title" placeholder="TITLE" />
 					</FormGroup>
-					<FormGroup>
-						<Label for="writer">Writer</Label>
-						<Input type="text" name="writer" placeholder="WRITER" />
-					</FormGroup>
+
 					<FormGroup>
 						<Label for="desc">Text Area</Label>
 						<Input type="textarea" name="desc" placeholder="TEXT" />

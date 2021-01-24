@@ -17,8 +17,10 @@ import { useHistory } from "react-router-dom";
 import ImageUploader from "react-images-upload";
 import '../../css/CreateBlogList.css';
 import { useDispatch, useSelector } from "react-redux";
+import authHeader from "../../Services/Auth.header";
 import {
-	UNAUTHORIZED
+	UNAUTHORIZED,
+	BLOG_CREATE_SUCCESS
 } from "../type";
 import {
 	SET_MESSAGE
@@ -30,11 +32,13 @@ function CreateBlogList(props) {
 	const [pictures, setPictures] = useState([]);
 	const formData = new FormData();
 	const dispatch = useDispatch();
-	let history = useHistory();
-	let _uploadResult = '';
+	const IMG_WIDTH = 45;
+	const IMG_LENGTH = 50;
 	const onDrop = picture => {
 		setPictures([...pictures, picture]);
 	};
+	let history = useHistory();
+	let _uploadResult = '';
 	useEffect(() => {
 		if (message == UNAUTHORIZED) {
 			dispatch({
@@ -45,39 +49,77 @@ function CreateBlogList(props) {
 		}
 	}, [message])
 
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		if (isLoggedIn) {
+			formData.append('userID', user.userID);
+			formData.append('writer', null);
+		}
+		else {
+			formData.append('writer', e.target.writer.value);
+			formData.append('userID', null);
+		}
+		formData.append('title', e.target.title.value);
+		formData.append('desc', e.target.desc.value);
+		formData.append('mode', 'create');
+		formData.append('isLogedIn', isLoggedIn);
+
+		if (pictures.length > 0) {
+			for (let i = 0; i < pictures[pictures.length - 1].length; i++) {
+				formData.append('images', pictures[pictures.length - 1][i]);
+			}
+		}
+		console.log(pictures);
+		if (isLoggedIn) {
+			const res = await axios.post("/blog/create/logedin", formData
+				, {
+					headers: authHeader()
+				})
+				.then(
+					response => {
+						_uploadResult = response.data.message;
+						if (_uploadResult === BLOG_CREATE_SUCCESS) history.push('/bloglist');
+						else history.push('/errorpage');
+					})
+				.catch(function (error) {
+					console.log(error);
+					history.push('/errorpage');
+				});
+		}
+		else {
+			const res = await axios.post("/blog/create", formData)
+				.then(
+					response => {
+						_uploadResult = response.data.message;
+						if (_uploadResult === BLOG_CREATE_SUCCESS) history.push('/bloglist');
+						else history.push('/errorpage');
+					})
+				.catch(function (error) {
+					console.log(error);
+					history.push('/errorpage');
+				});
+		}
+	}
+
+
 	return (
 		<div className="createBlog">
 			<article>
 				<h2>My Blog</h2>
 				<form action='' method="post" enctype="multipart/form-data"
 					// send the images to Backend Node js express
-					onSubmit={async function (e) {
-						e.preventDefault();
-						formData.append('writer', e.target.writer.value);
-						formData.append('title', e.target.title.value);
-						formData.append('desc', e.target.desc.value);
-						formData.append('mode', 'create');
-						if (pictures.length > 0) {
-							for (let i = 0; i < pictures[pictures.length - 1].length; i++) {
-								formData.append('images', pictures[pictures.length - 1][i]);
-							}
-						}
-						console.log(pictures);
-						const res = await axios.post("/blog/create", formData)
-							.then(
-								response => {
-									_uploadResult = response.data;
-									if (_uploadResult === 'Upload success') history.push('/bloglist');
-									else history.push('/errorpage');
-								})
-							.catch(function (error) {
-								console.log(error);
-							});
-					}}>
+					onSubmit={handleSubmit}>
 					{isLoggedIn ?
 						<FormGroup>
-							<Label for="writer">{user.userID}</Label>
-							<Input type="text" name="writer" value={user.userID} />
+							<Label for="writer">Writer</Label>
+							<br />
+							<Image src={user.profileImg}
+								width={IMG_WIDTH}
+								height={IMG_LENGTH}
+								alt="45x50"
+								roundedCircle />
+							<label><h3>{user.userID}</h3></label>
+							<Input type="text" name="writer" value={user.userID} hidden />
 						</FormGroup>
 						: <FormGroup>
 							<Label for="writer">Writer</Label>

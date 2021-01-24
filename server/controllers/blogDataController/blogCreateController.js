@@ -17,11 +17,13 @@ const Blogdata = require('../../models');
 
 router.post('/', async function (req, res) {
 
-  let writer = req.body.writer;
-  let title = req.body.title;
-  let desc = req.body.desc;
-  let type = req.body.mode;
-
+  const writer = req.body.writer;
+  const title = req.body.title;
+  const desc = req.body.desc;
+  const type = req.body.mode;
+  const userID = req.body.userID;
+  const isLogedIn = req.body.isLogedIn;
+  const BLOG_CREATE_SUCCESS = 'BLOG_CREATE_SUCCESS';
   let uploadedImages = req.files;
   console.log(req.files);
   let imagesPath = [];
@@ -79,10 +81,12 @@ router.post('/', async function (req, res) {
       writer: writer,
       title: title,
       description: desc,
-      imagespath: stringImagesPath
+      imagespath: stringImagesPath,
+      userID: userID,
+      isLogedIn: isLogedIn
     })
       .then(() => {
-        res.json('Upload success');
+        res.json({ message: BLOG_CREATE_SUCCESS });
       })
       .catch(err => {
         res.json(err);

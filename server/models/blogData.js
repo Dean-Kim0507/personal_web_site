@@ -28,6 +28,16 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.TEXT,
 			allowNull: true,
 		},
+		userID: {
+			field: 'userID',
+			type: DataTypes.STRING,
+			allowNull: true,
+		},
+		isLogedIn: {
+			field: 'isLogedIn',
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+		}
 	}, {
 		freezeTableName: true,
 		timestamps: true,

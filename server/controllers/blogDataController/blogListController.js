@@ -24,31 +24,46 @@ router.post('/', async function (req, res) {
   let datas = [];
   let findCommentsResults = [];
 
+  await Blogdata.blogDataAdmin.findAll()
 
-  Blogdata.blogDataAdmin.findAll()
-
-    .then(results => {
+    .then(async results => {
       findAllResults = results;
 
       for (let i = 0; i < findAllResults.length; i++) {
+        let userProfileimgPath = null;
+        if (findAllResults[i].dataValues.userID != null) {
+          await Blogdata.user_mywebsite.findOne({
+            where: {
+              userID: findAllResults[i].dataValues.userID
+            }
+          })
+            .then((user) => {
+              userProfileimgPath = user.profile_img_path;
+            })
+        }
 
         let eachData = {
           id: String,
           writer: String,
           title: String,
           desc: String,
+          userID: String,
+          isLogedIn: Boolean,
           imagePaths: Array,
-          // comments: Array,
           createdAt: String,
-          updatedAt: String
+          updatedAt: String,
+          userImg: String
         };
         eachData.writer = String(findAllResults[i].dataValues.writer);
         eachData.title = String(findAllResults[i].dataValues.title);
         eachData.desc = String(findAllResults[i].dataValues.description);
         eachData.imagePaths = String(findAllResults[i].dataValues.imagespath);
         eachData.id = String(findAllResults[i].dataValues.blog_id);
+        eachData.userID = String(findAllResults[i].dataValues.userID);
+        eachData.isLogedIn = Boolean(findAllResults[i].dataValues.isLogedIn);
         eachData.createdAt = String(findAllResults[i].dataValues.createdAt);
         eachData.updatedAt = String(findAllResults[i].dataValues.updatedAt);
+        eachData.userImg = userProfileimgPath;
         datas.push(eachData);
       }
       res.send(datas);

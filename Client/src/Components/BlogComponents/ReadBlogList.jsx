@@ -14,13 +14,23 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Carousel, Image, Button, Modal } from 'react-bootstrap';
 import BlogComments from './BlogComments'
-const format = require('date-format');
+import { useDispatch, useSelector } from "react-redux";
 
 function ReadBlogList(props) {
-	let id = props.id;
-	let title = props.title;
-	let desc = props.desc;
-	let writer = props.writer;
+	const id = props.id;
+	const title = props.title;
+	const desc = props.desc;
+	const writer = props.writer;
+	const userID = props.userID;
+	const isLogedIn = props.isLogedIn;
+	const { isLoggedIn, user } = useSelector(state => state.auth);
+	const { message } = useSelector(state => state.message);
+	const [show, setShow] = useState(false);
+	const [showEditButton, setShowEditButton] = useState(true);
+	const [updatePath, setUpdatePath] = useState(null);
+	const handleClose = () => setShow(false);
+	const handleShow = () => setShow(true);
+	const format = require('date-format');
 	let imagePathArray = props.imagePathArray;
 	let createdAt = format.asString('MM-dd-yyyy', new Date(props.createdAt));
 	let updatedAt = format.asString('MM-dd-yyyy', new Date(props.updatedAt));
@@ -30,9 +40,21 @@ function ReadBlogList(props) {
 	let carousel_control_indicators = true
 	let image_path;
 
-	const [show, setShow] = useState(false);
-	const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
+	useEffect(() => {
+		if (isLogedIn) {
+			setUpdatePath(`/blogupdate/${id}/${writer}`);
+			if (user != null) {
+				if (user.userID != userID) {
+					setShowEditButton(false)
+				}
+				else setShowEditButton(true)
+			}
+			else {
+				setShowEditButton(false)
+			}
+		}
+		else setUpdatePath(`/blogupdate/${id}/${userID}`);
+	}, [])
 
 	//Decision of showing arrow in the pictures
 	if (imagePathArray.length > 1) carousel_control_indicators = true;
@@ -96,7 +118,10 @@ function ReadBlogList(props) {
 					</Modal>
 
 					<Button className="ReadBlogList_delete_button" variant="light" onClick={handleShow} key={id}>Delete</Button>
-					<Button className="ReadBlogList_update_button" variant="light" href={`/bloglist/update/${id}/${writer}`} key={id}>Edit</Button>
+					{showEditButton ?
+						<Button className="ReadBlogList_update_button" variant="light" href={updatePath} key={id}>Edit</Button>
+						: null
+					}
 				</Card.Footer>
 			</Card>
 		</div>

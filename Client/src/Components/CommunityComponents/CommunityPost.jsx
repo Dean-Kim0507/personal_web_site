@@ -35,10 +35,11 @@ class CommunityPost extends Component {
 		}
 
 		axios.post('/communitypost/senddata', { type: this.state.type })
-			.then(response =>
-				this.setState(() => ({ contents: response.data.rows })))
-			.then(console.log(this.state.contents))
-
+			.then(response => {
+				this.setState(() => ({ contents: response.data.data }))
+				// console.log('data: ', response.data);
+			}
+			)
 	}
 
 	// receive data by using axios (don't need to convert)
@@ -64,7 +65,6 @@ class CommunityPost extends Component {
 	}
 
 	getReadContent() {
-		console.log('getReadContent()');
 		let i = 0;
 		while (i < this.state.contents.length) {
 			let data = this.state.contents[i];
@@ -76,7 +76,6 @@ class CommunityPost extends Component {
 	}
 
 	getContent() {
-		console.log('getContent()');
 		let _article, _content = null;
 		if (this.state.mode === 'list') {
 			_article = <TOC onChangePage={
@@ -159,7 +158,6 @@ class CommunityPost extends Component {
 	createPost() {
 		let _post;
 		if (this.state.mode !== 'create') {
-			console.log('createPost()');
 			_post = <Button onClick={function (e) {
 				e.preventDefault();
 				this.setState({ mode: 'create' })

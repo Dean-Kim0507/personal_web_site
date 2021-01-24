@@ -39,9 +39,14 @@ db.blogComments = require('./blogComments')(sequelize, Sequelize);
 db.role_mywebsite = require('./role_mywebsite')(sequelize, Sequelize);
 db.user_mywebsite = require('./user_mywebsite')(sequelize, Sequelize);
 
+
 db.blogDataAdmin.hasMany(db.blogComments, {
   foreignKey: "blog_id",
   sourceKey: 'blog_id'
+})
+db.blogDataAdmin.hasMany(db.user_mywebsite, {
+  foreignKey: "userID",
+  sourceKey: 'userID'
 })
 
 db.user_mywebsite.belongsToMany(db.role_mywebsite, {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
+import TableHeaderColumn from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 
@@ -28,19 +29,46 @@ class TOC extends Component {
 		let i = 0;
 
 		const columns = [
-			{ dataField: "id", text: "NO", sort: true },
-			{ dataField: "title", text: "TITLE" },
-			{ dataField: "writer", text: "NAME" },
-			{ dataField: "date", text: "DATE" }
+			{
+				dataField: "id", text: "NO", sort: true, headerStyle: (colum, colIndex) => {
+					return {
+						width: '5%', textAlign: 'center'
+					}
+				}
+			},
+			{
+				dataField: "title", text: "TITLE", headerStyle: (colum, colIndex) => {
+					return {
+						width: '55%', textAlign: 'center'
+					}
+				}
+			},
+			{
+				dataField: "writer", text: "NAME", headerStyle: (colum, colIndex) => {
+					return {
+						textAlign: 'center'
+					}
+				}
+			},
+			{
+				dataField: "date", text: "DATE", headerStyle: (colum, colIndex) => {
+					return {
+						textAlign: 'center'
+					}
+				}
+			}
 		]
 
 		while (i < data.length) {
-			let date = data[i].date;
-			let nowDate = format.asString('MM-dd-yyyy', new Date());
-			if (date === nowDate) {
-				date = data[i].time
+			let CreatedAt = data[i].createdAt;
+			let updatedAt = data[i].updatedAt;
+			let date;
+			console.log(updatedAt, ' ', CreatedAt)
+			// let nowDate = format.asString('MM-dd-yyyy', new Date());
+			if (CreatedAt === updatedAt) {
+				date = data[i].CreatedAt
 			}
-			else date = data[i].date;
+			else date = data[i].updatedAt;
 			let title = <a key={data[i].id}
 				href={"/contents/" + data[i].id}
 				data-id={data[i].id}// e.target.dataset.id 에 여기 넣은값이 들어가서추출가능
@@ -60,12 +88,13 @@ class TOC extends Component {
 					keyField="id"
 					data={lists}
 					columns={columns}
+
 					search
 				>
 					{props => (
 						<div>
 							<hr />
-							<SearchBar {...props.searchProps} />
+							<SearchBar placeholder="Search Unser Name" {...props.searchProps} />
 							<hr />
 							<BootstrapTable
 								keyField="id"
@@ -74,6 +103,9 @@ class TOC extends Component {
 								pagination={paginationFactory()}
 								sort={{ dataField: 'id', order: 'desc' }}
 								{...props.baseProps}
+								hover={true}
+								rowStyle={{ textAlign: 'center' }}
+
 							/>
 						</div>
 					)

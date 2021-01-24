@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, FormGroup, Label, Input } from 'reactstrap';
+import { Image } from 'react-bootstrap';
 import ImageUploader from "react-images-upload";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,8 +11,10 @@ import {
 import {
 	SET_MESSAGE
 } from "../../Actions/types";
+import '../../css/UpdateBlogList.css';
 
 function UpdateBlogList(props) {
+	const { isLoggedIn, user } = useSelector(state => state.auth);
 	const { message } = useSelector(state => state.message);
 	const [pictures, setPictures] = useState([]);
 	const [imgUploader, setImgUploader] = useState(false);
@@ -20,12 +23,16 @@ function UpdateBlogList(props) {
 	const onDrop = picture => {
 		setPictures([...pictures, picture]);
 	};
-	let [retrievedData, setRetrievedData] = useState(null);
-	let [title, setTitle] = useState(null);
-	let [writer, setWriter] = useState(null);
-	let [id, setId] = useState(null);
-	let [desc, setDesc] = useState(null);
+	const [retrievedData, setRetrievedData] = useState(null);
+	const [title, setTitle] = useState(null);
+	const [writer, setWriter] = useState(null);
+	const [id, setId] = useState(null);
+	const [desc, setDesc] = useState(null);
+	const [userID, setUserID] = useState(null);
+	const [isLogedIn, setIsLogedIn] = useState(null);
 	const formData = new FormData();
+	const IMG_WIDTH = 45;
+	const IMG_LENGTH = 50;
 	let temp_data;
 	let info =
 	{
@@ -65,6 +72,20 @@ function UpdateBlogList(props) {
 				setId(temp_data.blog_id);
 				setDesc(temp_data.description);
 				setTitle(temp_data.title);
+				setIsLogedIn(temp_data.isLogedIn);
+				setUserID(temp_data.userID);
+			})
+			.then(() => {
+				if (isLogedIn) {
+					if (user != null) {
+						if (user.userID != userID) {
+							history.push('/bloglist');
+						}
+					}
+					else {
+						history.push('/bloglist');
+					}
+				}
 			})
 	}, [])
 
@@ -136,14 +157,27 @@ function UpdateBlogList(props) {
 					<>
 						{console.log('return: ' + retrievedData.title)}
 						{console.log('return: ' + temp_data)}
+						{isLogedIn ?
+							<FormGroup>
+								<Image src={user.profileImg}
+									width={IMG_WIDTH}
+									height={IMG_LENGTH}
+									alt="45x50"
+									roundedCircle />
+								<label><h3>{userID}</h3></label>
+								<Input type="text" name="writer" value={userID} hidden />
+							</FormGroup>
+							: <FormGroup>
+								<Label for="writer">Writer</Label>
+								<Input type="text" name="writer" placeholder="NAME" value={writer} onChange={handleChange} />
+							</FormGroup>
+
+						}
 						<FormGroup>
 							<Label for="title">Title</Label>
 							<Input type="text" name="title" placeholder="TITLE" value={title} onChange={handleChange} />
 						</FormGroup>
-						<FormGroup>
-							<Label for="writer">Writer</Label>
-							<Input type="text" name="writer" placeholder="NAME" value={writer} onChange={handleChange} />
-						</FormGroup>
+
 						<FormGroup>
 							<Label for="desc">Text Area</Label>
 							<Input type="textarea" name="desc" placeholder="TEXT" value={desc} onChange={handleChange} />

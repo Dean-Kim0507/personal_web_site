@@ -70,7 +70,7 @@ function MainNav(props) {
 							<Image src={user.profileImg}
 								width={IMG_WIDTH}
 								height={IMG_LENGTH}
-								alt="171x180"
+								alt="45x50"
 								roundedCircle />
 							<Nav>
 								<Nav.Item>

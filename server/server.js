@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const sendData = require('./controllers/CommunityPostController/sendData')
 const receiveData = require('./controllers/CommunityPostController/receiveData')
-const blogData = require('./controllers/blogDataController/blogCreateController');
+const blogCreate = require('./controllers/blogDataController/blogCreateController');
 const blogList = require('./controllers/blogDataController/blogListController');
 const retrieveBlog = require('./controllers/blogDataController/blogRetrieveController');
 const updateBlog = require('./controllers/blogDataController/blogUpdateController');
@@ -41,7 +41,8 @@ app.use(express.json())
 
 app.use('/communitypost/receivedata', receiveData);
 app.use('/communitypost/senddata', sendData);
-app.use('/blog/create', blogData);
+app.use('/blog/create', blogCreate);
+app.use('/blog/create/logedin', authJwt.verifyToken, blogCreate);
 app.use('/blog/list', blogList);
 app.use('/blog/retrieveblog', retrieveBlog);
 app.use('/blog/update', updateBlog);
@@ -50,6 +51,7 @@ app.use('/blog/comments', blogComments);
 app.use('/registration', verifySignUp.checkDuplicateUsernameOrEmail, registration_user);
 app.use('/login', login);
 app.use('/userupdate', authJwt.verifyToken, update_user);
+
 app.get('/islogedin', authJwt.verifyToken, userController.loginValid);
 
 app.listen(port, function () {

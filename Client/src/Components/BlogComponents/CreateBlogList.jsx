@@ -105,7 +105,7 @@ function CreateBlogList(props) {
 	return (
 		<div className="createBlog">
 			<article>
-				<h2>My Blog</h2>
+				<h2>SHARE YOUR AWESOME STORY !</h2>
 				<form action='' method="post" enctype="multipart/form-data"
 					// send the images to Backend Node js express
 					onSubmit={handleSubmit}>
@@ -133,7 +133,7 @@ function CreateBlogList(props) {
 
 					<FormGroup>
 						<Label for="desc">Text Area</Label>
-						<Input type="textarea" name="desc" placeholder="TEXT" />
+						<Input type="textarea" name="desc" placeholder="TEXT" style={{ height: '200px' }} />
 					</FormGroup>
 					<ImageUploader
 						name="imageUploader"

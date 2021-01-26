@@ -9,7 +9,6 @@ class CreateContent extends Component {
 
 			<article>
 				<hr />
-				<h2>Create Post</h2>
 				<form action="/create_process" method="post" onSubmit={function (e) {
 					e.preventDefault();
 					this.props.onSubmit(
@@ -29,7 +28,7 @@ class CreateContent extends Component {
 					</FormGroup>
 					<FormGroup>
 						<Label for="desc">Text Area</Label>
-						<Input type="textarea" name="desc" placeholder="TEXT" />
+						<Input type="textarea" name="desc" placeholder="TEXT" style={{ height: '200px' }} />
 					</FormGroup>
 
 					{/* <p>
@@ -42,7 +41,7 @@ class CreateContent extends Component {
 					<textarea  name="desc" placeholder="description"></textarea>
 				</p> */}
 					<p>
-						<Button color="danger" type="submit">Submit</Button>
+						<Button color="primary" type="submit">Submit</Button>
 					</p>
 				</form>
 			</article>

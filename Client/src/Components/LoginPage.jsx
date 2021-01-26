@@ -78,7 +78,7 @@ function LoginPage(props) {
 	}
 
 	return (
-		<>
+		<div className="login_whole">
 			<h1 className="LoginPage_login">Login</h1>
 			<Form noValidate validated={validated} onSubmit={handleSubmit}>
 				<Form.Group >
@@ -119,7 +119,7 @@ function LoginPage(props) {
 					Do you need a new account? <a href="/registration">Register</a> here
 				</p>
 			</Form>
-		</>
+		</div>
 	);
 }
 

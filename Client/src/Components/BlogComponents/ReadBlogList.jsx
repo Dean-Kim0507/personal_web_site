@@ -62,9 +62,9 @@ function ReadBlogList(props) {
 
 	// Showing the time, blog was added or editted. If blog is added on today, the footer show the time and date.
 	if (createdAt === nowDate) blog_date = format.asString('hh:mm MM-dd-yyyy', new Date(props.createdAt));
-	else if (updatedAt === nowDate) blog_date = format.asString('(updated) hh:mm MM-dd-yyyy', new Date(props.updatedAt));
+	else if (updatedAt === nowDate) blog_date = format.asString('hh:mm MM-dd-yyyy (Edited)', new Date(props.updatedAt));
 	else if (createdAt === updatedAt) blog_date = createdAt;
-	else blog_date = '(updated) ' + updatedAt;
+	else blog_date = updatedAt + ' (Edited)';
 
 	return (
 		<div>

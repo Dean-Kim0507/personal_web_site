@@ -150,8 +150,8 @@ function UpdateBlogList(props) {
 	return (
 		<div className='updateBlogList_whole'>
 			<form action='' method="post" encType="multipart/form-data"
-				// send the images to Backend Node js express
 				onSubmit={onSubmit}>
+				<h2>Update Blog</h2>
 				{
 					retrievedData &&
 					<>
@@ -180,13 +180,13 @@ function UpdateBlogList(props) {
 
 						<FormGroup>
 							<Label for="desc">Text Area</Label>
-							<Input type="textarea" name="desc" placeholder="TEXT" value={desc} onChange={handleChange} />
+							<Input type="textarea" name="desc" placeholder="TEXT" value={desc} onChange={handleChange} style={{ height: '200px' }} />
 						</FormGroup>
 					</>
 				}
 				{
 					imgButton ?
-						<Button variant="secondary" onClick={showImgUploader} size="lg" block>
+						<Button variant="secondary" onClick={showImgUploader} size="md" block className="updatedBlogList_updateImage">
 							Update Image
   					</Button>
 						: null
@@ -204,7 +204,7 @@ function UpdateBlogList(props) {
 						/>
 						: null
 				}
-				<Button color="primary" type="submit">Submit</Button>
+				<Button color="primary" type="submit" className="updateBlogList_submitButton">Submit</Button>
 			</form>
 		</div >
 

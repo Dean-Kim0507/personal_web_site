@@ -6,7 +6,9 @@ import Control from "./Components/Control";
 import UpdateContent from "./Components/UpdateContent";
 import CreateContent from './Components/CreateContent';
 import axios from 'axios';
-import { Button } from 'reactstrap';
+import { Button } from 'react-bootstrap';
+import '../../css/CommunityPost.css'
+const format = require('date-format');
 
 // Use class
 class CommunityPost extends Component {
@@ -19,7 +21,7 @@ class CommunityPost extends Component {
 			contents: [],
 			type: this.props.type,
 			subject: "Community Post",
-			subtitle: "Do you play any games? Let's share it!"
+			subtitle: "This is the area of OPEN POST! Please feel free to leave anything you want to share with us. Have a fun!"
 		}
 
 	}
@@ -49,16 +51,17 @@ class CommunityPost extends Component {
 			id: _id,
 			writer: _writer,
 			title: _title,
-			description: _desc,
+			desc: _desc,
 			mode: _mode,
 			type: this.state.type
 		}
 
 		await axios.post('/communitypost/receivedata', data)
-			.then(response =>
-				this.setState(() => ({ contents: response.data.rows[1] })))
+			.then(response => {
+				console.log(response.data)
+				this.setState(() => ({ contents: response.data.data }))
+			})
 			// {this.setState({contents: response.data.rows[1]})})
-			.then(console.log(this.state.contents))
 			.catch(function (error) {
 				console.log(error);
 			});
@@ -92,8 +95,11 @@ class CommunityPost extends Component {
 		//read
 		else if (this.state.mode === 'read') {
 			_content = this.getReadContent();
-			console.log(_content);
-			_article = <ReadContent id={_content.id} writer={_content.writer} title={_content.title} desc={_content.description} date={_content.date} time={_content.time} ></ReadContent>
+			let date;
+			if (_content.createdAt === _content.updatedAt) {
+				date = format.asString('hh:mm, MM-dd-yyyy', new Date(_content.createdAt));
+			} else date = format.asString('hh:mm, MM-dd-yyyy', new Date(_content.updatedAt)) + ' (Edited)';
+			_article = <ReadContent id={_content.id} writer={_content.writer} title={_content.title} desc={_content.desc} date={date} ></ReadContent>
 		}
 
 		// Update
@@ -134,14 +140,14 @@ class CommunityPost extends Component {
 			_button = <Control onChangeMode={function (_mode) {
 				//delete
 				if (_mode === 'delete') {
-					if (window.confirm('really?')) {
+					if (window.confirm('Are you sure to delete this post?')) {
 						console.log(this.state.selected_content_id);
 						this.setData(this.state.selected_content_id, '', '', '', 'delete');
 						this.setState({
 							mode: 'list',
 							selected_content_id: 0
 						});
-						alert('deleted!');
+						alert('Delete Success!');
 					}
 				}
 				else {
@@ -157,8 +163,8 @@ class CommunityPost extends Component {
 
 	createPost() {
 		let _post;
-		if (this.state.mode !== 'create') {
-			_post = <Button onClick={function (e) {
+		if (this.state.mode !== 'create' && this.state.mode !== 'update') {
+			_post = <Button variant="primary" onClick={function (e) {
 				e.preventDefault();
 				this.setState({ mode: 'create' })
 			}.bind(this)} type="button">Add New Post</Button>
@@ -180,7 +186,7 @@ class CommunityPost extends Component {
 
 					}.bind(this)}
 				></Subject>
-
+				<br />
 				{this.getContent()}
 
 				{this.createController()}

@@ -3,8 +3,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import TableHeaderColumn from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
-
-
+import { Badge } from 'react-bootstrap';
 const { SearchBar } = Search;
 const format = require('date-format');
 
@@ -23,7 +22,6 @@ class TOC extends Component {
 
 	render() {
 
-		console.log('===>TOC render');
 		let lists = [];
 		let data = this.props.data;
 		let i = 0;
@@ -58,17 +56,26 @@ class TOC extends Component {
 				}
 			}
 		]
-
+		let nowDate = format.asString('MM-dd-yyyy', new Date());
 		while (i < data.length) {
-			let CreatedAt = data[i].createdAt;
+			let createdAt = data[i].createdAt;
 			let updatedAt = data[i].updatedAt;
 			let date;
-			console.log(updatedAt, ' ', CreatedAt)
-			// let nowDate = format.asString('MM-dd-yyyy', new Date());
-			if (CreatedAt === updatedAt) {
-				date = data[i].CreatedAt
+			let _createdDate = format.asString('MM-dd-yyyy', new Date(createdAt));
+			let _updatedDate = format.asString('MM-dd-yyyy', new Date(updatedAt));
+			let _createdAt = format.asString('hh:mm', new Date(createdAt));
+			let _updatedAt = format.asString('hh:mm', new Date(updatedAt));
+
+			if (_createdDate === nowDate && createdAt === updatedAt) {
+				date = _createdAt;
 			}
-			else date = data[i].updatedAt;
+			else if (_updatedDate === nowDate) {
+				date = _updatedAt + ' (Edited)';
+			}
+			else if (createdAt === updatedAt) {
+				date = _createdDate;
+			}
+			else date = _updatedDate + ' (Edited)';
 			let title = <a key={data[i].id}
 				href={"/contents/" + data[i].id}
 				data-id={data[i].id}// e.target.dataset.id 에 여기 넣은값이 들어가서추출가능
@@ -83,12 +90,10 @@ class TOC extends Component {
 
 		return (
 			<div className="Table">
-
 				<ToolkitProvider
 					keyField="id"
 					data={lists}
 					columns={columns}
-
 					search
 				>
 					{props => (
@@ -105,32 +110,11 @@ class TOC extends Component {
 								{...props.baseProps}
 								hover={true}
 								rowStyle={{ textAlign: 'center' }}
-
 							/>
 						</div>
-					)
-					}
+					)}
 				</ToolkitProvider>
 			</div>
-
-			// <Table striped bordered hover size="sm">
-			// 	<thead>
-			// 		<tr>
-			// 			<th>#</th>
-			// 			<th>Title</th>
-			// 			<th>Name</th>
-			// 			<th>Date</th>
-			// 		</tr>
-			// 	</thead>
-			// 	<tbody>
-			// 		{lists}
-			// 	</tbody>	
-			// </Table>
-			// <nav>
-			//   <ul>
-			// 	{lists}
-			//   </ul>
-			// </nav>
 		);
 	}
 }

@@ -11,4 +11,13 @@ html {
 	margin-top:5%;
 	width: 80%;
 	margin: 5% 5% 0 5%;
+
+}
+
+.updatedBlogList_updateImage{
+	margin-bottom: 3%;
+}
+
+.updateBlogList_submitButton{
+	margin-bottom: 3%;
 }

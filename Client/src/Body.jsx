@@ -29,7 +29,7 @@ const Body = (props) => {
 					<Route path="/community" component={Community}></Route>
 					<Route exact path="/login" component={LoginPage}></Route>
 					<Route exact path="/registration" component={Registration}></Route>
-					<Route exact path="/forgot" component={ForgotIDPassword}></Route>
+					<Route exact path="/forgot/:type" component={ForgotIDPassword}></Route>
 					<Route exact path="/myaccount" component={MyAccount}></Route>
 					<Route exact path="/bloglist" component={Blog}></Route>
 					<Route exact path="/blogcreate" component={CreateBlogList}></Route>

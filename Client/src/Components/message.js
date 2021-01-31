@@ -1,5 +1,5 @@
 
-//d_ -> duplication message, v_ -> validation message
+//d_ -> duplication message, v_ -> validation message e_ -> error message
 export const d_userMessage = 'A user with that user name already exists';
 export const d_emailMessage = 'A user with that email already exists';
 export const v_passwordMessage = 'Please choose a new password with at least 8 characters';
@@ -13,5 +13,8 @@ export const l_wrongUser = 'The User ID you’ve entered is incorrect.';
 export const user_update = 'Update Success!';
 export const delete_user = 'Thank you for using my website, See you again!';
 export const v_session_expired = 'Session is expired, Please login again';
+export const e_userID_notfound = 'The User ID you’ve entered does not match any account.';
+export const e_email_notfound = 'The Email you’ve entered does not match any account.';
+export const e_userID_email_notfound = 'The User ID and Email you’ve entered do not match any account.';
 
 

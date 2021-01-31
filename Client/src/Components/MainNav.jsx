@@ -62,7 +62,6 @@ function MainNav(props) {
 						<Nav.Link href="/home">Home</Nav.Link>
 						<Nav.Link href="/bloglist">Blog</Nav.Link>
 						<Nav.Link href="/resume">Resume</Nav.Link>
-						<Nav.Link disabled href="#">My Project</Nav.Link>
 						<Nav.Link href="/community">Community</Nav.Link>
 					</Nav>
 					{isLoggedIn ?

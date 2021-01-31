@@ -36,10 +36,6 @@ function LoginPage(props) {
 			const userID = e.target.login_userID.value;
 			const password = e.target.login_password.value;
 			dispatch(login(userID, password))
-				// .then(() => {
-				// 	console.log('isLogedIn: ', isLoggedIn)
-				// 	console.log('message: ', message)
-				// })
 				.catch(() => {
 					setLoading(false);
 				});
@@ -61,7 +57,7 @@ function LoginPage(props) {
 			setAlert(true);
 			setAlertMessage({
 				body: l_wrongPassword,
-				forgot: <Link to='/forgot'>Forgot ID or Password?</Link>
+				forgot: <Link to='/forgot/password'>Forgot ID or Password?</Link>
 			})
 		}
 		else if (message == USER_NOT_FOUND) {
@@ -69,7 +65,7 @@ function LoginPage(props) {
 			setAlert(true);
 			setAlertMessage({
 				body: l_wrongUser,
-				forgot: <Link href='/forgot'>Forgot ID or Password?</Link>
+				forgot: <Link to='/forgot/id'>Forgot ID or Password?</Link>
 			})
 		}
 	}, [message])

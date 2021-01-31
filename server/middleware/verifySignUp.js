@@ -42,7 +42,7 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
 };
 
 const verifySignUp = {
-	checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,
+	checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail
 };
 
 module.exports = verifySignUp;

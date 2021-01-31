@@ -12,8 +12,10 @@ const registration_user = require('./controllers/registrationController');
 const login = require('./controllers/loginController');
 const update_user = require('./controllers/userUpdateController');
 const userController = require('./controllers/userController');
+const find_id_email = require('./controllers/findIDEmailController')
 const verifySignUp = require("./middleware/verifySignUp");
 const authJwt = require("./middleware/authJwt");
+const verifyForgot = require("./middleware/verifyForgot");
 const port = process.env.PORT || 4000;
 const cors = require('cors');
 const Blogdata = require('./models');
@@ -32,11 +34,7 @@ Blogdata.sequelize.sync()
     process.exit();
   });
 
-
-
 app.use(cors());
-
-
 app.use(express.json())
 
 app.use('/communitypost/receivedata', receiveData);
@@ -51,6 +49,8 @@ app.use('/blog/comments', blogComments);
 app.use('/registration', verifySignUp.checkDuplicateUsernameOrEmail, registration_user);
 app.use('/login', login);
 app.use('/userupdate', authJwt.verifyToken, update_user);
+app.use('/find_id_password', verifyForgot.findUserIDEmail, find_id_email);
+
 
 app.get('/islogedin', authJwt.verifyToken, userController.loginValid);
 

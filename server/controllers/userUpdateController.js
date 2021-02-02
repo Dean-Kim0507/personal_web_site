@@ -177,18 +177,27 @@ router.post('/', async function (req, res) {
 								userID: userID
 							}
 						})
-							.then(() => {
-								fs.unlink(user.profile_img_path, function (err) {
-									if (err) throw err;
+							.then(async () => {
+								db.user_mywebsite_role_mywebsite.destroy({
+									where: {
+										userID: userID
+									}
 								})
-								return res.send({
-									message: DELETE_ACCOUNT_SUCCESS,
-								});
-							})
-							.catch((error) => {
-								return res.status(400).send({
-									message: error.message
-								});
+									.then(() => {
+										if (user.profile_img_path != null) {
+											fs.unlink(user.profile_img_path, function (err) {
+												if (err) throw err;
+											})
+										}
+										return res.send({
+											message: DELETE_ACCOUNT_SUCCESS,
+										});
+									})
+									.catch((error) => {
+										return res.status(400).send({
+											message: error.message
+										});
+									})
 							})
 					}
 					else {

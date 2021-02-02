@@ -80,7 +80,6 @@ const userUpdate = async (user_data, imgFile) => {
 		formData.append('password', user_data.password);
 		formData.append('type', user_data.type);
 	}
-	for (var pair of formData.entries()) { console.log(pair[0] + ', ' + pair[1]); }
 	return await axios.post("/userupdate", formData
 		, {
 			headers: authHeader()

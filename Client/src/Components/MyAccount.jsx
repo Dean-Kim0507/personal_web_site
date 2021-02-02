@@ -72,7 +72,7 @@ function MyAccount(props) {
 	let history = useHistory();
 	let _password;
 	let _confirm_password;
-
+	console.log('My Account: ', message);
 	useEffect(() => {
 		if (message == USER_UPDATE_SUCCESS) {
 			setShowResetPassword(true);

@@ -48,6 +48,10 @@ db.blogDataAdmin.hasMany(db.user_mywebsite, {
   foreignKey: "userID",
   sourceKey: 'userID'
 })
+db.user_mywebsite.hasMany(db.emailAuth, {
+  foreignKey: "userID",
+  sourceKey: 'userID'
+})
 
 db.user_mywebsite.belongsToMany(db.role_mywebsite, {
   through: "user_mywebsite_role_mywebsite",

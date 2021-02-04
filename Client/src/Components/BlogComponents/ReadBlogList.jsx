@@ -45,9 +45,11 @@ function ReadBlogList(props) {
 			setUpdatePath(`/blogupdate/${id}/${writer}`);
 			if (user != null) {
 				if (user.userID != userID) {
-					setShowEditButton(false)
+					setShowEditButton(false);
 				}
-				else setShowEditButton(true)
+				else {
+					setShowEditButton(true);
+				}
 			}
 			else {
 				setShowEditButton(false)
@@ -113,13 +115,15 @@ function ReadBlogList(props) {
           							</Button>
 							<Button variant="primary" href={`/bloglist/delete/${id}/${writer}`} key={id}>
 								Delete
-          							</Button>
+          					</Button>
 						</Modal.Footer>
 					</Modal>
 
-					<Button className="ReadBlogList_delete_button" variant="light" onClick={handleShow} key={id}>Delete</Button>
 					{showEditButton ?
-						<Button className="ReadBlogList_update_button" variant="light" href={updatePath} key={id}>Edit</Button>
+						<>
+							<Button className="ReadBlogList_update_button" variant="light" href={updatePath} key={id}>Edit</Button>
+							<Button className="ReadBlogList_delete_button" variant="light" onClick={handleShow} key={id}>Delete</Button>
+						</>
 						: null
 					}
 				</Card.Footer>

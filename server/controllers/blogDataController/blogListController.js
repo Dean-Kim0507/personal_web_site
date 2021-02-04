@@ -31,6 +31,7 @@ router.post('/', async function (req, res) {
 
       for (let i = 0; i < findAllResults.length; i++) {
         let userProfileimgPath = null;
+        let _userID;
         if (findAllResults[i].dataValues.userID != null) {
           await Blogdata.user_mywebsite.findOne({
             where: {
@@ -38,7 +39,11 @@ router.post('/', async function (req, res) {
             }
           })
             .then((user) => {
-              userProfileimgPath = user.profile_img_path;
+              if (user != null) {
+                userProfileimgPath = user.profile_img_path;
+                _userID = user.userID
+              }
+              else _userID = '(Deleted User)'
             })
         }
 
@@ -59,7 +64,7 @@ router.post('/', async function (req, res) {
         eachData.desc = String(findAllResults[i].dataValues.description);
         eachData.imagePaths = String(findAllResults[i].dataValues.imagespath);
         eachData.id = String(findAllResults[i].dataValues.blog_id);
-        eachData.userID = String(findAllResults[i].dataValues.userID);
+        eachData.userID = String(_userID);
         eachData.isLogedIn = Boolean(findAllResults[i].dataValues.isLogedIn);
         eachData.createdAt = String(findAllResults[i].dataValues.createdAt);
         eachData.updatedAt = String(findAllResults[i].dataValues.updatedAt);

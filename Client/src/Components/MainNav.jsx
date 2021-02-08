@@ -52,8 +52,8 @@ function MainNav(props) {
 					<Navbar.Brand href="/home">
 						<Image
 							src="./uploadImages/icon/dh_icon.gif"
-							width="60"
-							height="40"
+							width="80"
+							height="60"
 							className="d-inline-block align-top"
 						/>{' '}
 						{/* DEAN'S */}

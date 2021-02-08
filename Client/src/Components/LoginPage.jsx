@@ -12,15 +12,19 @@ function LoginPage(props) {
 	const [loading, setLoading] = useState(false);
 	const [alert, setAlert] = useState(false);
 	const [alertMessage, setAlertMessage] = useState(null);
+	const [password, setPassword] = useState(null);
 	const { isLoggedIn } = useSelector(state => state.auth);
 	const { message } = useSelector(state => state.message);
 	const [validated, setValidated] = useState(false);
+	const [userID, setUserID] = useState(null);
+
+
 	const dispatch = useDispatch();
 
 	// let _uploadResult;
 	// let history = useHistory();
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log(isLoggedIn)
 		setLoading(true);
@@ -33,17 +37,21 @@ function LoginPage(props) {
 			setValidated(true);
 		}
 		else {
-			const userID = e.target.login_userID.value;
-			const password = e.target.login_password.value;
+			// const userID = e.target.login_userID.value;
+			// const password = password;
 			dispatch(login(userID, password))
 				.catch(() => {
 					setLoading(false);
 				});
 		}
 
-		if (message == WRONG_PASSWORD || message == USER_NOT_FOUND) {
-
+		if (message == WRONG_PASSWORD) {
 			setLoading(false);
+			setPassword('');
+			setUserID('');
+		} else if (message == USER_NOT_FOUND) {
+			setUserID('');
+			setPassword('');
 		}
 	}
 
@@ -59,6 +67,8 @@ function LoginPage(props) {
 				body: l_wrongPassword,
 				forgot: <Link to='/forgot/password'>Forgot ID or Password?</Link>
 			})
+			setPassword('');
+			setUserID('');
 		}
 		else if (message == USER_NOT_FOUND) {
 			setLoading(false);
@@ -67,11 +77,23 @@ function LoginPage(props) {
 				body: l_wrongUser,
 				forgot: <Link to='/forgot/id'>Forgot ID or Password?</Link>
 			})
+			setPassword('');
+			setUserID('');
 		}
 	}, [message])
 	if (isLoggedIn) {
 		return <Redirect to="/home" />;
 	}
+
+	const onChangePassword = (e) => {
+		const _password = e.target.value;
+		setPassword(_password);
+	};
+
+	const onChangeUserID = (e) => {
+		const _userID = e.target.value;
+		setUserID(_userID);
+	};
 
 	return (
 		<div className="login_whole">
@@ -79,12 +101,24 @@ function LoginPage(props) {
 			<Form noValidate validated={validated} onSubmit={handleSubmit}>
 				<Form.Group >
 					<Form.Label>User ID</Form.Label>
-					<Form.Control name="login_userID" type="text" placeholder="Enter User ID" required />
+					<Form.Control
+						name="login_userID"
+						type="text"
+						placeholder="Enter User ID"
+						value={userID}
+						onChange={onChangeUserID}
+						required />
 				</Form.Group>
 
 				<Form.Group>
 					<Form.Label>Password</Form.Label>
-					<Form.Control name="login_password" type="password" placeholder="Password" required />
+					<Form.Control
+						name="login_password"
+						type="password"
+						placeholder="Password"
+						value={password}
+						onChange={onChangePassword}
+						required />
 				</Form.Group>
 				{alert &&
 					<Alert variant="danger" onClose={() => setAlert(false)} dismissible>

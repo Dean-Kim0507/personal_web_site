@@ -12,6 +12,7 @@ import LoginPage from './Components/LoginPage';
 import Registration from './Components/Registration';
 import ForgotIDPassword from './Components/ForgotIDPassword';
 import MyAccount from './Components/MyAccount';
+import ResetAccount from './Components/ResetAccount';
 // import Head from './Components/MainNav';
 // import Switch from 'react-bootstrap/esm/Switch';
 import NotFound from './PageNotfound';
@@ -33,6 +34,7 @@ const Body = (props) => {
 					<Route exact path="/myaccount" component={MyAccount}></Route>
 					<Route exact path="/bloglist" component={Blog}></Route>
 					<Route exact path="/blogcreate" component={CreateBlogList}></Route>
+					<Route exact path="/resetaccount/:token" component={ResetAccount}></Route>
 					<Route exact path="/blogupdate/:id/:author" component={UpdateBlogList}></Route>
 					<Route exact path="/bloglist/delete/:id/:author" component={DeleteBlogList}></Route>
 					<Route exact path="/errorpage/:errNum/:errPage/:errMessage" component={ErrorPage}></Route>

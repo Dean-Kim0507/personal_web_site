@@ -16,6 +16,7 @@ const find_id_email = require('./controllers/findIDEmailController')
 const verifySignUp = require("./middleware/verifySignUp");
 const authJwt = require("./middleware/authJwt");
 const verifyForgot = require("./middleware/verifyForgot");
+const reset_password = require('./controllers/resetPasswordController')
 const port = process.env.PORT || 4000;
 const cors = require('cors');
 const Blogdata = require('./models');
@@ -50,8 +51,7 @@ app.use('/registration', verifySignUp.checkDuplicateUsernameOrEmail, registratio
 app.use('/login', login);
 app.use('/userupdate', authJwt.verifyToken, update_user);
 app.use('/find_id_password', verifyForgot.findUserIDEmail, find_id_email);
-
-
+app.use('/reset_password', reset_password);
 app.get('/islogedin', authJwt.verifyToken, userController.loginValid);
 
 app.listen(port, function () {

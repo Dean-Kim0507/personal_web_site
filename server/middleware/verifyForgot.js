@@ -13,35 +13,19 @@ findUserIDEmail = (req, res, next) => {
 	if (req.body.type === FIND_PASSWORD) {
 		User.findOne({
 			where: {
-				userID: req.body.userID
+				userID: req.body.userID,
+				email: req.body.email
 			}
 		}).then(user => {
 			if (!user) {
+				email_err = true;
 				userID_err = true;
 			}
-			// Email
-			User.findOne({
-				where: {
-					email: req.body.email
-				}
-			}).then(user => {
-				if (!user) {
-					email_err = true;
-				}
-				if (userID_err && email_err) {
-					res.send({ message: NOT_FOUND_ID_EMAIL });
-					return;
-				}
-				else if (userID_err) {
-					res.send({ message: NOT_FOUND_ID });
-					return;
-				}
-				else if (email_err) {
-					res.send({ message: NOT_FOUND_EMAIL });
-					return;
-				}
-				next();
-			});
+			if (userID_err && email_err) {
+				res.send({ message: NOT_FOUND_ID_EMAIL });
+				return;
+			}
+			next();
 		});
 	}
 

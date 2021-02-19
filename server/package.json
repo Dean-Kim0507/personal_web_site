@@ -27,7 +27,7 @@
     "react-images-upload": "^1.2.8",
     "react-router": "^5.2.0",
     "save": "^2.4.0",
-    "sequelize": "^6.3.5",
+    "sequelize": "^6.5.0",
     "sequelize-cli": "^6.2.0"
   },
   "scripts": {

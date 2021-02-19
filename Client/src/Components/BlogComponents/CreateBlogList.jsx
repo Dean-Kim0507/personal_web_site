@@ -78,6 +78,7 @@ function CreateBlogList(props) {
 				.then(
 					response => {
 						_uploadResult = response.data.message;
+
 						if (_uploadResult === BLOG_CREATE_SUCCESS) history.push('/bloglist');
 						else history.push('/errorpage');
 					})

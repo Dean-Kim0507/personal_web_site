@@ -9,10 +9,13 @@ module.exports = (sequelize, DataTypes) => {
 			field: 'blog_id',
 			type: DataTypes.INTEGER,
 			allowNull: false,
+			foreignKey: true
 		},
 	}, {
 		freezeTableName: true,
 		timestamps: true,
-		tableName: 'blogcomments'
+		tableName: 'blogcomments',
+		charset: 'utf8mb4 ',
+		collate: 'utf8mb4_general_ci'
 	});
 };

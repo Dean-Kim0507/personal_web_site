@@ -25,8 +25,8 @@ router.post('/', async function (req, res) {
 			// 	greater: new Date.now() - ttl
 			// }
 		}
-	}).then((user) => {
-		console.log(user);
+	}).then((result) => {
+		console.log(result);
 	})
 	// .then((Auth) => { // 유저데이터 호출
 	// 	User.find(...)

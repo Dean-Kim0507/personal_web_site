@@ -16,7 +16,9 @@ module.exports = (sequelize, DataTypes) => {
 	}, {
 		freezeTableName: true,
 		timestamps: true,
-		tableName: 'role_mywebsite'
+		tableName: 'role_mywebsite',
+		charset: 'utf8mb4 ',
+		collate: 'utf8mb4_general_ci'
 	});
 
 

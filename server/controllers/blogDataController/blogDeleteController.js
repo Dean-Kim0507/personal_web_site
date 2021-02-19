@@ -21,8 +21,8 @@ const fs = require('fs');
 router.post('/', async function (req, res) {
 
 	let id = Number.parseInt(req.body.id);
-	let writer = req.body.writer;
-
+	// let writer = req.body.writer;
+	console.log('req.body: ', req.body)
 	await Blogdata.blogDataAdmin.findOne({
 		where: {
 			blog_id: id
@@ -71,7 +71,7 @@ router.post('/', async function (req, res) {
 		}
 	})
 		.then(result => {
-			console.log('Commenta Delete success');
+			console.log('Comment Delete success');
 			res.json('Delete success')
 		})
 

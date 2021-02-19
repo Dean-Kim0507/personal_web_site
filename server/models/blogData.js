@@ -5,8 +5,7 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			autoIncrement: true,
-			primaryKey: true,
-			foreignKey: true
+			primaryKey: true
 		},
 		writer: {
 			field: 'writer',
@@ -32,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
 			field: 'userID',
 			type: DataTypes.STRING,
 			allowNull: true,
+			foreignKey: true
 		},
 		isLogedIn: {
 			field: 'isLogedIn',
@@ -41,7 +41,9 @@ module.exports = (sequelize, DataTypes) => {
 	}, {
 		freezeTableName: true,
 		timestamps: true,
-		tableName: 'blogDataAdmin'
+		tableName: 'blogDataAdmin',
+		charset: 'utf8mb4 ',
+		collate: 'utf8mb4_general_ci'
 	});
 
 	// blogDataAdmin.associate = function (models) {

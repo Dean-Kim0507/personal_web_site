@@ -26,7 +26,9 @@ module.exports = (sequelize, DataTypes) => {
 	}, {
 		freezeTableName: true,
 		timestamps: true,
-		tableName: 'post_feedback'
+		tableName: 'post_feedback',
+		charset: 'utf8mb4 ',
+		collate: 'utf8mb4_general_ci'
 	});
 
 

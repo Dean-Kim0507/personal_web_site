@@ -44,7 +44,7 @@ function Register(props) {
 
 	const handleSubmit = (event) => {
 		const form = event.currentTarget;
-		if (form.checkValidity() === false) {
+		if (form.checkValidity() === false || userIdInvalid) {
 			event.preventDefault();
 			event.stopPropagation();
 			setValidated(true);
@@ -98,8 +98,9 @@ function Register(props) {
 	}
 
 	const onChangeUserID = (e) => {
+		const regExp = /^[A-Za-z0-9+]*$/;
 		_userID = e.target.value;
-		if (_userID === undefined || _userID.length < 8 || _userID.length > 20) {
+		if (_userID === undefined || _userID.length < 8 || _userID.length > 20 || !regExp.test(_userID)) {
 			setUserIdInvalid(true);
 			setUserIdFeedBack(v_idMessage);
 		}

@@ -36,7 +36,7 @@ const Body = (props) => {
 					<Route exact path="/blogcreate" component={CreateBlogList}></Route>
 					<Route exact path="/resetaccount/:token" component={ResetAccount}></Route>
 					<Route exact path="/blogupdate/:id/:author" component={UpdateBlogList}></Route>
-					<Route exact path="/bloglist/delete/:id/:author" component={DeleteBlogList}></Route>
+					<Route exact path="/bloglist/delete/:id" component={DeleteBlogList}></Route>
 					<Route exact path="/errorpage/:errNum/:errPage/:errMessage" component={ErrorPage}></Route>
 
 					<Route component={NotFound} />

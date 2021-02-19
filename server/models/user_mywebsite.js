@@ -34,7 +34,9 @@ module.exports = (sequelize, DataTypes) => {
 	}, {
 		freezeTableName: true,
 		timestamps: true,
-		tableName: 'user_mywebsite'
+		tableName: 'user_mywebsite',
+		charset: 'utf8mb4 ',
+		collate: 'utf8mb4_general_ci'
 	});
 
 	// blogDataAdmin.associate = function (models) {

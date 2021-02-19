@@ -16,21 +16,25 @@ const router = express.Router();
 const Blogdata = require('../../models');
 
 router.post('/', async function (req, res) {
-
+  console.log('blogCreatedController: ', req.body);
+  console.log('blogCreatedController: ', req.files);
   const writer = req.body.writer;
   const title = req.body.title;
   const desc = req.body.desc;
   const type = req.body.mode;
-  const userID = req.body.userID;
   const isLogedIn = req.body.isLogedIn;
   const BLOG_CREATE_SUCCESS = 'BLOG_CREATE_SUCCESS';
   let uploadedImages = req.files;
-  console.log(req.files);
+
   let imagesPath = [];
   let imgFile;
   let imgFileName;
+  let userID;
 
-  //create mode
+  if (req.body.userID === 'null') userID = null
+  else userID = req.body.userID;
+
+  // create mode
   if (type === 'create') {
     //if user upload images
     if (uploadedImages != undefined) {
@@ -92,6 +96,7 @@ router.post('/', async function (req, res) {
         res.json(err);
       });
   }
+
 });
 
 module.exports = router;

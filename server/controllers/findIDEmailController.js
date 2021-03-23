@@ -57,7 +57,7 @@ router.post('/', async function (req, res) {
 						text: 'This is the authentication code to find the password!', // 내용
 						html:
 							`<p>Please click the URL to reset password.<p>` +
-							`<a href='http://localhost:3000/resetaccount/${token}'>비밀번호 새로 입력하기</a>`,
+							`<a href='http://localhost:3000/resetaccount/${token}/${email}'>Reset Your Password</a>`,
 					};
 
 					transporter.sendMail(mailOptions, (error, info) => {

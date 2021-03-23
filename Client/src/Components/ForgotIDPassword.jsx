@@ -80,7 +80,7 @@ function ForgotIDPassword(props) {
 					setEmail('');
 				}
 				else if (res.data.message === SEND_EMAIL_SUCCESS) {
-					alert('Your ID has been sent to the email you entered.');
+					alert('Your ID or Reset Password has been sent to the email you entered.');
 					history.push('/login');
 				}
 				else if (res.data.message === SEND_EMAIL_FAIL) {

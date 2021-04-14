@@ -52,7 +52,7 @@ router.post('/', async function (req, res) {
 
 					const mailOptions = {
 						from: 'dean.kim.donghyun@gmail.com', // 발송 메일 주소 (위에서 작성한 gmail 계정 아이디)
-						to: 'poolup000@gmail.com', // 수신 메일 주소
+						to: user.email, // 수신 메일 주소
 						subject: 'Password search authentication code transmission', // 제목
 						text: 'This is the authentication code to find the password!', // 내용
 						html:

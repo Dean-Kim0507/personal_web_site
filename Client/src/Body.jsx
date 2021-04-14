@@ -16,6 +16,7 @@ import ResetAccount from './Components/ResetAccount';
 // import Head from './Components/MainNav';
 // import Switch from 'react-bootstrap/esm/Switch';
 import NotFound from './PageNotfound';
+import AdminPage from './Components/AdminPage';
 
 
 const Body = (props) => {
@@ -38,7 +39,7 @@ const Body = (props) => {
 					<Route exact path="/blogupdate/:id/:author" component={UpdateBlogList}></Route>
 					<Route exact path="/bloglist/delete/:id" component={DeleteBlogList}></Route>
 					<Route exact path="/errorpage/:errNum/:errPage/:errMessage" component={ErrorPage}></Route>
-
+					<Route exact path="/admin" component={AdminPage}></Route>
 					<Route component={NotFound} />
 				</Switch>
 			</Router>

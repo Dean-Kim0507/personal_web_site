@@ -19,5 +19,6 @@ export const e_userID_email_notfound = 'The User ID and Email you’ve entered d
 export const e_reset_password_token_expired = 'Token Expired';
 export const e_reset_password_token_notfound = 'Token Not Found';
 export const reset_password_success = 'Reset Password Success, Please login again';
+export const unauthorized_access = 'Unauthorized access, please login again';
 
 

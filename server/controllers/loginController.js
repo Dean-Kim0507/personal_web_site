@@ -34,17 +34,28 @@ router.post('/', async function (req, res) {
 					let token = jwt.sign({ id: user.userID }, config.secret, {
 						expiresIn: 60 * 60 * 24 // 24 hours
 					});
-					return res.send({
-						userID: user.userID,
-						firstName: user.firstName,
-						lastName: user.lastName,
-						email: user.email,
-						profileImg: user.profile_img_path,
-						createdAt: user.createdAt,
-						upatedAt: user.upatedAt,
-						message: LOGIN_SUCCESS,
-						accessToken: token
-					});
+
+					login_user.user_mywebsite_role_mywebsite.findOne({
+						where: {
+							userID: user.userID
+						}
+					})
+						.then(async role => {
+							console.log(role.roleID)
+							return res.send({
+								userID: user.userID,
+								firstName: user.firstName,
+								lastName: user.lastName,
+								email: user.email,
+								profileImg: user.profile_img_path,
+								createdAt: user.createdAt,
+								upatedAt: user.upatedAt,
+								message: LOGIN_SUCCESS,
+								accessToken: token,
+								role: role.roleID
+							});
+						})
+
 				}
 				else {
 					return res.status(400).send({

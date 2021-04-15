@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Community from './Components/Community';
+import Community from './Components/CommunityComponents/CommunityPost';
 import Resume from './Components/Resume';
 import Blog from './Components/BlogList';
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
@@ -26,9 +26,10 @@ const Body = (props) => {
 			<Router>
 				<Switch>
 					{/* <Route exact path="/" component={Head}></Route> */}
+					<Route exact path="/" component={Home}></Route>
 					<Route exact path="/home" component={Home}></Route>
 					<Route exact path="/resume" component={Resume}></Route>
-					<Route path="/community" component={Community}></Route>
+					<Route exact path="/community/:type" component={Community}></Route>
 					<Route exact path="/login" component={LoginPage}></Route>
 					<Route exact path="/registration" component={Registration}></Route>
 					<Route exact path="/forgot/:type" component={ForgotIDPassword}></Route>

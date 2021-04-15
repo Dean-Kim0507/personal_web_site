@@ -13,10 +13,10 @@ router.post('/', async (req, res) => {
 	const title = req.body.title;
 	const desc = req.body.desc;
 	const table = req.body.type;
-	const query2 = `SELECT id, writer, title, description, DATE_FORMAT(created, '%m-%d-%Y') AS 'date', DATE_FORMAT(created, '%H:%i') AS 'time' FROM ${table};`;
-	const CREATE_POST_SUCCESS = 'CREATE_POST_SUCCESS';
-	const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
-	let _query1, query1, param1;
+	// const query2 = `SELECT id, writer, title, description, DATE_FORMAT(created, '%m-%d-%Y') AS 'date', DATE_FORMAT(created, '%H:%i') AS 'time' FROM ${table};`;
+	// const CREATE_POST_SUCCESS = 'CREATE_POST_SUCCESS';
+	// const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
+	// let _query1, query1, param1;
 
 	console.log(req.body)
 	if (mode === 'create') {

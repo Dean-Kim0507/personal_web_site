@@ -19,7 +19,7 @@ const verifyForgot = require("./middleware/verifyForgot");
 const vefiryResetPasswordToken = require("./middleware/vefiryResetPasswordToken");
 const reset_password = require('./controllers/resetPasswordController');
 const adminPage = require('./controllers/adminPageController');
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4000; //if deploy use, process.env.PORT will be used
 const cors = require('cors');
 const Blogdata = require('./models');
 const fileUpload = require('express-fileupload');
@@ -54,7 +54,7 @@ app.use('/login', login);
 app.use('/userupdate', authJwt.verifyToken, update_user);
 app.use('/find_id_password', verifyForgot.findUserIDEmail, find_id_email);
 app.use('/reset_password', vefiryResetPasswordToken.verifyToken, reset_password);
-app.get('/islogedin', authJwt.verifyToken, userController.loginValid);
+app.get('/isloggedin', authJwt.verifyToken, userController.loginValid);
 app.use('/admin', authJwt.isAdmin, adminPage);
 app.listen(port, function () {
   console.log(`connected ${port} port!`);

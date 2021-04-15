@@ -6,8 +6,10 @@ import Control from "./Components/Control";
 import UpdateContent from "./Components/UpdateContent";
 import CreateContent from './Components/CreateContent';
 import axios from 'axios';
-import { Button } from 'react-bootstrap';
-import '../../css/CommunityPost.css'
+import { Button, Row, Col, Container } from 'react-bootstrap';
+import '../../css/Community.css'
+import CommunityNav from './CommunityNav';
+
 const format = require('date-format');
 
 // Use class
@@ -19,15 +21,14 @@ class CommunityPost extends Component {
 			mode: 'list',
 			selected_content_id: 0,
 			contents: [],
-			type: this.props.type,
+			type: props.match.params.type,
 			subject: "Community Post",
 			subtitle: "This is the area of OPEN POST! Please feel free to leave anything you want to share with us. Have a fun!"
 		}
-
 	}
 	// receive data by using fetch
 	componentDidMount() {
-		console.log('componentDidMount()');
+		console.log(this.props);
 
 		if (this.state.type === 'feedbackpost') {
 			this.setState({
@@ -40,8 +41,7 @@ class CommunityPost extends Component {
 			.then(response => {
 				this.setState(() => ({ contents: response.data.data }))
 				// console.log('data: ', response.data);
-			}
-			)
+			})
 	}
 
 	// receive data by using axios (don't need to convert)
@@ -178,21 +178,28 @@ class CommunityPost extends Component {
 
 		return (
 			<div className="CommunityPost">
-				<Subject
-					title={this.state.subject}
-					sub={this.state.subtitle}
-					onChangePage={function () {
-						this.setState({ mode: 'list' });
+				<Container fluid>
+					<Row>
+						<Col xs={2} id="sidebar-wrapper">
+							<CommunityNav />
+						</Col>
+						<Col xs={10} id="page-content-wrapper">
+							<Subject
+								title={this.state.subject}
+								sub={this.state.subtitle}
+								onChangePage={function () {
+									this.setState({ mode: 'list' });
+								}.bind(this)}
+							></Subject>
+							<br />
+							{this.getContent()}
 
-					}.bind(this)}
-				></Subject>
-				<br />
-				{this.getContent()}
+							{this.createController()}
 
-				{this.createController()}
-
-				{this.createPost()}
-
+							{this.createPost()}
+						</Col>
+					</Row>
+				</Container>
 			</div>
 		);
 	}

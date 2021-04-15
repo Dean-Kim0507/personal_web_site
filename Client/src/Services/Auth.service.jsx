@@ -102,7 +102,7 @@ const userUpdate = async (user_data, imgFile) => {
 }
 
 const loginValid = () => {
-	return axios.get("/islogedin", { headers: authHeader() })
+	return axios.get("/isloggedin", { headers: authHeader() })
 }
 
 export default {

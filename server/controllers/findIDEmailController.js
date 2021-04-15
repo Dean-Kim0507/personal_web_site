@@ -12,6 +12,7 @@ const router = express.Router();
 const db = require('../models');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const emainConfig = require('../config/emai.config')
 
 
 router.post('/', async function (req, res) {
@@ -42,16 +43,11 @@ router.post('/', async function (req, res) {
 						service: 'gmail',
 						port: 465,
 						secure: true, // true for 465, false for other ports
-						auth: {
-							// 이메일을 보낼 계정 데이터 입력
-							user: 'dean.kim.donghyun@gmail.com',
-							pass: '1Q2w3e4r!!@',
-							// .env에 따로 관리해야함
-						},
+						auth: emainConfig.emailInfo,
 					});
 
 					const mailOptions = {
-						from: 'dean.kim.donghyun@gmail.com', // 발송 메일 주소 (위에서 작성한 gmail 계정 아이디)
+						from: emainConfig.emailInfo.user, // 발송 메일 주소 (위에서 작성한 gmail 계정 아이디)
 						to: user.email, // 수신 메일 주소
 						subject: 'Password search authentication code transmission', // 제목
 						text: 'This is the authentication code to find the password!', // 내용
@@ -83,16 +79,11 @@ router.post('/', async function (req, res) {
 						service: 'gmail',
 						port: 465,
 						secure: true, // true for 465, false for other ports
-						auth: {
-							// 이메일을 보낼 계정 데이터 입력
-							user: 'dean.kim.donghyun@gmail.com',
-							pass: '1Q2w3e4r!!@',
-							// .env에 따로 관리해야함
-						},
+						auth: emainConfig.emailInfo
 					});
 
 					const mailOptions = {
-						from: 'dean.kim.donghyun@gmail.com', // 발송 메일 주소 (위에서 작성한 gmail 계정 아이디)
+						from: emainConfig.emailInfo.user, // 발송 메일 주소 (위에서 작성한 gmail 계정 아이디)
 						to: user.email, // 수신 메일 주소
 						subject: `Your User ID is...`, // 제목
 						text: 'This is your User ID', // 내용

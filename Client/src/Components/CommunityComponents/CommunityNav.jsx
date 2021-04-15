@@ -10,7 +10,7 @@ function CommunityNav(props) {
 			<Nav className="col-md-12 d-none d-md-block bg-light sidebar">
 				<div className="sidebar-sticky"></div>
 				<Nav.Item>
-					<Nav.Link href="/community">Community Post</Nav.Link>
+					<Nav.Link href="/community/communitypost">Community Post</Nav.Link>
 				</Nav.Item>
 				<Nav.Item>
 					<Nav.Link href="/community/feedbackpost">Feed Back</Nav.Link>

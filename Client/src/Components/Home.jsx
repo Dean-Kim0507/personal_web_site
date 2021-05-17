@@ -15,15 +15,15 @@ function Home(props) {
 	const { message } = useSelector(state => state.message);
 	const dispatch = useDispatch();
 	let history = useHistory();
-	useEffect(() => {
-		if (message == UNAUTHORIZED) {
-			dispatch({
-				type: SET_MESSAGE,
-				payload: null,
-			});
-			history.push('/login');
-		}
-	}, [message])
+	// useEffect(() => {
+	// 	if (message == UNAUTHORIZED) {
+	// 		dispatch({
+	// 			type: SET_MESSAGE,
+	// 			payload: null,
+	// 		});
+	// 		history.push('/login');
+	// 	}
+	// }, [message])
 
 	return (
 		<div className="container_home">

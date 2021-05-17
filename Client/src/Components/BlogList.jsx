@@ -52,15 +52,15 @@ function BlogList(props) {
 		else setAddBlogShow(true);
 	}
 
-	useEffect(() => {
-		if (message == UNAUTHORIZED) {
-			dispatch({
-				type: SET_MESSAGE,
-				payload: null,
-			});
-			history.push('/login');
-		}
-	}, [message])
+	// useEffect(() => {
+	// 	if (message == UNAUTHORIZED) {
+	// 		dispatch({
+	// 			type: SET_MESSAGE,
+	// 			payload: null,
+	// 		});
+	// 		history.push('/login');
+	// 	}
+	// }, [message])
 	// When user select the thumbnail, that function will be worked for retrieving the selected blog,
 	const handleShow = (data) => {
 		setShow(true);

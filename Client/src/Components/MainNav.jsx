@@ -36,10 +36,19 @@ function MainNav(props) {
 		else imagePath = basicProfileImgPath;
 	}
 
+	// useEffect(() => {
+	// 	if (message == UNAUTHORIZED) {
+	// 		dispatch({
+	// 			type: SET_MESSAGE,
+	// 			payload: null,
+	// 		});
+	// 		history.push('/login');
+	// 	}
+	// }, [message])
 	useEffect(() => {
 		if (isLoggedIn) {
 			dispatch(loginValid());
-			// history.push('/login');
+			history.push('/login');
 		}
 	}, [])
 	return (

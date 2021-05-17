@@ -68,7 +68,7 @@ function MyAccount(props) {
 
 	const dispatch = useDispatch();
 	let [profileImageURL, setProfileImageURL] = useState(null);
-	let imagePath = user.profileImg;
+	// let imagePath = user.profileImg;
 	let history = useHistory();
 	let _password;
 	let _confirm_password;
@@ -84,6 +84,7 @@ function MyAccount(props) {
 			});
 			setLoading(false);
 			alert(user_update);
+
 		}
 		else if (message == WRONG_PASSWORD) {
 			setLoading(false);
@@ -118,11 +119,13 @@ function MyAccount(props) {
 				payload: null,
 			});
 		}
-		else if (message == UNAUTHORIZED) {
-			dispatch(logout());
-			// history.push('/login');
-			alert(v_session_expired);
-		}
+		// else if (message == UNAUTHORIZED) {
+		// 	dispatch(logout());
+		// 	// history.push('/login');
+		// 	props.history.push('/login');
+		// 	alert(v_session_expired);
+
+		// }
 	})
 
 	useEffect(() => {

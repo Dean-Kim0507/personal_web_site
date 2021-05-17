@@ -39,15 +39,15 @@ function CreateBlogList(props) {
 	};
 	let history = useHistory();
 	let _uploadResult = '';
-	useEffect(() => {
-		if (message == UNAUTHORIZED) {
-			dispatch({
-				type: SET_MESSAGE,
-				payload: null,
-			});
-			history.push('/login');
-		}
-	}, [message])
+	// useEffect(() => {
+	// 	if (message == UNAUTHORIZED) {
+	// 		dispatch({
+	// 			type: SET_MESSAGE,
+	// 			payload: null,
+	// 		});
+	// 		history.push('/login');
+	// 	}
+	// }, [message])
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

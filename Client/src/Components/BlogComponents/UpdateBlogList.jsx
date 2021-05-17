@@ -45,15 +45,15 @@ function UpdateBlogList(props) {
 	let errNum;
 	let errPage;
 
-	useEffect(() => {
-		if (message == UNAUTHORIZED) {
-			dispatch({
-				type: SET_MESSAGE,
-				payload: null,
-			});
-			history.push('/login');
-		}
-	}, [message])
+	// useEffect(() => {
+	// 	if (message == UNAUTHORIZED) {
+	// 		dispatch({
+	// 			type: SET_MESSAGE,
+	// 			payload: null,
+	// 		});
+	// 		history.push('/login');
+	// 	}
+	// }, [message])
 
 
 	useEffect(() => {

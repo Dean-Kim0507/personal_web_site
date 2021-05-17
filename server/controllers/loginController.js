@@ -32,7 +32,7 @@ router.post('/', async function (req, res) {
 				if (result) {
 					//algorithm: (default) HS256 
 					let token = jwt.sign({ id: user.userID }, config.secret, {
-						expiresIn: 60 * 60 * 24 // 24 hours
+						expiresIn: 10  // 24 hours
 					});
 
 					login_user.user_mywebsite_role_mywebsite.findOne({

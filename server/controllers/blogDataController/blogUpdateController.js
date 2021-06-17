@@ -40,7 +40,7 @@ router.post('/', async function (req, res) {
 					imgFileName = imgFileName.replace(/,/g, '');
 				}
 				else imgFileName = imgFile.name;
-				imagesPath[i] = '../Client/public/uploadImages/blog/' + "blogImg" + Date.now() + imgFileName;
+				imagesPath[i] = './Client/public/uploadImages/blog/' + "blogImg" + Date.now() + imgFileName;
 				imgFile.mv(imagesPath[i]
 					, function (err) {
 						if (err) return res.status(500).send(err);
@@ -58,7 +58,7 @@ router.post('/', async function (req, res) {
 				imgFileName = imgFileName.replace(/,/g, '');
 			}
 			else imgFileName = imgFile.name;
-			imagesPath[0] = '../Client/public/uploadImages/blog/' + "blogImg" + Date.now() + imgFileName;
+			imagesPath[0] = './Client/public/uploadImages/blog/' + "blogImg" + Date.now() + imgFileName;
 
 			imgFile.mv(imagesPath[0])
 		}

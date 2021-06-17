@@ -112,10 +112,10 @@ function ReadBlogList(props) {
 						<Modal.Footer>
 							<Button variant="secondary" onClick={handleClose}>
 								Cancel
-          							</Button>
-							<Button variant="primary" href={`/bloglist/delete/${id}/${writer}`} key={id}>
+							</Button>
+							<Button variant="primary" href={`/bloglist/delete/${id}`} key={id}>
 								Delete
-          					</Button>
+							</Button>
 						</Modal.Footer>
 					</Modal>
 

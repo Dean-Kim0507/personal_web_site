@@ -22,7 +22,7 @@ import AdminPage from './Components/AdminPage';
 const Body = (props) => {
 
 	return (
-		<div>
+		<div style={{ margin: '15vh 0 0 0' }}>
 			<Router>
 				<Switch>
 					{/* <Route exact path="/" component={Head}></Route> */}

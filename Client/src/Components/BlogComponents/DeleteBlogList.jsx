@@ -13,6 +13,7 @@ function DeleteBlogList(props) {
 		id: props.match.params.id,
 		// writer: props.match.params.author
 	}
+
 	console.log('deleteBlogList')
 	useEffect(() => {
 		axios.post("/blog/delete", info)

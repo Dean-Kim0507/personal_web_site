@@ -60,9 +60,9 @@ function MainNav(props) {
 				<Navbar.Collapse id="mainNav">
 					<Navbar.Brand href="/home">
 						<Image
-							src="./uploadImages/icon/dh_icon.gif"
-							width="80"
-							height="60"
+							src="https://dean-website.s3.ca-central-1.amazonaws.com/icon/dean_name(biggerversion).png"
+							width="60"
+							height="70"
 							className="d-inline-block align-top"
 						/>{' '}
 						{/* DEAN'S */}
@@ -128,7 +128,7 @@ function MainNav(props) {
 							</Button>
 							: <Button variant="light" href="/login" onClick={logOut} >
 								Logout
-          				</Button>
+							</Button>
 						}
 					</Col>
 				</Modal.Body>

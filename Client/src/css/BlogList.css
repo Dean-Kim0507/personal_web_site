@@ -8,13 +8,13 @@ html {
 
 .blogList_addBlog_button {
 	margin-right : 3%;
-	margin-top: 30px;
+	margin-top: 8vh;
 	margin-bottom: 10px;
 	float:right;
 }
 
 .blogList_whole{
-	margin-top:3%;
+	margin-top:8vh;
 }
 .blogList_list {
 	margin-top:3%;

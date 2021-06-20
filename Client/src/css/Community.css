@@ -1,6 +1,6 @@
 .sidebar {
 	position: fixed;
-	top: 10px;
+	top: 5vh;
 	bottom: 0;
 	left: 0;
 	min-height: 100vh;
@@ -28,7 +28,7 @@
 }
 
 .CommunityPost {
-	margin-top:5%;
+	margin-top:15vh;
 }
 
 .CommunityPost{

@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "personal_web_site",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "react-typist": "^2.0.5"
+  },
   "devDependencies": {
     "concurrently": "^6.0.2",
     "nodemon": "^2.0.7"

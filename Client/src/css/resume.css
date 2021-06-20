@@ -1,9 +1,11 @@
 .resume {
-	padding:48px;
+	padding:2vw;
+	margin-top: 13vh;
 }
 
 .myPicture {
 	float:right;
-	width:130px;
-	top:0
+	width:7vw;
+	top:0;
+	border-radius: 5px;
 }

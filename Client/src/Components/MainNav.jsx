@@ -3,11 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { Navbar, Nav, Image, Modal, Button, Col, Spinner } from 'react-bootstrap';
 import { logout } from "../Actions/auth";
 import { useHistory } from "react-router-dom";
-import AuthService from "../Services/Auth.service";
-
-import {
-	v_session_expired
-} from "./message";
 import { loginValid } from "../Actions/auth";
 
 function MainNav(props) {
@@ -36,15 +31,6 @@ function MainNav(props) {
 		else imagePath = basicProfileImgPath;
 	}
 
-	// useEffect(() => {
-	// 	if (message == UNAUTHORIZED) {
-	// 		dispatch({
-	// 			type: SET_MESSAGE,
-	// 			payload: null,
-	// 		});
-	// 		history.push('/login');
-	// 	}
-	// }, [message])
 	useEffect(() => {
 		if (isLoggedIn) {
 			dispatch(loginValid());
@@ -61,8 +47,8 @@ function MainNav(props) {
 					<Navbar.Brand href="/home">
 						<Image
 							src="https://dean-website.s3.ca-central-1.amazonaws.com/icon/dean_name(biggerversion).png"
-							width="60"
-							height="70"
+							width="55"
+							height="75"
 							className="d-inline-block align-top"
 						/>{' '}
 						{/* DEAN'S */}

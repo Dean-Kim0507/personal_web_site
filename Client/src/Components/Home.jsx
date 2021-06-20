@@ -1,95 +1,219 @@
-import React, { Component, useState, useEffect } from 'react';
-import { Button, Image, Card, CardDeck, ListGroup, CardColumns } from 'react-bootstrap';
+import React, { Component } from 'react';
+import Typist from 'react-typist';
 import '../css/Home.css';
-import myPicutre from '../images/myPicture/HomeMyPicture.jpg';
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-	UNAUTHORIZED
-} from "./type";
-import {
-	SET_MESSAGE
-} from "../Actions/types";
-function Home(props) {
+import Configs from './configurations.json';
+import { GithubOutlined, LinkedinOutlined, InstagramOutlined } from '@ant-design/icons';
 
-	const { message } = useSelector(state => state.message);
-	const dispatch = useDispatch();
-	let history = useHistory();
-	// useEffect(() => {
-	// 	if (message == UNAUTHORIZED) {
-	// 		dispatch({
-	// 			type: SET_MESSAGE,
-	// 			payload: null,
-	// 		});
-	// 		history.push('/login');
-	// 	}
-	// }, [message])
+class Home extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			darkBackgroundModes: [
+				'day',
+				'terminal',
+				'torquoise',
+				'alizarin',
+				'amythyst',
+				'carrot',
+				'peterriver'
+			],
+			lightBackgroundModes: [
+				'night',
+				'lightred',
+				'lightpurple',
+				'lightgreen',
+				'lightblue',
+				'lightyellow'
+			],
+			backgroundType: Configs.backgroundType || 'plain',
+			appClass: Configs.plainBackgroundMode || 'daylight',
+			devIntro: Configs.devIntro || 'Lorem Ipsum',
+			devDesc:
+				Configs.devDesc ||
+				'Aute veniam ut deserunt cillum irure pariatur Lorem dolore anim nostrud quis veniam elit culpa.',
+			backgroundMode: 'default',
+			backgroundIndex: 0,
+			bgStyle: {},
+		};
+	}
 
-	return (
-		<div className="container_home">
-			<Card className="bg-dark text-black" text="dark">
-				<Card.Img src={myPicutre} alt="Home image" />
-				<Card.ImgOverlay>
-					<Card.Title><h1>Coming Soon</h1></Card.Title>
-					<Card.Text >
-						Developing..
-					</Card.Text>
-				</Card.ImgOverlay>
-			</Card>
-			<hr />
-			<Card className="text-center">
-				<Card.Header>My Skills</Card.Header>
-				<Card.Body>
-					<Card.Title>Software & Web Development</Card.Title>
-					<Card.Text>
-						<CardColumns>
-							<Card
-								bg='warning'
-								text='white'
-								style={{ width: '18rem' }}
-								className="mb-2"
-							>
-								<Card.Header>Development</Card.Header>
-								<Card.Body>
-									<Card.Title> Java,  Python </Card.Title>
-									<Card.Title> HTML, CSS </Card.Title>
-									<Card.Title> Java Script, NodeJS </Card.Title>
-									<Card.Title> Adobe XD</Card.Title>
-								</Card.Body>
-							</Card>
-							<Card
-								bg='danger'
-								text='white'
-								style={{ width: '18rem' }}
-								className="mb-2"
-							>
-								<Card.Header>Frame Work</Card.Header>
-								<Card.Body>
-									<Card.Title> ReactJS </Card.Title>
-									<Card.Title> NodeJs Express</Card.Title>
-								</Card.Body>
-							</Card>
-							<Card
-								bg='info'
-								text='white'
-								style={{ width: '18rem' }}
-								className="mb-2"
-							>
-								<Card.Header>Data Base</Card.Header>
-								<Card.Body>
-									<Card.Title> SQL PLUS </Card.Title>
-									<Card.Title> MY SQL </Card.Title>
-									<Card.Title> PL / SQL </Card.Title>
+	componentWillMount = () => {
+		if (this.checkIfPlainTypeEnabled()) {
+			return true;
+		} else if (this.checkIfGradientTypeEnabled()) {
+			this.setState({
+				appClass: 'gradient',
+				bgStyle: this.prepareGradientStyleSheets()
+			});
+		} else if (this.checkIfImageTypeEnabled()) {
+			this.setState({
+				appClass: 'full-bg-image',
+				bgStyle: this.prepareBackgroundImageStyle()
+			});
+		}
+	};
 
-								</Card.Body>
-							</Card>
-						</CardColumns>
-					</Card.Text>
-					<Button variant="primary" href='/resume'>My Resume</Button>
-				</Card.Body>
-			</Card>
-		</div>
-	);
+	checkIfNightModeEnabled = () => {
+		return (
+			this.state.backgroundType === 'plain' &&
+			this.state.appClass === 'nightlight'
+		);
+	};
+
+	checkIfDayModeEnabled = () => {
+		return (
+			this.state.backgroundType === 'plain' &&
+			this.state.appClass === 'daylight'
+		);
+	};
+
+	checkIfGradientTypeEnabled = () => {
+		return this.state.backgroundType === 'gradient';
+	};
+
+	checkIfPlainTypeEnabled = () => {
+		return this.state.backgroundType === 'plain';
+	};
+
+	checkIfImageTypeEnabled = () => {
+		return this.state.backgroundType === 'image';
+	};
+
+	prepareGradientStyleSheets = () => {
+		if (Configs.gradientColors) {
+			return {
+				background: 'linear-gradient(-45deg, ' + Configs.gradientColors + ')',
+				backgroundSize: '400% 400%'
+			};
+		} else {
+			return {
+				background:
+					'linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB)',
+				backgroundSize: '400% 400%'
+			};
+		}
+	};
+
+	prepareBackgroundImageStyle = () => {
+		if (Configs.backgroundImageUrl) {
+			return {
+				background:
+					'url("' +
+					Configs.backgroundImageUrl +
+					'") no-repeat center center fixed',
+				backgroundSize: 'cover'
+			};
+		} else {
+			return {
+				background:
+					'url("../ /images/sample-background.jpg") no-repeat center center fixed',
+				backgroundSize: 'cover'
+			};
+		}
+	};
+
+	getDefaultModeBasedOnBackgroundType = () => {
+		if (this.checkIfNightModeEnabled()) {
+			return this.state.lightBackgroundModes[0];
+		} else if (this.checkIfDayModeEnabled()) {
+			return this.state.darkBackgroundModes[0];
+		}
+	};
+
+	changeThemeMode = e => {
+		if (this.checkIfNightModeEnabled()) {
+			this.setState({
+				appClass: 'daylight',
+				backgroundIndex: 0,
+				backgroundMode: this.state.darkBackgroundModes[0]
+			});
+		} else if (this.checkIfDayModeEnabled()) {
+			this.setState({
+				appClass: 'nightlight',
+				backgroundIndex: 0,
+				backgroundMode: this.state.lightBackgroundModes[0]
+			});
+		}
+	};
+
+	changeBackgroundBasedonMode = () => {
+		if (
+			this.checkIfNightModeEnabled() &&
+			this.state.backgroundIndex < this.state.lightBackgroundModes.length - 1
+		) {
+			this.setState({
+				backgroundIndex: this.state.backgroundIndex + 1,
+				backgroundMode: this.state.lightBackgroundModes[
+					this.state.backgroundIndex + 1
+				]
+			});
+		} else if (
+			this.checkIfDayModeEnabled() &&
+			this.state.backgroundIndex < this.state.darkBackgroundModes.length - 1
+		) {
+			this.setState({
+				backgroundIndex: this.state.backgroundIndex + 1,
+				backgroundMode: this.state.darkBackgroundModes[
+					this.state.backgroundIndex + 1
+				]
+			});
+		} else {
+			this.setState({
+				backgroundIndex: 0,
+				backgroundMode: this.getDefaultModeBasedOnBackgroundType()
+			});
+		}
+	};
+
+	render() {
+		const {
+			appClass, bgStyle, backgroundMode, devIntro, devDesc
+		} = this.state;
+
+		return (
+			<div className={appClass} style={bgStyle}>
+				<div className="change-mode" onClick={this.changeThemeMode} >
+
+				</div>
+				<div
+					className={backgroundMode}
+					onClick={this.changeBackgroundBasedonMode}>
+					<main className="App-main">
+						<h1 className="intro">{devIntro}</h1>
+						<div className="tagline">
+							<Typist>{devDesc}</Typist>
+						</div>
+						<div className="icons-social">
+							<a
+								target="_blank"
+								rel="noopener noreferrer"
+								href={`https://www.linkedin.com/in/donghyunkimdean/`}
+							>
+								<LinkedinOutlined />
+								<i className={`fab fa-linkedin`} />
+							</a>
+							<a
+								target="_blank"
+								rel="noopener noreferrer"
+								href={`https://github.com/Dean-Kim0507`}
+							>
+								<GithubOutlined />
+								<i className={`fab fa-github`} />
+							</a>
+							<a
+								target="_blank"
+								rel="noopener noreferrer"
+								href={`https://www.instagram.com/mr_room9/`}
+							>
+								<InstagramOutlined />
+								<i className={`fab fa-instagram`} />
+							</a>
+						</div>
+					</main>
+				</div>
+			</div>
+		);
+	}
 }
 
 export default Home;

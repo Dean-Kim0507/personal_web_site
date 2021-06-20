@@ -31,7 +31,6 @@ router.post('/', async function (req, res) {
 			.then(async (user) => {
 				if (user) {
 					const token = crypto.randomBytes(20).toString('hex');
-					console.log(user.userID)
 					const data = {
 						token: token,
 						userID: user.userID,
@@ -53,7 +52,7 @@ router.post('/', async function (req, res) {
 						text: 'This is the authentication code to find the password!', // 내용
 						html:
 							`<p>Please click the URL to reset password.<p>` +
-							`<a href='http://localhost:3000/resetaccount/${token}/${email}'>Reset Your Password</a>`,
+							`<a href='${process.env.DOMAIN}${token}/${email}'>Reset Your Password</a>`,
 					};
 
 					transporter.sendMail(mailOptions, (error, info) => {
@@ -90,7 +89,7 @@ router.post('/', async function (req, res) {
 						html:
 							`<p>This is your User ID<p>` +
 							`<p>User ID: ${user.userID}<p>` +
-							`<a href='http://localhost:3000/login'>Go to Login Page</a>`,
+							`<a href='${process.env.DOMAIN}login'>Go to Login Page</a>`,
 					};
 
 					transporter.sendMail(mailOptions, (error, info) => {

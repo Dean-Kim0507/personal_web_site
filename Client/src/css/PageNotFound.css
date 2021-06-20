@@ -1,3 +1,4 @@
-div.notfound {
-	margin-top:50px;
+.notfound {
+	margin-top:25vh;
+	padding: 5vw;
 }

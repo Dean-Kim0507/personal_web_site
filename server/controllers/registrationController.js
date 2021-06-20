@@ -66,7 +66,6 @@ router.post('/', async function (req, res) {
 			})
 		})
 		.then(() => {
-			console.log('success')
 			res.json({ message: 'Registration success' });
 		})
 		.catch(err => {

@@ -70,7 +70,6 @@ function BlogList(props) {
 		splittedImagePaths = data.imagePaths.split(',');
 		for (let a = 0; a < splittedImagePaths.length; a++) {
 			splittedImagePaths[a] = splittedImagePaths[a].substring(16, splittedImagePaths[a].length);
-			console.log(splittedImagePaths[a]);
 		}
 		setImages(splittedImagePaths);
 	}
@@ -78,7 +77,6 @@ function BlogList(props) {
 	useEffect(() => {
 		axios.post("/blog/list")
 			.then(response => {
-				console.log(response.data);
 				//to show current blog at the first.
 				for (let i = response.data.length - 1; i >= 0; i--) {
 					let temp_data = {
@@ -110,7 +108,6 @@ function BlogList(props) {
 				setAllBlogs(temp_allBlogs);
 			})
 	}, []);
-	console.log(temp_allBlogs)
 	return (
 		<div className="blogList_whole">
 			<Button className="blogList_addBlog_button" variant="primary" onClick={handleAddBlogOpen}>Add Blog</Button>
@@ -139,7 +136,6 @@ function BlogList(props) {
 						allBlogs.map((data) => {
 							splittedImagePaths_preview = data.imagePaths.split(',');
 							splittedImagePaths_preview[0] = splittedImagePaths_preview[0].substring(16, splittedImagePaths_preview[0].length);
-							console.log(splittedImagePaths_preview[0])
 							if (splittedImagePaths_preview[0] === "") splittedImagePaths_preview[0] = "/uploadImages/No_Image.jpg";
 
 							return (

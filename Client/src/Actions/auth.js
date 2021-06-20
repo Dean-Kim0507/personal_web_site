@@ -60,7 +60,6 @@ export const login = (userID, password) => (dispatch) => {
 	return AuthService.login(userID, password)
 		.then(
 			(data) => {
-				console.log(data.profileImg)
 				dispatch({
 					type: LOGIN_SUCCESS,
 					payload: { user: data },

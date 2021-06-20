@@ -68,7 +68,6 @@ function BlogComments(props) {
 	useEffect(
 		() => {
 			if (commentMode != '') {
-				console.log(selectedId)
 				let comment =
 				{
 					id: selectedId,
@@ -76,7 +75,6 @@ function BlogComments(props) {
 					blog_id: blog_id,
 					commentMode: commentMode
 				}
-				console.log('useEffect', comment);
 				axios.post("/blog/comments", comment)
 					.then(response => {
 						raw_comments = response.data;
@@ -117,10 +115,11 @@ function BlogComments(props) {
 								{
 									(comments.length === 0) ? <small>No comment</small> :
 										<>
-											<Button variant="light" size="sm" onClick={() => handleShow(comments[0].id)} className="blogComments_deleteButton">Delete</Button>
 											<Accordion.Toggle as={Button} variant="link" eventKey="0">
 												<small onClick={changeSeeMode}>{seeMode}</small>
 											</Accordion.Toggle>
+											<Button style={{ position: 'absolute', right: '1vw' }}
+												variant="light" size="sm" onClick={() => handleShow(comments[0].id)} className="blogComments_deleteButton">Delete</Button>
 										</>
 								}
 							</Card.Header>
@@ -133,7 +132,8 @@ function BlogComments(props) {
 											return (
 												<ListGroup.Item key={data.id}>{data.blog_comment}
 													{
-														<Button variant="light" size="sm" onClick={() => handleShow(data.id)} className="blogComments_deleteButton">Delete</Button>
+														<Button style={{ position: 'absolute', right: '1vw' }}
+															variant="light" size="sm" onClick={() => handleShow(data.id)} className="blogComments_deleteButton">Delete</Button>
 													}
 												</ListGroup.Item>
 											)
@@ -149,10 +149,10 @@ function BlogComments(props) {
 								<Modal.Footer>
 									<Button variant="secondary" onClick={handleClose}>
 										Cancel
-          							</Button>
+									</Button>
 									<Button variant="primary" onClick={delete_comment}>
 										Delete
-          							</Button>
+									</Button>
 								</Modal.Footer>
 							</Modal>
 

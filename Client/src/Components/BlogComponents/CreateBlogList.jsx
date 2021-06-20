@@ -69,9 +69,8 @@ function CreateBlogList(props) {
 				formData.append('images', pictures[pictures.length - 1][i]);
 			}
 		}
-		console.log(pictures);
 		if (isLoggedIn) {
-			const res = await axios.post("/blog/create/logedin", formData
+			const res = axios.post("/blog/create/logedin", formData
 				, {
 					headers: authHeader()
 				})
@@ -88,7 +87,7 @@ function CreateBlogList(props) {
 				});
 		}
 		else {
-			const res = await axios.post("/blog/create", formData)
+			const res = axios.post("/blog/create", formData)
 				.then(
 					response => {
 						_uploadResult = response.data.message;
@@ -107,7 +106,7 @@ function CreateBlogList(props) {
 		<div className="createBlog">
 			<article>
 				<h2>SHARE YOUR AWESOME STORY !</h2>
-				<form action='' method="post" enctype="multipart/form-data"
+				<form action='' method="post" encType="multipart/form-data"
 					// send the images to Backend Node js express
 					onSubmit={handleSubmit}>
 					{isLoggedIn ?

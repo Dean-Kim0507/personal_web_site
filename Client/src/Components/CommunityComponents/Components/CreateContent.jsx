@@ -4,7 +4,6 @@ import { Button, FormGroup, Label, Input } from 'reactstrap';
 
 class CreateContent extends Component {
 	render() {
-		console.log('Create Content');
 		return (
 
 			<article>
@@ -19,16 +18,16 @@ class CreateContent extends Component {
 				}.bind(this)}>
 					<FormGroup>
 						<Label for="title">Name</Label>
-						<Input type="text" name="writer" placeholder="NAME" />
+						<Input type="text" name="writer" placeholder="NAME" required />
 					</FormGroup>
 					<FormGroup>
 						<Label for="writer">Title</Label>
-						<Input type="text" name="title" placeholder="TITLE" />
+						<Input type="text" name="title" placeholder="TITLE" required />
 
 					</FormGroup>
 					<FormGroup>
 						<Label for="desc">Text Area</Label>
-						<Input type="textarea" name="desc" placeholder="TEXT" style={{ height: '200px' }} />
+						<Input type="textarea" name="desc" placeholder="TEXT" style={{ height: '200px' }} required />
 					</FormGroup>
 
 					{/* <p>

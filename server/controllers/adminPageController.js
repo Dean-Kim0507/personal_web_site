@@ -21,9 +21,7 @@ router.post('/', async function (req, res) {
 	const DELETE_USER_ADMIN = 'DELETE_USER_ADMIN';
 	const GET_ALL_USERS_ADMIN = 'GET_ALL_USERS_ADMIN';
 	let passwordIsValid;
-	// console.log('res: ', req.body.role)
 	const type = req.body.type;
-	console.log(type);
 
 	if (type == DELETE_USER_ADMIN) {
 		const user = req.body.user_info;
@@ -57,7 +55,6 @@ router.post('/', async function (req, res) {
 				return res.send({ message: USER_NOT_FOUND });
 			}
 			if (users) {
-				console.log(users[0].role_mywebsites[0].roleID);
 				return res.send({
 					message: GET_USERS_SUCCESS,
 					users: users

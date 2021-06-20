@@ -13,13 +13,10 @@ function DeleteBlogList(props) {
 		id: props.match.params.id,
 		// writer: props.match.params.author
 	}
-
-	console.log('deleteBlogList')
 	useEffect(() => {
 		axios.post("/blog/delete", info)
 			.then(response => {
 				_uploadResult = response.data;
-				console.log('_uploadResult = ', response.data);
 				if (_uploadResult === 'Delete success') history.push('/bloglist');
 				else {
 					console.log(response.data.original.errno)

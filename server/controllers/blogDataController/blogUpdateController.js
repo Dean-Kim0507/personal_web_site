@@ -26,7 +26,6 @@ router.post('/', async function (req, res) {
 	let imagesPath = [];
 	let imgFile;
 	let imgFileName;
-	console.log(uploadedImages)
 	//if user upload images
 	if (type === 'update_images') {
 

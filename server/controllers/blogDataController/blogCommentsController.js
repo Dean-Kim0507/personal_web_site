@@ -20,14 +20,12 @@ router.post('/', async function (req, res) {
 	let blog_id = Number.parseInt(req.body.blog_id);
 	let mode = req.body.commentMode;
 	let comment = req.body.body;
-	console.log(mode);
 	if (mode === 'create') {
 		await Blogdata.blogcomments.create({
 			blog_id: blog_id,
 			blog_comment: comment
 		})
 			.then(result => {
-				// console.log(result);
 				console.log('Upload success');
 			})
 			.catch(err => {

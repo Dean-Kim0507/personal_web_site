@@ -18,7 +18,6 @@ router.post('/', async (req, res) => {
 	// const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
 	// let _query1, query1, param1;
 
-	console.log(req.body)
 	if (mode === 'create') {
 
 		if (table === 'communitypost') {
@@ -104,26 +103,11 @@ router.post('/', async (req, res) => {
 	else {
 		db.post_feedback.findAll()
 			.then((data) => {
-				console.log(data)
 				res.json({
 					data: data,
 				});
 			})
 	}
-	// _query1 = "DELETE FROM " + table + " WHERE id=?;";
-	// param1 = id;
-	// query1 = mysql.format(_query1, param1);
-
-
-
-	// connection.query(query1 + query2, (err, rows, fields) => {
-	// 	console.log(rows);
-	// 	if (err) throw err;
-
-	// 	res.send({ rows });
-	// });
-
-	// if(err) throw err;
 });
 
 

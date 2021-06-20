@@ -155,8 +155,6 @@ function UpdateBlogList(props) {
 				{
 					retrievedData &&
 					<>
-						{console.log('return: ' + retrievedData.title)}
-						{console.log('return: ' + temp_data)}
 						{isLogedIn ?
 							<FormGroup>
 								<Image src={user.profileImg}
@@ -188,7 +186,7 @@ function UpdateBlogList(props) {
 					imgButton ?
 						<Button variant="secondary" onClick={showImgUploader} size="md" block className="updatedBlogList_updateImage">
 							Update Image
-  					</Button>
+						</Button>
 						: null
 				}
 				{

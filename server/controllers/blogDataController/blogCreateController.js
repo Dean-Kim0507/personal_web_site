@@ -16,8 +16,6 @@ const router = express.Router();
 const Blogdata = require('../../models');
 
 router.post('/', async function (req, res) {
-  console.log('blogCreatedController: ', req.body);
-  console.log('blogCreatedController: ', req.files);
   const writer = req.body.writer;
   const title = req.body.title;
   const desc = req.body.desc;

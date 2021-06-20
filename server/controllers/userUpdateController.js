@@ -35,7 +35,6 @@ router.post('/', async function (req, res) {
 	const DELETE_ACCOUNT = 'DELETE_ACCOUNT';
 	const DELETE_ACCOUNT_SUCCESS = 'DELETE_ACCOUNT_SUCCESS';
 	const USER_DELETE_WRONG_PASSWORD = 'USER_DELETE_WRONG_PASSWORD';
-	console.log(req.body);
 	let profileImgName;
 	const saltRounds = 10;
 	let password;
@@ -49,10 +48,8 @@ router.post('/', async function (req, res) {
 				imagePath = user.profile_img_path;
 			})
 			.catch(err => {
-				console.log(err)
 				res.status(500).json({ message: err.message });
 			});
-		console.log(profileImg)
 		if (profileImg != null) {
 			if (imagePath != null) {
 				fs.unlink(imagePath, function (err) {
@@ -98,12 +95,10 @@ router.post('/', async function (req, res) {
 						});
 					})
 					.catch(err => {
-						console.log(err)
 						res.status(500).json({ message: err.message });
 					});
 			})
 			.catch(err => {
-				console.log(err)
 				res.status(500).json({ message: err.message });
 			});
 	}

@@ -12,7 +12,6 @@ router.post('/', async (req, res) => {
 	if (table === 'communitypost') {
 		await db.post_community.findAll()
 			.then((data) => {
-				console.log(data)
 				res.json({
 					data: data,
 					message: CREATE_POST_SUCCESS
@@ -21,18 +20,12 @@ router.post('/', async (req, res) => {
 	}
 	else await db.post_feedback.findAll()
 		.then((data) => {
-			console.log(data)
 			res.json({
 				data: data,
 				message: CREATE_POST_SUCCESS
 			});
 		})
 
-	// connection.query(`SELECT id, writer, title, description, DATE_FORMAT(created, '%m-%d-%Y') AS 'date', DATE_FORMAT(created, '%H:%i') AS 'time' FROM ${table};`, (err, rows) => {
-	// 	if(err) throw err;	
-	// 	res.send({rows});
-	// 	// console.log(res.send({rows}));
-	// });
 });
 
 module.exports = router;

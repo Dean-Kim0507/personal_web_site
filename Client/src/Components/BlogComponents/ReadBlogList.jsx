@@ -121,8 +121,12 @@ function ReadBlogList(props) {
 
 					{showEditButton ?
 						<>
-							<Button className="ReadBlogList_update_button" variant="light" href={updatePath} key={id}>Edit</Button>
-							<Button className="ReadBlogList_delete_button" variant="light" onClick={handleShow} key={id}>Delete</Button>
+							<Button className="ReadBlogList_update_button"
+								style={{ margin: '1vh 1vh 0 0' }}
+								variant="light" href={updatePath} key={id}>Edit</Button>
+							<Button
+								style={{ margin: '1vh 1vh 0 0' }}
+								className="ReadBlogList_delete_button" variant="light" onClick={handleShow} key={id}>Delete</Button>
 						</>
 						: null
 					}

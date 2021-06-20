@@ -21,9 +21,7 @@ const fs = require('fs');
 router.post('/', async function (req, res) {
 
 	let id = Number.parseInt(req.body.id);
-	console.log('id: ', id)
 	// let writer = req.body.writer;
-	console.log('req.body: ', req.body)
 	await Blogdata.blogDataAdmin.findOne({
 		where: {
 			blog_id: id

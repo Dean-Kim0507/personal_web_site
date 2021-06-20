@@ -72,7 +72,6 @@ function MyAccount(props) {
 	let history = useHistory();
 	let _password;
 	let _confirm_password;
-	console.log('My Account: ', message);
 	useEffect(() => {
 		if (message == USER_UPDATE_SUCCESS) {
 			setShowResetPassword(true);
@@ -134,7 +133,6 @@ function MyAccount(props) {
 		}
 	}, [pictures])
 
-	console.log(message)
 	if (!isLoggedIn) {
 		return <Redirect to="/login" />;
 	}
@@ -177,7 +175,6 @@ function MyAccount(props) {
 			setEmail(user.email);
 			setProfileImageURL(null);
 		}
-		console.log(message)
 	}
 
 	const onChangeFirstName = (e) => {
@@ -509,7 +506,7 @@ function MyAccount(props) {
 					<Form.Group>
 						<Form.Label >
 							Current Password
-    					</Form.Label>
+						</Form.Label>
 						<Form.Control type="password" placeholder="Current Password"
 							name="myAccount_resetPassword_currentPassword" />
 					</Form.Group>
@@ -568,7 +565,7 @@ function MyAccount(props) {
 						<Form.Group>
 							<Form.Label >
 								Password
-    					</Form.Label>
+							</Form.Label>
 							<Form.Control type="password" placeholder="Password"
 								name="myAccount_delete_account"
 								required />
@@ -584,14 +581,14 @@ function MyAccount(props) {
 					<Modal.Footer>
 						<Button variant="secondary" onClick={deleteUserClose}>
 							Close
-          				</Button>
+						</Button>
 						{loading ?
 							<Button variant="danger" type="submit">
 								<Spinner animation="border" size="sm" />
 							</Button>
 							: <Button variant="danger" type="submit">
 								DELETE ACCOUNT
-          						</Button>
+							</Button>
 						}
 
 					</Modal.Footer>

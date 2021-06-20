@@ -13,6 +13,7 @@
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "date-format": "^3.0.0",
+    "dotenv": "^10.0.0",
     "emailjs-com": "^2.6.4",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",

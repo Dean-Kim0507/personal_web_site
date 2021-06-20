@@ -4,7 +4,6 @@ import { Table } from 'reactstrap';
 
 class ReadContent extends Component {
 	render() {
-		console.log('ReadContent');
 		return (
 			<Table striped bordered>
 				<thead>

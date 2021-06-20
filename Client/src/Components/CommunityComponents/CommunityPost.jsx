@@ -28,7 +28,6 @@ class CommunityPost extends Component {
 	}
 	// receive data by using fetch
 	componentDidMount() {
-		console.log(this.props);
 
 		if (this.state.type === 'feedbackpost') {
 			this.setState({
@@ -40,13 +39,11 @@ class CommunityPost extends Component {
 		axios.post('/communitypost/senddata', { type: this.state.type })
 			.then(response => {
 				this.setState(() => ({ contents: response.data.data }))
-				// console.log('data: ', response.data);
 			})
 	}
 
 	// receive data by using axios (don't need to convert)
 	async setData(_id, _writer, _title, _desc, _mode) {
-		console.log('setData()');
 		let data = {
 			id: _id,
 			writer: _writer,
@@ -58,7 +55,6 @@ class CommunityPost extends Component {
 
 		await axios.post('/communitypost/receivedata', data)
 			.then(response => {
-				console.log(response.data)
 				this.setState(() => ({ contents: response.data.data }))
 			})
 			// {this.setState({contents: response.data.rows[1]})})
@@ -136,12 +132,10 @@ class CommunityPost extends Component {
 	createController() {
 		let _button;
 		if (this.state.mode === 'read') {
-			console.log('createController()');
 			_button = <Control onChangeMode={function (_mode) {
 				//delete
 				if (_mode === 'delete') {
 					if (window.confirm('Are you sure to delete this post?')) {
-						console.log(this.state.selected_content_id);
 						this.setData(this.state.selected_content_id, '', '', '', 'delete');
 						this.setState({
 							mode: 'list',

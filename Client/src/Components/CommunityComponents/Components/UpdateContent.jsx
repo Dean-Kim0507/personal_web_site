@@ -18,8 +18,6 @@ class UpdateContent extends Component {
 	}
 
 	render() {
-		console.log('Update Content Render');
-		console.log(this.props.data);
 		return (
 			<article>
 				<h2>Edit Post</h2>
@@ -35,18 +33,18 @@ class UpdateContent extends Component {
 					<FormGroup>
 						<Label for="title">Writer</Label>
 						<Input type="text" name="writer" placeholder="WRITER" value={this.state.writer}
-							onChange={this.inputFormHandler} />
+							onChange={this.inputFormHandler} required />
 					</FormGroup>
 					<FormGroup>
 						<Label for="writer">Title</Label>
 						<Input type="text" name="title" placeholder="TITLE" value={this.state.title}
-							onChange={this.inputFormHandler} />
+							onChange={this.inputFormHandler} required />
 
 					</FormGroup>
 					<FormGroup>
 						<Label for="desc">Text Area</Label>
 						<Input type="textarea" name="desc" placeholder="TEXT" onChange={this.inputFormHandler}
-							value={this.state.desc} style={{ height: '200px' }} />
+							value={this.state.desc} style={{ height: '200px' }} required />
 					</FormGroup>
 					<Button type="submit" color="primary">Update</Button>
 				</form>

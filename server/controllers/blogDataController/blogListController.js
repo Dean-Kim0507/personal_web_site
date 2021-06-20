@@ -75,16 +75,6 @@ router.post('/', async function (req, res) {
       // allData.push(datas);
     })
 
-    // Blogdata.blogcomments.findAll()
-
-    //   .then(results => {
-
-    //     allData.push(results);
-    //     console.log('results: ', results);
-    //     console.log('allData: ', allData);
-    //     res.send(allData);
-    //   })
-
     .then(err => {
       res.json(err);
     });

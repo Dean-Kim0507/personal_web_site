@@ -1,6 +1,7 @@
 {
   "name": "personal_web_site",
   "version": "1.0.0",
+  "author": "Dean(Donghyun) Kim",
   "description": "personal_web_site",
   "main": "index.js",
   "dependencies": {
@@ -20,7 +21,6 @@
     "type": "git",
     "url": "git+https://github.com/Dean-Kim0507/personal_web_site.git"
   },
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Dean-Kim0507/personal_web_site/issues"

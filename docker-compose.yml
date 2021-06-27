@@ -33,7 +33,7 @@ services:
   mysql:
     build: ./mysql
     restart: unless-stopped
-    container_name: app_mysql
+    container_name: myblog_mysql
     ports:
       - "3308:3306"
     volumes:

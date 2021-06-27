@@ -4,7 +4,7 @@ sudo: required
 services:
   - docker
 before_install:
-  - docker build -t deankim0507/myblog-test -f ./frontend/Dockerfile.dev ./frontend
+  - docker build -t deankim0507/myblog-test -f ./Client/Dockerfile.dev ./frontend
 
 script:
   - docker run -e CI=true deankim0507/react-test-app npm run test
@@ -20,7 +20,7 @@ after_success:
   - docker push deankim0507/myblog-backend
   - docker push deankim0507/myblog-nginx
   - echo "Test Success"
-  
+
 # deploy:
 #   provider: elasticbeanstalk
 #   region: "ca-central-1"

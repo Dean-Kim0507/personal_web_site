@@ -75,7 +75,7 @@ function BlogComments(props) {
 					blog_id: blog_id,
 					commentMode: commentMode
 				}
-				axios.post("/blog/comments", comment)
+				axios.post("/api/blog/comments", comment)
 					.then(response => {
 						raw_comments = response.data;
 					})

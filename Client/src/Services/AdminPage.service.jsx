@@ -15,7 +15,7 @@ const get_all_users = async (admin_info, type) => {
 		user_info: null,
 		type: type
 	}
-	return await axios.post("/admin", info);
+	return await axios.post("/api/admin", info);
 }
 
 const delete_usr = async (admin_info, user_info, type) => {
@@ -24,7 +24,7 @@ const delete_usr = async (admin_info, user_info, type) => {
 		user_info: user_info,
 		type: type
 	}
-	return await axios.post("/admin", info);
+	return await axios.post("/api/admin", info);
 }
 
 export default {

@@ -11,7 +11,6 @@ const express = require('express');
 const router = express.Router();
 const Register_user = require('../models');
 const bcrypt = require('bcrypt');
-const { user } = require('../mysql');
 
 router.post('/', async function (req, res) {
 	const userID = req.body.userID;

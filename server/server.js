@@ -37,26 +37,26 @@ Blogdata.sequelize.sync()
     console.log('✗ DB connection error. Please make sure DB is running.');
     process.exit();
   });
-
+console.log('**** dialect: ', process.env.MYSQL_DIALECT)
 app.use(cors());
 app.use(express.json())
 
-app.use('/communitypost/receivedata', receiveData);
-app.use('/communitypost/senddata', sendData);
-app.use('/blog/create', blogCreate);
-app.use('/blog/create/logedin', authJwt.verifyToken, blogCreate);
-app.use('/blog/list', blogList);
-app.use('/blog/retrieveblog', retrieveBlog);
-app.use('/blog/update', updateBlog);
-app.use('/blog/delete', deleteBlog);
-app.use('/blog/comments', blogComments);
-app.use('/registration', verifySignUp.checkDuplicateUsernameOrEmail, registration_user);
-app.use('/login', login);
-app.use('/userupdate', authJwt.verifyToken, update_user);
-app.use('/find_id_password', verifyForgot.findUserIDEmail, find_id_email);
-app.use('/reset_password', vefiryResetPasswordToken.verifyToken, reset_password);
-app.get('/isloggedin', authJwt.verifyToken, userController.loginValid);
-app.use('/admin', authJwt.isAdmin, adminPage);
+app.use('/api/communitypost/receivedata', receiveData);
+app.use('/api/communitypost/senddata', sendData);
+app.use('/api/blog/create', blogCreate);
+app.use('/api/blog/create/logedin', authJwt.verifyToken, blogCreate);
+app.use('/api/blog/list', blogList);
+app.use('/api/blog/retrieveblog', retrieveBlog);
+app.use('/api/blog/update', updateBlog);
+app.use('/api/blog/delete', deleteBlog);
+app.use('/api/blog/comments', blogComments);
+app.use('/api/registration', verifySignUp.checkDuplicateUsernameOrEmail, registration_user);
+app.use('/api/login', login);
+app.use('/api/userupdate', authJwt.verifyToken, update_user);
+app.use('/api/find_id_password', verifyForgot.findUserIDEmail, find_id_email);
+app.use('/api/reset_password', vefiryResetPasswordToken.verifyToken, reset_password);
+app.get('/api/isloggedin', authJwt.verifyToken, userController.loginValid);
+app.use('/api/admin', authJwt.isAdmin, adminPage);
 app.listen(port, function () {
   console.log(`connected ${port} port!`);
 });

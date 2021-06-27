@@ -27,7 +27,7 @@ const register = async (user_data, imgFile) => {
 	formData.append('email', user_data.email);
 	formData.append('imgFile', imgFile);
 	// for (var pair of formData.entries()) { console.log(pair[0] + ', ' + pair[1]); }
-	return await axios.post("/registration", formData
+	return await axios.post("/api/registration", formData
 		, {
 			headers: { 'Content-Type': 'multipart/form-data' }
 		}
@@ -40,7 +40,7 @@ const login = (userID, password) => {
 		userID: userID,
 		password: password
 	}
-	return axios.post("/login", login_Data)
+	return axios.post("/api/login", login_Data)
 		.then(async (response) => {
 			if (response.data.accessToken) {
 				//Setting up the image path 
@@ -80,7 +80,7 @@ const userUpdate = async (user_data, imgFile) => {
 		formData.append('password', user_data.password);
 		formData.append('type', user_data.type);
 	}
-	return await axios.post("/userupdate", formData
+	return await axios.post("/api/userupdate", formData
 		, {
 			headers: authHeader()
 		}
@@ -102,7 +102,7 @@ const userUpdate = async (user_data, imgFile) => {
 }
 
 const loginValid = () => {
-	return axios.get("/isloggedin", { headers: authHeader() })
+	return axios.get("/api/isloggedin", { headers: authHeader() })
 }
 
 export default {

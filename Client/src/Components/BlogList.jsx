@@ -75,7 +75,7 @@ function BlogList(props) {
 	}
 	//Integreate two object (blog information, blog comments)
 	useEffect(() => {
-		axios.post("/blog/list")
+		axios.post("/api/blog/list")
 			.then(response => {
 				//to show current blog at the first.
 				for (let i = response.data.length - 1; i >= 0; i--) {

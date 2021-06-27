@@ -14,7 +14,6 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../models');
-const { user } = require('../mysql');
 let jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
 const bcrypt = require('bcrypt');

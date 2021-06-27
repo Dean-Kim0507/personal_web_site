@@ -70,7 +70,7 @@ function CreateBlogList(props) {
 			}
 		}
 		if (isLoggedIn) {
-			const res = axios.post("/blog/create/logedin", formData
+			const res = axios.post("/api/blog/create/logedin", formData
 				, {
 					headers: authHeader()
 				})
@@ -87,7 +87,7 @@ function CreateBlogList(props) {
 				});
 		}
 		else {
-			const res = axios.post("/blog/create", formData)
+			const res = axios.post("/api/blog/create", formData)
 				.then(
 					response => {
 						_uploadResult = response.data.message;

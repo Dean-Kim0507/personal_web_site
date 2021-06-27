@@ -36,7 +36,7 @@ class CommunityPost extends Component {
 			})
 		}
 
-		axios.post('/communitypost/senddata', { type: this.state.type })
+		axios.post('/api/communitypost/senddata', { type: this.state.type })
 			.then(response => {
 				this.setState(() => ({ contents: response.data.data }))
 			})
@@ -53,7 +53,7 @@ class CommunityPost extends Component {
 			type: this.state.type
 		}
 
-		await axios.post('/communitypost/receivedata', data)
+		await axios.post('/api/communitypost/receivedata', data)
 			.then(response => {
 				this.setState(() => ({ contents: response.data.data }))
 			})

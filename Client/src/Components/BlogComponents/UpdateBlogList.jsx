@@ -57,7 +57,7 @@ function UpdateBlogList(props) {
 
 
 	useEffect(() => {
-		axios.post("/blog/retrieveblog", info)
+		axios.post("/api/blog/retrieveblog", info)
 			.then(response => {
 				temp_data = response.data;
 				if (temp_data.imagespath != null) {
@@ -115,7 +115,7 @@ function UpdateBlogList(props) {
 		else formData.append('mode', 'update_text');
 
 		console.log(formData);
-		await axios.post("/blog/update", formData)
+		await axios.post("/api/blog/update", formData)
 			.then(
 				response => {
 					console.log(response)

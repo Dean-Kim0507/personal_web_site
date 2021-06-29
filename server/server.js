@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 require('dotenv').config()
+const Blogdata = require('./models');
 const sendData = require('./controllers/CommunityPostController/sendData')
 const receiveData = require('./controllers/CommunityPostController/receiveData')
 const blogCreate = require('./controllers/blogDataController/blogCreateController');
@@ -20,24 +21,26 @@ const verifyForgot = require("./middleware/verifyForgot");
 const vefiryResetPasswordToken = require("./middleware/vefiryResetPasswordToken");
 const reset_password = require('./controllers/resetPasswordController');
 const adminPage = require('./controllers/adminPageController');
-const port = process.env.PORT || 4000; //if deploy use, process.env.PORT will be used
+const port = process.env.PORT || 5000; //if deploy use, process.env.PORT will be used
 const cors = require('cors');
-const Blogdata = require('./models');
 const fileUpload = require('express-fileupload');
+
 app.use(fileUpload());
 
 // default option to connect database by sequelize
-Blogdata.sequelize.sync()
-  .then(() => {
-    console.log('✓ DB connection success.');
-    console.log('  Press CTRL-C to stop\n');
-  })
-  .catch(err => {
-    console.error(err);
-    console.log('✗ DB connection error. Please make sure DB is running.');
-    process.exit();
-  });
-console.log('**** dialect: ', process.env.MYSQL_DIALECT)
+
+(async () => {
+  await Blogdata.sequelize.sync()
+    .then(() => {
+      console.log('✓ DB connection success.');
+      console.log('  Press CTRL-C to stop\n');
+    })
+    .catch(err => {
+      console.error(err);
+      console.log('✗ DB connection error. Please make sure DB is running.');
+      process.exit();
+    });
+})();
 app.use(cors());
 app.use(express.json())
 

@@ -1,29 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
 import { Table, Accordion, Card, Button } from 'react-bootstrap';
 import '../css/resume.css';
 import myPicutre from '../images/myPicture/myPicture.jpg';
-import {
-	UNAUTHORIZED
-} from "./type";
-import {
-	SET_MESSAGE
-} from "../Actions/types";
-function Resume() {
-	const { message } = useSelector(state => state.message);
-	const dispatch = useDispatch();
-	let history = useHistory();
-	// useEffect(() => {
-	// 	if (message == UNAUTHORIZED) {
-	// 		dispatch({
-	// 			type: SET_MESSAGE,
-	// 			payload: null,
-	// 		});
-	// 		history.push('/login');
-	// 	}
-	// }, [message])
 
+
+function Resume() {
 	return (
 		<div className='resume'>
 			<img className='myPicture' src={myPicutre} alt="myPicture" />

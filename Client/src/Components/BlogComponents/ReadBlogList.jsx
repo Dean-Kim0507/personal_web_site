@@ -14,7 +14,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Carousel, Image, Button, Modal } from 'react-bootstrap';
 import BlogComments from './BlogComments'
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function ReadBlogList(props) {
 	const id = props.id;
@@ -23,8 +23,7 @@ function ReadBlogList(props) {
 	const writer = props.writer;
 	const userID = props.userID;
 	const isLogedIn = props.isLogedIn;
-	const { isLoggedIn, user } = useSelector(state => state.auth);
-	const { message } = useSelector(state => state.message);
+	const { user } = useSelector(state => state.auth);
 	const [show, setShow] = useState(false);
 	const [showEditButton, setShowEditButton] = useState(true);
 	const [updatePath, setUpdatePath] = useState(null);
@@ -43,8 +42,8 @@ function ReadBlogList(props) {
 	useEffect(() => {
 		if (isLogedIn) {
 			setUpdatePath(`/blogupdate/${id}/${writer}`);
-			if (user != null) {
-				if (user.userID != userID) {
+			if (user !== null) {
+				if (user.userID !== userID) {
 					setShowEditButton(false);
 				}
 				else {
@@ -76,8 +75,8 @@ function ReadBlogList(props) {
 						imagePathArray.map((data) => {
 							ReadBlogList_keyValue = ReadBlogList_keyValue + 1;
 							// If user doesn't add any image, show the No_Image.jpg
-							if (imagePathArray[0] === "") {
-								image_path = "/uploadImages/No_Image.jpg"
+							if (imagePathArray[0] === "null") {
+								image_path = "https://dean-website.s3.ca-central-1.amazonaws.com/myblog/icons/No_Image.jpg"
 							}
 							else image_path = data;
 							return (

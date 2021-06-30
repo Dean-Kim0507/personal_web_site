@@ -9,29 +9,24 @@
  * (Retrieving from Database) Http: ReadBlogList (server) - > BlogList.js (Client)
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, FormGroup, Label, Input } from 'reactstrap';
 import { Image } from 'react-bootstrap';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import ImageUploader from "react-images-upload";
 import '../../css/CreateBlogList.css';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import authHeader from "../../Services/Auth.header";
 import {
-	UNAUTHORIZED,
 	BLOG_CREATE_SUCCESS
 } from "../type";
-import {
-	SET_MESSAGE
-} from "../../Actions/types";
+
 
 function CreateBlogList(props) {
 	const { isLoggedIn, user } = useSelector(state => state.auth);
-	const { message } = useSelector(state => state.message);
 	const [pictures, setPictures] = useState([]);
 	const formData = new FormData();
-	const dispatch = useDispatch();
 	const IMG_WIDTH = 45;
 	const IMG_LENGTH = 50;
 	const onDrop = picture => {
@@ -39,15 +34,6 @@ function CreateBlogList(props) {
 	};
 	let history = useHistory();
 	let _uploadResult = '';
-	// useEffect(() => {
-	// 	if (message == UNAUTHORIZED) {
-	// 		dispatch({
-	// 			type: SET_MESSAGE,
-	// 			payload: null,
-	// 		});
-	// 		history.push('/login');
-	// 	}
-	// }, [message])
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -70,9 +56,10 @@ function CreateBlogList(props) {
 			}
 		}
 		if (isLoggedIn) {
-			const res = axios.post("/api/blog/create/logedin", formData
+			await axios.post("/api/blog/create/logedin", formData
 				, {
-					headers: authHeader()
+					headers: authHeader(),
+					'content-type': 'multipart/fomr-data'
 				})
 				.then(
 					response => {
@@ -87,7 +74,10 @@ function CreateBlogList(props) {
 				});
 		}
 		else {
-			const res = axios.post("/api/blog/create", formData)
+			const config = {
+				headers: { 'content-type': 'multipart/fomr-data' }
+			}
+			await axios.post("/api/blog/create", formData, config)
 				.then(
 					response => {
 						_uploadResult = response.data.message;
@@ -96,6 +86,7 @@ function CreateBlogList(props) {
 					})
 				.catch(function (error) {
 					console.log(error);
+					alert("File Size is too big.")
 					history.push('/errorpage');
 				});
 		}

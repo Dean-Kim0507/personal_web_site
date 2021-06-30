@@ -56,7 +56,7 @@ function BlogComments(props) {
 	//Function to order by time
 	const commentReverse = (raw_comments) => {
 		let temp_response_data = [];
-		if (raw_comments.length != 0) {
+		if (raw_comments.length !== 0) {
 			for (let i = raw_comments.length - 1; i >= 0; i--) {
 				temp_response_data.push(raw_comments[i]);
 			}
@@ -67,7 +67,7 @@ function BlogComments(props) {
 	// useEffce wiil execute the time, commentMode changes
 	useEffect(
 		() => {
-			if (commentMode != '') {
+			if (commentMode !== '') {
 				let comment =
 				{
 					id: selectedId,

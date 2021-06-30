@@ -58,7 +58,8 @@ router.post('/', async function (req, res) {
 		profile_img_path: imagePath
 
 	})
-		.then(() => {
+		.then(res => {
+			console.log('**********: ', res.data);
 			Register_user.user_mywebsite_role_mywebsite.create({
 				userID: userID,
 				roleID: 2

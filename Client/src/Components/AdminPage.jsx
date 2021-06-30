@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Table, Image, Button } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
 import AdminPageService from '../Services/AdminPage.service'
@@ -18,7 +18,6 @@ function AdminPage(props) {
 
 	const { isLoggedIn, user } = useSelector(state => state.auth);
 	const [users, setUsers] = useState(null);
-	const [message, setMessage] = useState();
 	let history = useHistory();
 	let tableNum = 0;
 	let keyNumber = 0;
@@ -27,7 +26,7 @@ function AdminPage(props) {
 	const IMG_LENGTH = 50;
 
 	useEffect(() => {
-		if (!isLoggedIn || user.role != 1) {
+		if (!isLoggedIn || user.role !== 1) {
 			alert(unauthorized_access);
 			history.push('/home');
 		}

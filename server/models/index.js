@@ -7,22 +7,9 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js');
 const db = {};
-// const mysql = require('mysql2/promise');
-
 let sequelize;
 
-
 const { host, port, username, password, database } = config;
-// initialize();
-
-// async function initialize() {
-
-//   const connection = await mysql.createConnection({
-//     host: host,
-//     user: username,
-//     password: password
-//   });
-//   await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
 
 sequelize = new Sequelize(database, username, password, config);
 // }

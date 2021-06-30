@@ -4,21 +4,14 @@ import authHeader from "./Auth.header";
 import {
 	RESET_PASSWORD,
 	USER_UPDATE,
-	WRONG_PASSWORD,
 	USER_UPDATE_SUCCESS,
-	DELETE_ACCOUNT,
-	DELETE_ACCOUNT_SUCCESS,
-	UNAUTHORIZED
+	DELETE_ACCOUNT
 } from "../Components/type";
-import {
-	SET_MESSAGE
-} from "../Actions/types";
-import { useDispatch, useSelector } from "react-redux";
+
 let formData;
 
 //if registration success, return "Registration success"
 const register = async (user_data, imgFile) => {
-	console.log(user_data, imgFile)
 	formData = new FormData();
 	formData.append('userID', user_data.userID);
 	formData.append('password', user_data.password);
@@ -86,7 +79,7 @@ const userUpdate = async (user_data, imgFile) => {
 		}
 	)
 		.then(async (response) => {
-			if (response.data.message == USER_UPDATE_SUCCESS) {
+			if (response.data.message === USER_UPDATE_SUCCESS) {
 				if (response.data.accessToken) {
 					if (response.data.profileImg != null) {
 						response.data.profileImg = response.data.profileImg.substring(16, response.data.profileImg.length);

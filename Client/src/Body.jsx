@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Community from './Components/CommunityComponents/CommunityPost';
 import Resume from './Components/Resume';
 import Blog from './Components/BlogList';
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from './Components/Home';
 import CreateBlogList from './Components/BlogComponents/CreateBlogList';
 import UpdateBlogList from './Components/BlogComponents/UpdateBlogList';

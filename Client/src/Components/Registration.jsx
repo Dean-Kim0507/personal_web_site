@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form, Col, Figure } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -70,18 +70,18 @@ function Register(props) {
 		}
 		else {
 			// console.log(response.data);
-			if (message == 'userID, email duplication') {
+			if (message === 'userID, email duplication') {
 				setUserIdInvalid(true);
 				setUserIdFeedBack(d_userMessage);
 				setEmailInvalid(true);
 				setEmailFeedBack(d_emailMessage);
 			}
-			else if (message == 'userID duplication') {
+			else if (message === 'userID duplication') {
 				setUserIdInvalid(true);
 				setUserIdFeedBack(d_userMessage);
 				setEmailInvalid(false);
 			}
-			else if (message == 'email duplication') {
+			else if (message === 'email duplication') {
 				setEmailInvalid(true);
 				setEmailFeedBack(d_emailMessage);
 				setUserIdInvalid(false);
@@ -117,12 +117,12 @@ function Register(props) {
 			setPasswordInvalid(true);
 			setPassword(_password);
 		}
-		else if (confirmPassword != null && _password != confirmPassword) {
+		else if (confirmPassword !== null && _password !== confirmPassword) {
 			setPasswordInvalid(false);
 			setConfirmPassword_invalid(true);
 			setPassword(_password);
 		}
-		else if (confirmPassword != null && _password === confirmPassword) {
+		else if (confirmPassword !== null && _password === confirmPassword) {
 			setPasswordInvalid(false);
 			setConfirmPassword_invalid(false);
 			setPassword(_password);
@@ -130,7 +130,7 @@ function Register(props) {
 		else {
 			setPasswordInvalid(() => false);
 			setPassword(_password);
-			if (_password != confirmPassword) {
+			if (_password !== confirmPassword) {
 				setConfirmPassword_invalid(true);
 			}
 		}
@@ -143,7 +143,7 @@ function Register(props) {
 			setConfirmPassword_invalid(true);
 			setConfirmPassword(_confirm_password);
 		}
-		else if (password != null && _confirm_password != password) {
+		else if (password !== null && _confirm_password != password) {
 			setConfirmPassword_invalid(true);
 			setConfirmPassword(_confirm_password);
 		}

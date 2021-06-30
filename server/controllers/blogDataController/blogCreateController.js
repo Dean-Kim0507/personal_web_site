@@ -14,8 +14,9 @@
 const express = require('express');
 const router = express.Router();
 const Blogdata = require('../../models');
+const { upload, deleteImg } = require('../../middleware/multer')
 
-router.post('/', async function (req, res) {
+router.post('/', upload.array('images'), async function (req, res) {
   const writer = req.body.writer;
   const title = req.body.title;
   const desc = req.body.desc;
@@ -23,60 +24,22 @@ router.post('/', async function (req, res) {
   const isLogedIn = req.body.isLogedIn;
   const BLOG_CREATE_SUCCESS = 'BLOG_CREATE_SUCCESS';
   let uploadedImages = req.files;
-
-  let imagesPath = [];
-  let imgFile;
-  let imgFileName;
+  let stringImagesPath = "";
   let userID;
 
   if (req.body.userID === 'null') userID = null
   else userID = req.body.userID;
-
   // create mode
   if (type === 'create') {
-    //if user upload images
-    if (uploadedImages != undefined) {
-      // if file name has ,(that mark is to divide each file address) give a new name(random number)
-      if (Array.isArray(uploadedImages.images)) {
-        for (let i = 0; i < uploadedImages.images.length; i++) {
-          imgFile = uploadedImages.images[i];
-          if (imgFile.name.indexOf(',') != -1 || imgFile.name.indexOf(' ') != -1) {
-            imgFileName = imgFile.name;
-            imgFileName = imgFileName.replace(/ /g, '');
-            imgFileName = imgFileName.replace(/,/g, '');
-          }
-          else imgFileName = imgFile.name;
-          imagesPath[i] = './Client/public/uploadImages/blog/' + "blogImg" + Date.now() + imgFileName;
-          imgFile.mv(imagesPath[i]
-            , function (err) {
-              if (err) return res.status(500).send(err);
-            }
-          );
-        }
-      }
+    // if user upload images
 
-      //if user just upload a image
-      else {
-        imgFile = uploadedImages.images;
-        if (imgFile.name.indexOf(',') != -1 || imgFile.name.indexOf(' ')) {
-          imgFileName = imgFile.name;
-          imgFileName = imgFileName.replace(/ /g, '');
-          imgFileName = imgFileName.replace(/,/g, '');
-        }
-        else imgFileName = imgFile.name;
-        imagesPath[0] = './Client/public/uploadImages/blog/' + "blogImg" + Date.now() + imgFileName;
+    if (uploadedImages.length > 1) {
+      for (const [i, image] of uploadedImages.entries()) {
 
-        imgFile.mv(imagesPath[0])
+        if (i === uploadedImages.length - 1) stringImagesPath += image.location;
+        else stringImagesPath += image.location + ',';
       }
-
-      // generate multiple or just one image path
-      for (let a = 0; a < imagesPath.length; a++) {
-        if (imagesPath.length == 1) stringImagesPath = imagesPath[a];
-        else if (a == 0) stringImagesPath = imagesPath[a] + ',';
-        else if (a == imagesPath.length - 1) stringImagesPath += imagesPath[a];
-        else stringImagesPath += imagesPath[a] + ',';
-      }
-    }
+    } else if (uploadedImages.length === 1) stringImagesPath = req.files[0].location
     else stringImagesPath = null;
 
     await Blogdata.blogDataAdmin.create({

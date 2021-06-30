@@ -13,8 +13,8 @@
 const express = require('express');
 const router = express.Router();
 const Blogdata = require('../../models');
-
-router.post('/', async function (req, res) {
+const { upload, deleteImg } = require('../../middleware/multer')
+router.post('/', upload.array('images'), deleteImg, async function (req, res) {
 
 	let id = req.body.id;
 	let writer = req.body.writer;
@@ -26,49 +26,19 @@ router.post('/', async function (req, res) {
 	let imagesPath = [];
 	let imgFile;
 	let imgFileName;
+	let stringImagesPath = "";
 	//if user upload images
 	if (type === 'update_images') {
 
-		// if file name has ,(that mark is to divide each file address) give a new name(random number)
-		if (Array.isArray(uploadedImages.images)) {
-			for (let i = 0; i < uploadedImages.images.length; i++) {
-				imgFile = uploadedImages.images[i];
-				if (imgFile.name.indexOf(',') != -1 || imgFile.name.indexOf(' ')) {
-					imgFileName = imgFile.name;
-					imgFileName = imgFileName.replace(/ /g, '');
-					imgFileName = imgFileName.replace(/,/g, '');
-				}
-				else imgFileName = imgFile.name;
-				imagesPath[i] = './Client/public/uploadImages/blog/' + "blogImg" + Date.now() + imgFileName;
-				imgFile.mv(imagesPath[i]
-					, function (err) {
-						if (err) return res.status(500).send(err);
-					}
-				);
+		if (uploadedImages.length > 1) {
+			for (const [i, image] of uploadedImages.entries()) {
+
+				if (i === uploadedImages.length - 1) stringImagesPath += image.location;
+				else stringImagesPath += image.location + ',';
 			}
-		}
+		} else if (uploadedImages.length === 1) stringImagesPath = req.files[0].location
+		else stringImagesPath = null;
 
-		//if user just upload a image
-		else {
-			imgFile = uploadedImages.images;
-			if (imgFile.name.indexOf(',') != -1 || imgFile.name.indexOf(' ')) {
-				imgFileName = imgFile.name;
-				imgFileName = imgFileName.replace(/ /g, '');
-				imgFileName = imgFileName.replace(/,/g, '');
-			}
-			else imgFileName = imgFile.name;
-			imagesPath[0] = './Client/public/uploadImages/blog/' + "blogImg" + Date.now() + imgFileName;
-
-			imgFile.mv(imagesPath[0])
-		}
-
-		// generate multiple or just one image path
-		for (let a = 0; a < imagesPath.length; a++) {
-			if (imagesPath.length == 1) stringImagesPath = imagesPath[a];
-			else if (a == 0) stringImagesPath = imagesPath[a] + ',';
-			else if (a == imagesPath.length - 1) stringImagesPath += imagesPath[a];
-			else stringImagesPath += imagesPath[a] + ',';
-		}
 	}
 	else if (type === 'update_nonImages') stringImagesPath = null;
 

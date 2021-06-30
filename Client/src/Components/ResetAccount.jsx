@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Col, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import ForgotService from '../Services/Forgot.service';
 import '../css/ResetAccount.css';
 import {
@@ -81,7 +80,7 @@ function ResetAccount(props) {
 			setPasswordInvalid(true);
 			setPassword(_password);
 		}
-		else if (confirmPassword != null && _password != confirmPassword) {
+		else if (confirmPassword !== null && _password !== confirmPassword) {
 			setPasswordInvalid(false);
 			setConfirmPassword_invalid(true);
 			setPassword(_password);
@@ -94,7 +93,7 @@ function ResetAccount(props) {
 		else {
 			setPasswordInvalid(() => false);
 			setPassword(_password);
-			if (_password != confirmPassword) {
+			if (_password !== confirmPassword) {
 				setConfirmPassword_invalid(true);
 			}
 		}
@@ -107,11 +106,11 @@ function ResetAccount(props) {
 			setConfirmPassword_invalid(true);
 			setConfirmPassword(_confirm_password);
 		}
-		else if (password != null && _confirm_password != password) {
+		else if (password !== null && _confirm_password !== password) {
 			setConfirmPassword_invalid(true);
 			setConfirmPassword(_confirm_password);
 		}
-		else if (password != null && _confirm_password === password) {
+		else if (password !== null && _confirm_password === password) {
 			setConfirmPassword_invalid(false);
 			setConfirmPassword(_confirm_password);
 		}

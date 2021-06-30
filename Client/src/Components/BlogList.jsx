@@ -18,17 +18,10 @@ import axios from 'axios';
 import ReadBlogList from './BlogComponents/ReadBlogList';
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	UNAUTHORIZED
-} from "./type";
-import {
-	SET_MESSAGE
-} from "../Actions/types";
+
 const format = require('date-format');
 function BlogList(props) {
-	const { isLoggedIn, user } = useSelector(state => state.auth);
-	const { message } = useSelector(state => state.message);
-	const dispatch = useDispatch();
+	const { isLoggedIn } = useSelector(state => state.auth);
 	const [show, setShow] = useState(false);
 	const [data, setData] = useState(null);
 	const [images, setImages] = useState(null);
@@ -52,15 +45,6 @@ function BlogList(props) {
 		else setAddBlogShow(true);
 	}
 
-	// useEffect(() => {
-	// 	if (message == UNAUTHORIZED) {
-	// 		dispatch({
-	// 			type: SET_MESSAGE,
-	// 			payload: null,
-	// 		});
-	// 		history.push('/login');
-	// 	}
-	// }, [message])
 	// When user select the thumbnail, that function will be worked for retrieving the selected blog,
 	const handleShow = (data) => {
 		setShow(true);
@@ -68,9 +52,9 @@ function BlogList(props) {
 
 		//If over two images, it splits the images' paths
 		splittedImagePaths = data.imagePaths.split(',');
-		for (let a = 0; a < splittedImagePaths.length; a++) {
-			splittedImagePaths[a] = splittedImagePaths[a].substring(16, splittedImagePaths[a].length);
-		}
+		// for (let a = 0; a < splittedImagePaths.length; a++) {
+		// 	splittedImagePaths[a] = splittedImagePaths[a].substring(16, splittedImagePaths[a].length);
+		// }
 		setImages(splittedImagePaths);
 	}
 	//Integreate two object (blog information, blog comments)
@@ -101,7 +85,7 @@ function BlogList(props) {
 					temp_data.createdAt = response.data[i].createdAt;
 					temp_data.updatedAt = response.data[i].updatedAt;
 					if (response.data[i].userImg) {
-						temp_data.userImg = response.data[i].userImg.substring(16, response.data[i].userImg.length);
+						temp_data.userImg = response.data[i].userImg;
 					} else temp_data.userImg = basicProfileImgPath;
 					temp_allBlogs.push(temp_data);
 				}
@@ -135,8 +119,7 @@ function BlogList(props) {
 					{
 						allBlogs.map((data) => {
 							splittedImagePaths_preview = data.imagePaths.split(',');
-							splittedImagePaths_preview[0] = splittedImagePaths_preview[0].substring(16, splittedImagePaths_preview[0].length);
-							if (splittedImagePaths_preview[0] === "") splittedImagePaths_preview[0] = "/uploadImages/No_Image.jpg";
+							if (splittedImagePaths_preview[0] === "null") splittedImagePaths_preview[0] = "https://dean-website.s3.ca-central-1.amazonaws.com/myblog/icons/No_Image.jpg";
 
 							return (
 								splittedImagePaths_preview[0] &&

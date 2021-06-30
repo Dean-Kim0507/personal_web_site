@@ -17,6 +17,7 @@ const fileUpload = require('express-fileupload');
 router.use(fileUpload());
 const Blogdata = require('../../models');
 const fs = require('fs');
+const { upload, deleteImg } = require('../../middleware/multer')
 
 router.post('/', async function (req, res) {
 
@@ -30,19 +31,28 @@ router.post('/', async function (req, res) {
 		.then(data => {
 			let imagePath = data.imagespath;
 			splittedImagePaths = [];
-			if (imagePath != null) {
+			if (imagePath != 'null') {
 				if (imagePath.indexOf(',') != -1) {
 					splittedImagePaths = imagePath.split(',');
 					for (let a = 0; a < splittedImagePaths.length; a++) {
-						fs.unlink(splittedImagePaths[a], function (err) {
-							if (err) throw err;
-						})
+						req.body = {
+							delimg: splittedImagePaths[a],
+							mode: 'delete'
+						}
+
+						deleteImg(req)
+						// fs.unlink(splittedImagePaths[a], function (err) {
+						// 	if (err) throw err;
+						// })
 					}
 				}
 				else {
-					fs.unlink(imagePath, function (err) {
-						if (err) throw err;
-					})
+					req.body = {
+						delimg: imagePath,
+						mode: 'delete'
+					}
+
+					deleteImg(req)
 				}
 			}
 		})

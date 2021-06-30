@@ -1,12 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Rab, Row, Col, Nav, Tab, Form, Button, Alert, Spinner } from 'react-bootstrap';
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Nav, Tab, Form, Button, Alert, Spinner } from 'react-bootstrap';
+import { useSelector } from "react-redux";
 import { useHistory, Link } from 'react-router-dom';
 import ForgotService from '../Services/Forgot.service';
 import {
 	FIND_ID,
 	FIND_PASSWORD,
-	NOT_FOUND_ID,
 	NOT_FOUND_EMAIL,
 	NOT_FOUND_ID_EMAIL,
 	SEND_EMAIL_SUCCESS,
@@ -14,13 +13,12 @@ import {
 } from "./type";
 import {
 	e_email_notfound,
-	e_userID_notfound,
 	e_userID_email_notfound
 } from './message';
 import '../css/ForgotIDPassword.css'
 
 function ForgotIDPassword(props) {
-	const { isLoggedIn, user } = useSelector(state => state.auth);
+	const { isLoggedIn } = useSelector(state => state.auth);
 	const [type, setType] = useState(props.match.params.type);
 	const [alertMessage, setAlertMessage] = useState({ body: null, forgot: null });
 	const [showAlert, setAlert] = useState(false);
@@ -138,7 +136,7 @@ function ForgotIDPassword(props) {
 										<Form.Control value={FIND_ID} NAME="forgotIDPassword_type" hidden />
 										<Form.Text className="text-muted">
 											Type Email address you entered when you signed up.
-    									</Form.Text>
+										</Form.Text>
 										{showAlert ?
 											<Alert variant="danger" onClose={() => setAlert(false)} dismissible>
 												<p>
@@ -182,7 +180,7 @@ function ForgotIDPassword(props) {
 											required />
 										<Form.Text className="text-muted">
 											Type User ID you entered when you signed up.
-    									</Form.Text>
+										</Form.Text>
 										<br />
 										<Form.Label>Email address</Form.Label>
 										<Form.Control
@@ -194,7 +192,7 @@ function ForgotIDPassword(props) {
 											required />
 										<Form.Text className="text-muted">
 											Type Email address you entered when you signed up.
-    									</Form.Text>
+										</Form.Text>
 										<Form.Control value={FIND_PASSWORD} NAME="forgotIDPassword_type" hidden />
 										{showAlert ?
 											<Alert variant="danger" onClose={() => setAlert(false)} dismissible>

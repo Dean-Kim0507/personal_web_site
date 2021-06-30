@@ -71,7 +71,7 @@ function MainNav(props) {
 									<Nav.Link href="/myaccount">Hello, {user.firstName}<br />My Account</Nav.Link>
 								</Nav.Item>
 							</Nav>
-							{user.role == 1 ?
+							{user.role === 1 ?
 								<Nav>
 									<Nav.Item>
 										<Nav.Link href="/admin">Admin Page</Nav.Link>

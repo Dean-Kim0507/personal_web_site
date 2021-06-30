@@ -5,21 +5,13 @@ import { Image } from 'react-bootstrap';
 import ImageUploader from "react-images-upload";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	UNAUTHORIZED
-} from "../type";
-import {
-	SET_MESSAGE
-} from "../../Actions/types";
 import '../../css/UpdateBlogList.css';
 
 function UpdateBlogList(props) {
-	const { isLoggedIn, user } = useSelector(state => state.auth);
-	const { message } = useSelector(state => state.message);
+	const { user } = useSelector(state => state.auth);
 	const [pictures, setPictures] = useState([]);
 	const [imgUploader, setImgUploader] = useState(false);
 	const [imgButton, setImgButton] = useState(true);
-	const dispatch = useDispatch();
 	const onDrop = picture => {
 		setPictures([...pictures, picture]);
 	};
@@ -30,6 +22,7 @@ function UpdateBlogList(props) {
 	const [desc, setDesc] = useState(null);
 	const [userID, setUserID] = useState(null);
 	const [isLogedIn, setIsLogedIn] = useState(null);
+	const [imgPath, setImgPath] = useState(null);
 	const formData = new FormData();
 	const IMG_WIDTH = 45;
 	const IMG_LENGTH = 50;
@@ -45,28 +38,17 @@ function UpdateBlogList(props) {
 	let errNum;
 	let errPage;
 
-	// useEffect(() => {
-	// 	if (message == UNAUTHORIZED) {
-	// 		dispatch({
-	// 			type: SET_MESSAGE,
-	// 			payload: null,
-	// 		});
-	// 		history.push('/login');
-	// 	}
-	// }, [message])
-
-
 	useEffect(() => {
 		axios.post("/api/blog/retrieveblog", info)
 			.then(response => {
 				temp_data = response.data;
-				if (temp_data.imagespath != null) {
-					splittedImagePaths = temp_data.imagespath.split(',');
-					for (let a = 0; a < splittedImagePaths.length; a++) {
-						splittedImagePaths[a] = splittedImagePaths[a].substring(16, splittedImagePaths[a].length);
-					}
-					temp_data.imagespath = splittedImagePaths;
-				}
+				// if (temp_data.imagespath !== 'null') {
+				// 	splittedImagePaths = temp_data.imagespath.split(',');
+				// 	for (let a = 0; a < splittedImagePaths.length; a++) {
+				// 		splittedImagePaths[a] = splittedImagePaths[a].substring(16, splittedImagePaths[a].length);
+				// 	}
+				// 	temp_data.imagespath = splittedImagePaths;
+				// }
 				setRetrievedData(temp_data);
 				setWriter(temp_data.writer);
 				setId(temp_data.blog_id);
@@ -74,11 +56,12 @@ function UpdateBlogList(props) {
 				setTitle(temp_data.title);
 				setIsLogedIn(temp_data.isLogedIn);
 				setUserID(temp_data.userID);
+				setImgPath(temp_data.imagespath);
 			})
 			.then(() => {
 				if (isLogedIn) {
 					if (user != null) {
-						if (user.userID != userID) {
+						if (user.userID !== userID) {
 							history.push('/bloglist');
 						}
 					}
@@ -100,21 +83,24 @@ function UpdateBlogList(props) {
 		formData.append('writer', e.target.writer.value);
 		formData.append('title', e.target.title.value);
 		formData.append('desc', e.target.desc.value);
+
 		//The case, user update Image in blog
 		if (pictures.length > 0) {
 			for (let i = 0; i < pictures[pictures.length - 1].length; i++) {
 				formData.append('images', pictures[pictures.length - 1][i]);
 			}
 			formData.append('mode', 'update_images');
+			formData.append('delimg', imgPath);
 		}
 		//The case, user update without image
 		else if (pictures.length === 0 && imgUploader) {
 			formData.append('mode', 'update_nonImages');
+			formData.append('delimg', imgPath);
 		}
 		// The case, user just want to update text info
 		else formData.append('mode', 'update_text');
 
-		console.log(formData);
+
 		await axios.post("/api/blog/update", formData)
 			.then(
 				response => {

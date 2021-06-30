@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 import '../../css/Community.css';
 import { withRouter } from "react-router";
 
 function CommunityNav(props) {
-	var state = useState();
 	return (
 		<div>
 			<Nav className="col-md-12 d-none d-md-block bg-light sidebar">
@@ -19,5 +18,5 @@ function CommunityNav(props) {
 		</div>
 	);
 }
-const Sidebar = withRouter(CommunityNav);
+
 export default CommunityNav;

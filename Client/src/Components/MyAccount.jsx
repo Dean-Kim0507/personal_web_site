@@ -7,17 +7,13 @@ import '../css/MyAccount.css';
 import { userUpdate, logout } from "../Actions/auth";
 import { useHistory } from "react-router-dom";
 import {
-	d_userMessage,
-	d_emailMessage,
 	v_passwordMessage,
 	v_confirmPasswordMessage,
-	v_idMessage,
 	v_emailMessage,
 	v_fNMessage,
 	v_lNMessage,
 	user_update,
 	delete_user,
-	v_session_expired
 } from "./message";
 import {
 	RESET_PASSWORD,
@@ -28,7 +24,6 @@ import {
 	DELETE_ACCOUNT,
 	USER_DELETE_WRONG_PASSWORD,
 	DELETE_ACCOUNT_SUCCESS,
-	UNAUTHORIZED
 } from "./type";
 import {
 	SET_MESSAGE
@@ -60,7 +55,6 @@ function MyAccount(props) {
 	const [showDeleteUser, setShowDeleteUser] = useState(false);
 	const wrongPasswordMsg = 'Your password you entered is incorrect.';
 	const somethingWrongMsg = 'Something Wrong, Please try again';
-	const basicProfileImgPath = "./uploadImages/icon/img_user.jpg";
 	const resetPasswordImgPath = "/uploadImages/icon/reset_password.svg";
 	const deleteAccountImgPath = "/uploadImages/icon/remove_user.svg";
 	const blogImgPath = "/uploadImages/icon/blog.svg";
@@ -73,7 +67,7 @@ function MyAccount(props) {
 	let _password;
 	let _confirm_password;
 	useEffect(() => {
-		if (message == USER_UPDATE_SUCCESS) {
+		if (message === USER_UPDATE_SUCCESS) {
 			setShowResetPassword(true);
 			setShowAlert(false);
 			setUserEdit(false);
@@ -85,7 +79,7 @@ function MyAccount(props) {
 			alert(user_update);
 
 		}
-		else if (message == WRONG_PASSWORD) {
+		else if (message === WRONG_PASSWORD) {
 			setLoading(false);
 			setAlertMessage(wrongPasswordMsg)
 			setShowAlert(true);
@@ -94,7 +88,7 @@ function MyAccount(props) {
 				payload: null,
 			});
 		}
-		else if (message == USER_NOT_FOUND) {
+		else if (message === USER_NOT_FOUND) {
 			setLoading(false);
 			setAlertMessage(somethingWrongMsg)
 			setShowAlert(true);
@@ -103,13 +97,13 @@ function MyAccount(props) {
 				payload: null,
 			});
 		}
-		else if (message == DELETE_ACCOUNT_SUCCESS) {
+		else if (message === DELETE_ACCOUNT_SUCCESS) {
 			setLoading(false);
 			dispatch(logout());
 			alert(delete_user);
 			history.push('/home');
 		}
-		else if (message == USER_DELETE_WRONG_PASSWORD) {
+		else if (message === USER_DELETE_WRONG_PASSWORD) {
 			setLoading(false);
 			setAlertMessage(wrongPasswordMsg)
 			setShowDeleteAccountAlert(true);
@@ -118,13 +112,7 @@ function MyAccount(props) {
 				payload: null,
 			});
 		}
-		// else if (message == UNAUTHORIZED) {
-		// 	dispatch(logout());
-		// 	// history.push('/login');
-		// 	props.history.push('/login');
-		// 	alert(v_session_expired);
 
-		// }
 	})
 
 	useEffect(() => {
@@ -214,12 +202,12 @@ function MyAccount(props) {
 			setPasswordInvalid(true);
 			setPassword(_password);
 		}
-		else if (confirmPassword != null && _password != confirmPassword) {
+		else if (confirmPassword !== null && _password !== confirmPassword) {
 			setPasswordInvalid(false);
 			setConfirmPassword_invalid(true);
 			setPassword(_password);
 		}
-		else if (confirmPassword != null && _password === confirmPassword) {
+		else if (confirmPassword !== null && _password === confirmPassword) {
 			setPasswordInvalid(false);
 			setConfirmPassword_invalid(false);
 			setPassword(_password);
@@ -241,11 +229,11 @@ function MyAccount(props) {
 			setConfirmPassword_invalid(true);
 			setConfirmPassword(_confirm_password);
 		}
-		else if (password != null && _confirm_password != password) {
+		else if (password !== null && _confirm_password !== password) {
 			setConfirmPassword_invalid(true);
 			setConfirmPassword(_confirm_password);
 		}
-		else if (password != null && _confirm_password === password) {
+		else if (password !== null && _confirm_password === password) {
 			setConfirmPassword_invalid(false);
 			setConfirmPassword(_confirm_password);
 		}

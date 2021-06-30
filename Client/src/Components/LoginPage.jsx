@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Spinner, Alert } from 'react-bootstrap';
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';
 import { login } from "../Actions/auth";
@@ -26,7 +26,6 @@ function LoginPage(props) {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(isLoggedIn)
 		setLoading(true);
 
 		const form = e.currentTarget;
@@ -37,30 +36,28 @@ function LoginPage(props) {
 			setValidated(true);
 		}
 		else {
-			// const userID = e.target.login_userID.value;
-			// const password = password;
 			dispatch(login(userID, password))
 				.catch(() => {
 					setLoading(false);
 				});
 		}
 
-		if (message == WRONG_PASSWORD) {
+		if (message === WRONG_PASSWORD) {
 			setLoading(false);
 			setPassword('');
 			setUserID('');
-		} else if (message == USER_NOT_FOUND) {
+		} else if (message === USER_NOT_FOUND) {
 			setUserID('');
 			setPassword('');
 		}
 	}
 
 	useEffect(() => {
-		if (message == LOGIN_SUCCESS) {
+		if (message === LOGIN_SUCCESS) {
 			props.history.push("/home");
 			window.location.reload();
 		}
-		else if (message == WRONG_PASSWORD) {
+		else if (message === WRONG_PASSWORD) {
 			setLoading(false);
 			setAlert(true);
 			setAlertMessage({
@@ -70,7 +67,7 @@ function LoginPage(props) {
 			setPassword('');
 			setUserID('');
 		}
-		else if (message == USER_NOT_FOUND) {
+		else if (message === USER_NOT_FOUND) {
 			setLoading(false);
 			setAlert(true);
 			setAlertMessage({

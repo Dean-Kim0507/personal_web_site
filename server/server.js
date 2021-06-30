@@ -23,11 +23,9 @@ const reset_password = require('./controllers/resetPasswordController');
 const adminPage = require('./controllers/adminPageController');
 const port = process.env.PORT || 5000; //if deploy use, process.env.PORT will be used
 const cors = require('cors');
-const fileUpload = require('express-fileupload');
+// const fileUpload = require('express-fileupload');
 
-app.use(fileUpload());
-
-// default option to connect database by sequelize
+// app.use(fileUpload());
 
 (async () => {
   await Blogdata.sequelize.sync()

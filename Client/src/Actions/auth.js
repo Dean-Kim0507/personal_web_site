@@ -7,10 +7,6 @@ import {
 	SET_MESSAGE,
 	UPDATE_SUCCESS,
 	UPDATE_FAIL,
-	DELETE_ACCOUNT,
-	DELETE_ACCOUNT_SUCCESS,
-	UNAUTHORIZED,
-	NO_TOKEN_PROVIDED
 } from "./types";
 import {
 	v_session_expired

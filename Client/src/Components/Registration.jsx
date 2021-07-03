@@ -30,7 +30,7 @@ function Register(props) {
 	const [userIdInvalid, setUserIdInvalid] = useState();
 	const [emailInvalid, setEmailInvalid] = useState();
 	const [passwordInvalid, setPasswordInvalid] = useState();
-	const [pictures, setPictures] = useState(null);
+	// const [pictures, setPictures] = useState(null);
 	const dispatch = useDispatch();
 	const { message } = useSelector(state => state.message);
 	const IMG_WIDTH = 171;
@@ -58,7 +58,7 @@ function Register(props) {
 				lastName: lastName,
 				email: email
 			}
-			dispatch(register(user_data, pictures));
+			dispatch(register(user_data));
 		}
 	};
 
@@ -92,10 +92,10 @@ function Register(props) {
 		}
 	})
 
-	const uploadSingleFile = picture => {
-		setProfileImageURL(URL.createObjectURL(picture[0]));
-		setPictures(picture[0]);
-	}
+	// const uploadSingleFile = picture => {
+	// 	setProfileImageURL(URL.createObjectURL(picture[0]));
+	// 	setPictures(picture[0]);
+	// }
 
 	const onChangeUserID = (e) => {
 		const regExp = /^[A-Za-z0-9+]*$/;
@@ -285,7 +285,7 @@ function Register(props) {
 				}
 			</Figure>
 
-			<ImageUploader
+			{/* <ImageUploader
 				buttonText='Choose Profile Image'
 				onChange={uploadSingleFile}
 				imgExtension={['.jpg', '.gif', '.png', '.gif']}
@@ -293,7 +293,7 @@ function Register(props) {
 				singleImage={true}
 				withIcon={false}
 				withPreview={false}
-			/>
+			/> */}
 			<p>
 				<Button className="registration_join_button" type="submit">Sign Up</Button>
 			</p>

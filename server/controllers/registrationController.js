@@ -17,26 +17,11 @@ router.post('/', async function (req, res) {
 	const firstName = req.body.firstName;
 	const lastName = req.body.lastName;
 	const email = req.body.email;
-	let profileImg;
-	let profileImgName;
+
 	const saltRounds = 10;
 	let password;
-	let imagePath
+	let imagePath;
 
-	if (req.files != undefined) {
-		profileImg = req.files.imgFile;
-		//save profile image
-		if (profileImg.name.indexOf(' ') != -1) {
-			profileImgName = profileImg.name.replace(/ /g, '');
-		}
-		else profileImgName = profileImg.name;
-		imagePath = '../Client/public/uploadImages/profileImg/' + userID + "profileImg" + Date.now() + profileImgName;
-		profileImg.mv(imagePath
-			, function (err) {
-				if (err) return res.status(500).send(err);
-			}
-		);
-	}
 
 	// hasing and salting password
 	await bcrypt

@@ -13,9 +13,9 @@ import {
 } from "../Components/message";
 import AuthService from "../Services/Auth.service";
 
-export const register = (user_data, imgFile) => (dispatch) => {
+export const register = (user_data) => (dispatch) => {
 
-	return AuthService.register(user_data, imgFile)
+	return AuthService.register(user_data)
 		.then(
 			(response) => {
 				dispatch({

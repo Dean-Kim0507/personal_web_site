@@ -5,7 +5,6 @@ const User = db.user_mywebsite;
 
 verifyToken = (req, res, next) => {
 	let token = req.headers["x-access-token"];
-
 	if (!token) {
 		return res.status(403).send({
 			message: "NO_TOKEN_PROVIDED"
@@ -19,13 +18,11 @@ verifyToken = (req, res, next) => {
 			});
 		}
 		req.userID = decoded.id;
-		console.log(req.userID)
 		next();
 	});
 };
 
 isAdmin = (req, res, next) => {
-	console.log();
 	if (req.body.admin_info.role === 1) {
 		next();
 		return;

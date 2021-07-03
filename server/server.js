@@ -23,9 +23,7 @@ const reset_password = require('./controllers/resetPasswordController');
 const adminPage = require('./controllers/adminPageController');
 const port = process.env.PORT || 5000; //if deploy use, process.env.PORT will be used
 const cors = require('cors');
-// const fileUpload = require('express-fileupload');
-
-// app.use(fileUpload());
+const { body } = require('./middleware/multer');
 
 (async () => {
   await Blogdata.sequelize.sync()
@@ -39,6 +37,7 @@ const cors = require('cors');
       process.exit();
     });
 })();
+
 app.use(cors());
 app.use(express.json())
 

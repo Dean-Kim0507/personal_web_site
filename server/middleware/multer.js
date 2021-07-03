@@ -11,6 +11,9 @@ const s3 = new aws.S3(awsConfig);
 //=================================
 
 // Upload image
+const body = multer();
+
+// Upload image
 const upload =
 	multer({
 		storage: multerS3({
@@ -72,5 +75,6 @@ async function deleteImg(req, res, next) {
 }
 module.exports = {
 	upload,
-	deleteImg
+	deleteImg,
+	body
 }

@@ -18,15 +18,16 @@ let jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
 const bcrypt = require('bcrypt');
 const fs = require('fs');
+const { upload, deleteImg } = require('../middleware/multer');
 
-router.post('/', async function (req, res) {
-
+router.post('/', upload.single('images'), async function (req, res) {
+	console.log('***req.body', req.body)
 	const userID = req.body.userID;
 	const firstName = req.body.firstName;
 	const lastName = req.body.lastName;
 	const email = req.body.email;
 	const type = req.body.type;
-	const profileImg = req.files;
+	const profileImg = req.file;
 	const USER_UPDATE = 'USER_UPDATE';
 	const RESET_PASSWORD = 'RESET_PASSWORD';
 	const USER_UPDATE_SUCCESS = 'USER_UPDATE_SUCCESS';
@@ -34,6 +35,8 @@ router.post('/', async function (req, res) {
 	const DELETE_ACCOUNT = 'DELETE_ACCOUNT';
 	const DELETE_ACCOUNT_SUCCESS = 'DELETE_ACCOUNT_SUCCESS';
 	const USER_DELETE_WRONG_PASSWORD = 'USER_DELETE_WRONG_PASSWORD';
+	const EMAIL_EXIST = 'EMAIL_EXIST';
+
 	let profileImgName;
 	const saltRounds = 10;
 	let password;
@@ -47,25 +50,18 @@ router.post('/', async function (req, res) {
 				imagePath = user.profile_img_path;
 			})
 			.catch(err => {
-				res.status(500).json({ message: err.message });
+				return res.status(500).json({ message: err.message });
 			});
+		console.log(profileImg.location)
 		if (profileImg != null) {
-			if (imagePath != null) {
-				fs.unlink(imagePath, function (err) {
-					if (err) throw err;
-				})
+			req.body = {
+				delimg: imagePath,
+				mode: 'delete'
 			}
-			if (profileImg.imgFile.name.indexOf(' ') != -1) {
-				profileImgName = profileImg.imgFile.name.replace(/ /g, '');
-			}
-			else profileImgName = profileImg.imgFile.name;
-			imagePath = '../Client/public/uploadImages/profileImg/' + userID + "profileImg" + Date.now() + profileImgName;
-			profileImg.imgFile.mv(imagePath
-				, function (err) {
-					if (err) return res.status(500).send(err);
-				}
-			);
+			deleteImg(req)
+			imagePath = profileImg.location
 		}
+
 		await db.user_mywebsite.update({
 			firstName: firstName,
 			lastName: lastName,
@@ -179,9 +175,11 @@ router.post('/', async function (req, res) {
 								})
 									.then(() => {
 										if (user.profile_img_path != null) {
-											fs.unlink(user.profile_img_path, function (err) {
-												if (err) throw err;
-											})
+											req.body = {
+												delimg: user.profile_img_path,
+												mode: 'delete'
+											}
+											deleteImg(req);
 										}
 										return res.send({
 											message: DELETE_ACCOUNT_SUCCESS,

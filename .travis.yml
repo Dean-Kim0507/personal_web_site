@@ -21,17 +21,17 @@ after_success:
   - docker push deankim0507/myblog-nginx
   - echo "Test Success"
 
-# deploy:
-#   provider: elasticbeanstalk
-#   region: "ca-central-1"
-#   app: "docker_fullstack_app"
-#   env: "DockerFullstackApp-env"
+deploy:
+  provider: elasticbeanstalk
+  region: "ca-central-1"
+  app: "dean_myblog"
+  env: "Deanmyblog-env"
 
-#   bucket_name: "elasticbeanstalk-ca-central-1-522443927346"
+  bucket_name: "elasticbeanstalk-ca-central-1-522443927346"
 
-#   bucket_path: "docker_fullstack_app"
+  bucket_path: "dean_myblog"
 
-#   on:
-#     branch: master
-#   access_key_id: $AWS_ACCESS_KEY
-#   secret_access_key: $AWS_SECRET_ACCESS_KEY
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_ACCESS_KEY

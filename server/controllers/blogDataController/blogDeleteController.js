@@ -30,8 +30,9 @@ router.post('/', async function (req, res) {
 	})
 		.then(data => {
 			let imagePath = data.imagespath;
+			console.log(imagePath)
 			splittedImagePaths = [];
-			if (imagePath != 'null') {
+			if (imagePath != null) {
 				if (imagePath.indexOf(',') != -1) {
 					splittedImagePaths = imagePath.split(',');
 					for (let a = 0; a < splittedImagePaths.length; a++) {

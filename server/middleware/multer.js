@@ -20,7 +20,8 @@ const upload =
 			key: function (req, images, cb) {
 				cb(null, Date.now() + '.' + images.originalname.split('.').pop());
 			}
-		})
+		}),
+		limits: { fileSize: 5242880, files: 5 },
 	}, 'NONE');
 
 // Delete image
@@ -67,8 +68,7 @@ async function deleteImg(req, res, next) {
 			})
 		}
 	}
-	next()
-
+	if (next) next()
 }
 module.exports = {
 	upload,

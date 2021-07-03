@@ -13,8 +13,8 @@
 
 
 -- Dumping database structure for board
-CREATE DATABASE IF NOT EXISTS `board` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `board`;
+CREATE DATABASE IF NOT EXISTS `myblog` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `myblog`;
 
 -- Dumping structure for table board.blogcomments
 CREATE TABLE IF NOT EXISTS `blogcomments` (

@@ -4,21 +4,21 @@
         {
             "name": "myblog-frontend",
             "image": "deankim0507/myblog-frontend",
-            "hostname": "frontend",
+            "hostname": "myblog-frontend",
             "essential": false,
             "memory": 128
         },
         {
             "name": "myblog-backend",
             "image": "deankim0507/myblog-backend",
-            "hostname": "backend",
+            "hostname": "myblog-backend",
             "essential": false,
             "memory": 128
         },
         {
             "name": "myblog-nginx",
             "image": "deankim0507/myblog-nginx",
-            "hostname": "nginx",
+            "hostname": "myblog-nginx",
             "essential": true,
             "portMappings": [
                 {
@@ -26,7 +26,7 @@
                     "containerPort": 80
                 }
             ],
-            "links": ["frontend", "backend"],
+            "links": ["myblog-frontend", "myblog-backend"],
             "memory": 128
         }
     ]

@@ -28,7 +28,6 @@ deploy:
   env: "Deanmyblog-env"
 
   bucket_name: "elasticbeanstalk-ca-central-1-522443927346"
-
   bucket_path: "dean_myblog"
 
   on:

@@ -22,12 +22,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-#config File
-/server/config
+
 
 
 #Node Modules
 /server/node_modules
-
-#mysql
-/server/mysql.js

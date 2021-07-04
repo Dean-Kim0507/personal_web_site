@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.3.23-MariaDB - mariadb.org binary distribution
--- Server OS:                    Win64
+-- Server version:               5.7.34 - MySQL Community Server (GPL)
+-- Server OS:                    Linux
 -- HeidiSQL Version:             11.0.0.5919
 -- --------------------------------------------------------
 
@@ -12,23 +12,23 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Dumping database structure for board
-CREATE DATABASE IF NOT EXISTS `myblog` /*!40100 DEFAULT CHARACTER SET latin1 */;
+-- Dumping database structure for myblog
+CREATE DATABASE IF NOT EXISTS `myblog` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `myblog`;
 
--- Dumping structure for table board.blogcomments
+-- Dumping structure for table myblog.blogcomments
 CREATE TABLE IF NOT EXISTS `blogcomments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `blog_comment` text DEFAULT NULL,
+  `blog_comment` text,
   `blog_id` int(11) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `blog_id` (`blog_id`),
-  CONSTRAINT `blogcomments_ibfk_1` FOREIGN KEY (`blog_id`) REFERENCES `blogdataadmin` (`blog_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+  CONSTRAINT `blogcomments_ibfk_1` FOREIGN KEY (`blog_id`) REFERENCES `blogDataAdmin` (`blog_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table board.blogcomments: ~11 rows (approximately)
+-- Dumping data for table myblog.blogcomments: ~12 rows (approximately)
 /*!40000 ALTER TABLE `blogcomments` DISABLE KEYS */;
 INSERT IGNORE INTO `blogcomments` (`id`, `blog_comment`, `blog_id`, `createdAt`, `updatedAt`) VALUES
 	(3, 'Look so nice!', 34, '2021-06-20 17:26:48', '2021-06-20 17:26:48'),
@@ -45,13 +45,13 @@ INSERT IGNORE INTO `blogcomments` (`id`, `blog_comment`, `blog_id`, `createdAt`,
 	(14, 'Awesome lol', 35, '2021-06-20 17:55:21', '2021-06-20 17:55:21');
 /*!40000 ALTER TABLE `blogcomments` ENABLE KEYS */;
 
--- Dumping structure for table board.blogdataadmin
-CREATE TABLE IF NOT EXISTS `blogdataadmin` (
+-- Dumping structure for table myblog.blogDataAdmin
+CREATE TABLE IF NOT EXISTS `blogDataAdmin` (
   `blog_id` int(11) NOT NULL AUTO_INCREMENT,
   `writer` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `imagespath` text DEFAULT NULL,
+  `description` text,
+  `imagespath` text,
   `userID` varchar(255) DEFAULT NULL,
   `isLogedIn` tinyint(1) NOT NULL,
   `createdAt` datetime NOT NULL,
@@ -59,21 +59,21 @@ CREATE TABLE IF NOT EXISTS `blogdataadmin` (
   PRIMARY KEY (`blog_id`),
   KEY `userID` (`userID`),
   CONSTRAINT `blogdataadmin_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user_mywebsite` (`userID`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table board.blogdataadmin: ~6 rows (approximately)
-/*!40000 ALTER TABLE `blogdataadmin` DISABLE KEYS */;
-INSERT IGNORE INTO `blogdataadmin` (`blog_id`, `writer`, `title`, `description`, `imagespath`, `userID`, `isLogedIn`, `createdAt`, `updatedAt`) VALUES
+-- Dumping data for table myblog.blogDataAdmin: ~6 rows (approximately)
+/*!40000 ALTER TABLE `blogDataAdmin` DISABLE KEYS */;
+INSERT IGNORE INTO `blogDataAdmin` (`blog_id`, `writer`, `title`, `description`, `imagespath`, `userID`, `isLogedIn`, `createdAt`, `updatedAt`) VALUES
 	(34, 'admin0507', 'Winter Camping Awesome!', 'We went winter camping to Banff!, That was the first winter camping for us so Doha was worried that what if we freeze out and dead??!!\nHowever, she forgot about it after seeing the beautiful scenery at the camp site and we spent a really fun time!', './Client/public/uploadImages/blog/blogImg1624209981338IMG_8144.JPG,./Client/public/uploadImages/blog/blogImg1624209981340IMG_8151.JPG,./Client/public/uploadImages/blog/blogImg1624209981340IMG_8131.JPG', 'admin0507', 1, '2021-06-20 17:20:38', '2021-06-20 18:34:27'),
-	(35, 'null', 'Happy Happy Halloween', 'Trick or Treating!', './Client/public/uploadImages/blog/blogImg1624210169359IMG_8125.JPG', 'admin0507', 1, '2021-06-20 17:29:29', '2021-06-20 17:29:29'),
-	(36, 'null', 'Happy New Year!!', 'Happy New Year!!', './Client/public/uploadImages/blog/blogImg1624210293395IMG_8409.JPG,./Client/public/uploadImages/blog/blogImg1624210293395IMG_8494.JPG,./Client/public/uploadImages/blog/blogImg1624210293395IMG_8545.JPG', 'admin0507', 1, '2021-06-20 17:31:33', '2021-06-20 17:31:33'),
-	(37, 'null', 'How beautiful Cherry blossom in Vancounver!', 'We visited Vancouver for some errands in the consulate. We were surprised that spring was already in Vancouver!! \nWe enjoyed beautiful cherry blossoms and delicious Korean food (That\'s the most exciting part!! lol).', './Client/public/uploadImages/blog/blogImg1624210634993IMG_8946.JPG,./Client/public/uploadImages/blog/blogImg1624210634994IMG_8973.JPG,./Client/public/uploadImages/blog/blogImg1624210634994IMG_9014.JPG', 'admin0507', 1, '2021-06-20 17:37:14', '2021-06-20 17:37:14'),
-	(38, 'null', 'Forget me not a fond and Bowness park', 'Summer is coming! I\'m sooooo excited lol', './Client/public/uploadImages/blog/blogImg1624210723348IMG_9319.JPG,./Client/public/uploadImages/blog/blogImg1624210723348IMG_9384.JPG', 'admin0507', 1, '2021-06-20 17:38:43', '2021-06-20 17:38:43'),
-	(39, 'null', 'My Birthday Picnic', 'We went to our favourite place for celebrating my birthday! ', './Client/public/uploadImages/blog/blogImg1624210857755IMG_9280.JPG,./Client/public/uploadImages/blog/blogImg1624210857755IMG_8066.JPG,./Client/public/uploadImages/blog/blogImg1624210857755IMG_9271.JPG', 'admin0507', 1, '2021-06-20 17:40:57', '2021-06-20 17:40:57');
-/*!40000 ALTER TABLE `blogdataadmin` ENABLE KEYS */;
+	(35, 'admin0507', 'Happy Happy Halloween', 'Trick or Treating!', './Client/public/uploadImages/blog/blogImg1624210169359IMG_8125.JPG', 'admin0507', 1, '2021-06-20 17:29:29', '2021-06-20 17:29:29'),
+	(36, 'admin0507', 'Happy New Year!!', 'Happy New Year!!', './Client/public/uploadImages/blog/blogImg1624210293395IMG_8409.JPG,./Client/public/uploadImages/blog/blogImg1624210293395IMG_8494.JPG,./Client/public/uploadImages/blog/blogImg1624210293395IMG_8545.JPG', 'admin0507', 1, '2021-06-20 17:31:33', '2021-06-20 17:31:33'),
+	(37, 'admin0507', 'How beautiful Cherry blossom in Vancounver!', 'We visited Vancouver for some errands in the consulate. We were surprised that spring was already in Vancouver!! \nWe enjoyed beautiful cherry blossoms and delicious Korean food (That\'s the most exciting part!! lol).', './Client/public/uploadImages/blog/blogImg1624210634993IMG_8946.JPG,./Client/public/uploadImages/blog/blogImg1624210634994IMG_8973.JPG,./Client/public/uploadImages/blog/blogImg1624210634994IMG_9014.JPG', 'admin0507', 1, '2021-06-20 17:37:14', '2021-06-20 17:37:14'),
+	(38, 'admin0507', 'Forget me not a fond and Bowness park', 'Summer is coming! I\'m sooooo excited lol', './Client/public/uploadImages/blog/blogImg1624210723348IMG_9319.JPG,./Client/public/uploadImages/blog/blogImg1624210723348IMG_9384.JPG', 'admin0507', 1, '2021-06-20 17:38:43', '2021-06-20 17:38:43'),
+	(39, 'admin0507', 'My Birthday Picnic', 'We went to our favourite place for celebrating my birthday! ', './Client/public/uploadImages/blog/blogImg1624210857755IMG_9280.JPG,./Client/public/uploadImages/blog/blogImg1624210857755IMG_8066.JPG,./Client/public/uploadImages/blog/blogImg1624210857755IMG_9271.JPG', 'admin0507', 1, '2021-06-20 17:40:57', '2021-06-20 17:40:57');
+/*!40000 ALTER TABLE `blogDataAdmin` ENABLE KEYS */;
 
--- Dumping structure for table board.emailauth
-CREATE TABLE IF NOT EXISTS `emailauth` (
+-- Dumping structure for table myblog.emailAuth
+CREATE TABLE IF NOT EXISTS `emailAuth` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `token` varchar(255) NOT NULL,
   `userID` varchar(255) NOT NULL,
@@ -83,13 +83,13 @@ CREATE TABLE IF NOT EXISTS `emailauth` (
   PRIMARY KEY (`id`),
   KEY `userID` (`userID`),
   CONSTRAINT `emailauth_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user_mywebsite` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table board.emailauth: ~0 rows (approximately)
-/*!40000 ALTER TABLE `emailauth` DISABLE KEYS */;
-/*!40000 ALTER TABLE `emailauth` ENABLE KEYS */;
+-- Dumping data for table myblog.emailAuth: ~0 rows (approximately)
+/*!40000 ALTER TABLE `emailAuth` DISABLE KEYS */;
+/*!40000 ALTER TABLE `emailAuth` ENABLE KEYS */;
 
--- Dumping structure for table board.post_community
+-- Dumping structure for table myblog.post_community
 CREATE TABLE IF NOT EXISTS `post_community` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `writer` varchar(255) DEFAULT NULL,
@@ -98,17 +98,15 @@ CREATE TABLE IF NOT EXISTS `post_community` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table board.post_community: ~3 rows (approximately)
+-- Dumping data for table myblog.post_community: ~2 rows (approximately)
 /*!40000 ALTER TABLE `post_community` DISABLE KEYS */;
 INSERT IGNORE INTO `post_community` (`id`, `writer`, `title`, `desc`, `createdAt`, `updatedAt`) VALUES
-	(7, '', '', '', '2021-04-24 03:02:01', '2021-04-24 03:02:01'),
-	(11, 'Dean', 'Welcome to my blog!', 'This is an open place to everybody, share your awesome things and enjoy!', '2021-06-20 18:35:33', '2021-06-20 18:35:33'),
-	(12, 'Hi', 'Hi', 'hi', '2021-06-27 19:10:12', '2021-06-27 19:10:12');
+	(11, 'Dean', 'Welcome to my blog!', 'This is an open place to everybody, share your awesome things and enjoy!', '2021-06-20 18:35:33', '2021-06-20 18:35:33');
 /*!40000 ALTER TABLE `post_community` ENABLE KEYS */;
 
--- Dumping structure for table board.post_feedback
+-- Dumping structure for table myblog.post_feedback
 CREATE TABLE IF NOT EXISTS `post_feedback` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `writer` varchar(255) DEFAULT NULL,
@@ -117,15 +115,15 @@ CREATE TABLE IF NOT EXISTS `post_feedback` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table board.post_feedback: ~1 rows (approximately)
+-- Dumping data for table myblog.post_feedback: ~0 rows (approximately)
 /*!40000 ALTER TABLE `post_feedback` DISABLE KEYS */;
 INSERT IGNORE INTO `post_feedback` (`id`, `writer`, `title`, `desc`, `createdAt`, `updatedAt`) VALUES
-	(2, 'Feedback', 'Good', 'Good but there\'s some improvements in there', '2021-02-18 20:47:39', '2021-06-20 18:09:28');
+	(2, 'Feedback', 'Good Website', 'Test ', '2021-02-18 20:47:39', '2021-07-03 22:42:55');
 /*!40000 ALTER TABLE `post_feedback` ENABLE KEYS */;
 
--- Dumping structure for table board.role_mywebsite
+-- Dumping structure for table myblog.role_mywebsite
 CREATE TABLE IF NOT EXISTS `role_mywebsite` (
   `roleID` int(11) NOT NULL AUTO_INCREMENT,
   `role` varchar(255) NOT NULL,
@@ -134,21 +132,21 @@ CREATE TABLE IF NOT EXISTS `role_mywebsite` (
   PRIMARY KEY (`roleID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table board.role_mywebsite: ~2 rows (approximately)
+-- Dumping data for table myblog.role_mywebsite: ~2 rows (approximately)
 /*!40000 ALTER TABLE `role_mywebsite` DISABLE KEYS */;
 INSERT IGNORE INTO `role_mywebsite` (`roleID`, `role`, `createdAt`, `updatedAt`) VALUES
 	(1, 'admin', '2021-02-19 01:03:21', '2021-02-19 01:03:21'),
 	(2, 'user', '2021-02-19 01:04:09', '2021-02-19 01:04:09');
 /*!40000 ALTER TABLE `role_mywebsite` ENABLE KEYS */;
 
--- Dumping structure for table board.sequelizemeta
+-- Dumping structure for table myblog.sequelizemeta
 CREATE TABLE IF NOT EXISTS `sequelizemeta` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`name`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table board.sequelizemeta: ~8 rows (approximately)
+-- Dumping data for table myblog.sequelizemeta: ~10 rows (approximately)
 /*!40000 ALTER TABLE `sequelizemeta` DISABLE KEYS */;
 INSERT IGNORE INTO `sequelizemeta` (`name`) VALUES
 	('20201203203926-modification-blogcomments-blog_id-column.js.js'),
@@ -163,38 +161,39 @@ INSERT IGNORE INTO `sequelizemeta` (`name`) VALUES
 	('20210218015906-setting_foreignKey_blog_data_admin.js');
 /*!40000 ALTER TABLE `sequelizemeta` ENABLE KEYS */;
 
--- Dumping structure for table board.user_mywebsite
+-- Dumping structure for table myblog.user_mywebsite
 CREATE TABLE IF NOT EXISTS `user_mywebsite` (
   `userID` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `firstName` varchar(255) NOT NULL,
   `lastName` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `profile_img_path` text DEFAULT NULL,
+  `profile_img_path` text,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table board.user_mywebsite: ~2 rows (approximately)
+-- Dumping data for table myblog.user_mywebsite: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user_mywebsite` DISABLE KEYS */;
 INSERT IGNORE INTO `user_mywebsite` (`userID`, `password`, `firstName`, `lastName`, `email`, `profile_img_path`, `createdAt`, `updatedAt`) VALUES
-	('admin0507', '$2b$10$kTTscVhG.ihwbT668CI7GO9OlSxtgHYmbPty0BXrGfdsaHfxhZm9a', 'Dean', 'Kim', 'dean.kim0507@gmail.com', '../Client/public/uploadImages/profileImg/admin0507profileImg1617484857210Donghyun.Kimprofile.picture.jpg', '2021-04-03 21:20:57', '2021-04-03 21:20:57');
+	('admin0507', '$2b$10$u0KU1K3RwMLnByfZzdEXG.2Pmu7W58BETRJgW1Y7.YHKllHURRJbu', 'dean', 'kim', 'poolup0000@gmail.com', NULL, '2021-06-29 01:51:13', '2021-06-29 01:51:13');
 /*!40000 ALTER TABLE `user_mywebsite` ENABLE KEYS */;
 
--- Dumping structure for table board.user_mywebsite_role_mywebsite
+-- Dumping structure for table myblog.user_mywebsite_role_mywebsite
 CREATE TABLE IF NOT EXISTS `user_mywebsite_role_mywebsite` (
   `userID` varchar(255) NOT NULL,
   `roleID` int(11) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`userID`),
-  KEY `roleID_role_mywebsite` (`roleID`),
-  CONSTRAINT `roleID_role_mywebsite` FOREIGN KEY (`roleID`) REFERENCES `role_mywebsite` (`roleID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `userID_user_mywebsite` FOREIGN KEY (`userID`) REFERENCES `user_mywebsite` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE
+  UNIQUE KEY `user_mywebsite_role_mywebsite_roleID_userID_unique` (`userID`,`roleID`),
+  KEY `roleID` (`roleID`),
+  CONSTRAINT `user_mywebsite_role_mywebsite_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user_mywebsite` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user_mywebsite_role_mywebsite_ibfk_2` FOREIGN KEY (`roleID`) REFERENCES `role_mywebsite` (`roleID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table board.user_mywebsite_role_mywebsite: ~2 rows (approximately)
+-- Dumping data for table myblog.user_mywebsite_role_mywebsite: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user_mywebsite_role_mywebsite` DISABLE KEYS */;
 INSERT IGNORE INTO `user_mywebsite_role_mywebsite` (`userID`, `roleID`, `createdAt`, `updatedAt`) VALUES
 	('admin0507', 1, '2021-04-03 21:20:57', '2021-04-03 21:20:57');

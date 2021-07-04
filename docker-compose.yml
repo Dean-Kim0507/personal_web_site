@@ -26,14 +26,15 @@ services:
       - /myblog/node_modules
       - ./server:/myblog
     environment: 
-      # MYSQL_HOST: myblog-mysql
       MYSQL_USER: root 
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: myblog
       MYSQL_PORT: 3306
-    #   NODE_ENV: development
-    # environment:  
-    #  - CHOKIDAR_USEPOLLING=true  
+
+#       MYSQL_HOST: myblog-mysql
+#       NODE_ENV: development
+#     environment:  
+#      - CHOKIDAR_USEPOLLING=true  
 
 # # Local port 3310
 #   myblog-mysql:

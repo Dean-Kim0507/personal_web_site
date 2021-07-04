@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Community from './Components/CommunityComponents/CommunityPost';
 import Resume from './Components/Resume';
 import Blog from './Components/BlogList';
@@ -19,32 +19,33 @@ import NotFound from './PageNotfound';
 import AdminPage from './Components/AdminPage';
 
 
-const Body = (props) => {
-
-	return (
-		<div >
-			<Router>
-				<Switch>
-					{/* <Route exact path="/" component={Head}></Route> */}
-					<Route exact path="/" component={Home}></Route>
-					<Route exact path="/home" component={Home}></Route>
-					<Route exact path="/resume" component={Resume}></Route>
-					<Route exact path="/community/:type" component={Community}></Route>
-					<Route exact path="/login" component={LoginPage}></Route>
-					<Route exact path="/registration" component={Registration}></Route>
-					<Route exact path="/forgot/:type" component={ForgotIDPassword}></Route>
-					<Route exact path="/myaccount" component={MyAccount}></Route>
-					<Route exact path="/bloglist" component={Blog}></Route>
-					<Route exact path="/blogcreate" component={CreateBlogList}></Route>
-					<Route exact path="/resetaccount/:token/:email" component={ResetAccount}></Route>
-					<Route exact path="/blogupdate/:id/:author" component={UpdateBlogList}></Route>
-					<Route exact path="/bloglist/delete/:id" component={DeleteBlogList}></Route>
-					<Route exact path="/errorpage/:errNum/:errPage/:errMessage" component={ErrorPage}></Route>
-					<Route exact path="/admin" component={AdminPage}></Route>
-					<Route component={NotFound} />
-				</Switch>
-			</Router>
-		</div>
-	);
+class Body extends Component {
+	render() {
+		return (
+			<div >
+				<Router>
+					<Switch>
+						{/* <Route exact path="/" component={Head}></Route> */}
+						<Route exact path="/" component={Home}></Route>
+						<Route exact path="/home" component={Home}></Route>
+						<Route exact path="/resume" component={Resume}></Route>
+						<Route exact path="/community/:type" component={Community}></Route>
+						<Route exact path="/login" component={LoginPage}></Route>
+						<Route exact path="/registration" component={Registration}></Route>
+						<Route exact path="/forgot/:type" component={ForgotIDPassword}></Route>
+						<Route exact path="/myaccount" component={MyAccount}></Route>
+						<Route exact path="/bloglist" component={Blog}></Route>
+						<Route exact path="/blogcreate" component={CreateBlogList}></Route>
+						<Route exact path="/resetaccount/:token/:email" component={ResetAccount}></Route>
+						<Route exact path="/blogupdate/:id/:author" component={UpdateBlogList}></Route>
+						<Route exact path="/bloglist/delete/:id" component={DeleteBlogList}></Route>
+						<Route exact path="/errorpage/:errNum/:errPage/:errMessage" component={ErrorPage}></Route>
+						<Route exact path="/admin" component={AdminPage}></Route>
+						<Route component={NotFound} />
+					</Switch>
+				</Router>
+			</div>
+		);
+	}
 }
 export default Body;

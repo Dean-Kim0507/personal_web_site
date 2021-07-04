@@ -1,6 +1,6 @@
 version: "3"
 services:
-  frontend:
+  myblog-frontend:
     build:
       dockerfile: Dockerfile.dev
       context: ./Client
@@ -10,14 +10,14 @@ services:
     stdin_open: true
     environment: 
      - CHOKIDAR_USEPOLLING=true
-  nginx: 
+  myblog-nginx: 
     restart: always
     build:
       dockerfile: Dockerfile
       context: ./nginx
     ports: 
       - "3000:80"
-  backend:
+  myblog-backend:
     build: 
       dockerfile: Dockerfile.dev
       context: ./server
@@ -26,7 +26,7 @@ services:
       - /myblog/node_modules
       - ./server:/myblog
     environment: 
-      MYSQL_HOST: mysql
+      MYSQL_HOST: myblog-mysql
       MYSQL_USER: root 
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: myblog
@@ -36,7 +36,7 @@ services:
     #  - CHOKIDAR_USEPOLLING=true  
 
 # # Local port 3310
-#   mysql:
+#   myblog-mysql:
 #     build: ./mysql
 #     restart: unless-stopped
 #     container_name: myblog_mysql
@@ -46,7 +46,7 @@ services:
 #       - ./mysql/mysql_data:/var/lib/mysql
 #       - ./mysql/sqls/:/docker-entrypoint-initdb.d/
 #     environment:
-#       MYSQL_HOST: mysql
+#       MYSQL_HOST: myblog-mysql
 #       MYSQL_USER: root
 #       MYSQL_ROOT_PASSWORD: password
 #       MYSQL_DATABASE: myblog

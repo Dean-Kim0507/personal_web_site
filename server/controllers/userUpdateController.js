@@ -21,7 +21,6 @@ const fs = require('fs');
 const { upload, deleteImg } = require('../middleware/multer');
 
 router.post('/', upload.single('images'), async function (req, res) {
-	console.log('***req.body', req.body)
 	const userID = req.body.userID;
 	const firstName = req.body.firstName;
 	const lastName = req.body.lastName;
@@ -35,9 +34,7 @@ router.post('/', upload.single('images'), async function (req, res) {
 	const DELETE_ACCOUNT = 'DELETE_ACCOUNT';
 	const DELETE_ACCOUNT_SUCCESS = 'DELETE_ACCOUNT_SUCCESS';
 	const USER_DELETE_WRONG_PASSWORD = 'USER_DELETE_WRONG_PASSWORD';
-	const EMAIL_EXIST = 'EMAIL_EXIST';
 
-	let profileImgName;
 	const saltRounds = 10;
 	let password;
 	let imagePath;
@@ -52,14 +49,19 @@ router.post('/', upload.single('images'), async function (req, res) {
 			.catch(err => {
 				return res.status(500).json({ message: err.message });
 			});
-		console.log(profileImg.location)
-		if (profileImg != null) {
+
+		//If there is a image and user want to change it.
+		if (profileImg != null && imagePath != null) {
 			req.body = {
 				delimg: imagePath,
 				mode: 'delete'
 			}
 			deleteImg(req)
 			imagePath = profileImg.location
+		}
+		//If there is no inage and user want to add it.
+		else if (profileImg != null && imagePath == null) {
+			imagePath = profileImg.location;
 		}
 
 		await db.user_mywebsite.update({

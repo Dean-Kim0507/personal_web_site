@@ -26,7 +26,7 @@ class CommunityPost extends Component {
 			subtitle: "This is the area of OPEN POST! Please feel free to leave anything you want to share with us. Have a fun!"
 		}
 	}
-	// receive data by using fetch
+	// receive data by using axios
 	componentDidMount() {
 
 		if (this.state.type === 'feedbackpost') {

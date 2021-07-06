@@ -473,13 +473,13 @@ function MyAccount(props) {
 							</Card>
 							<Card
 								className='myAccount_community'
-								onClick={() => history.push('/community')} >
+								onClick={() => history.push('/resume')} >
 								<Card.Img variant="top"
 									src={communityImgPath}
 									width={IMG_WIDTH}
 									height={IMG_LENGTH} />
 								<Card.Body>
-									<Card.Title>Go to Community</Card.Title>
+									<Card.Title>Go to See Dean's Resume</Card.Title>
 								</Card.Body>
 							</Card>
 						</Row>

@@ -25,10 +25,10 @@ function MainNav(props) {
 
 	if (isLoggedIn) {
 		imagePath = user.profileImg;
-		if (imagePath != null) {
-			imagePath = imagePath.substring(16, imagePath.length);
+		if (imagePath === null) {
+			imagePath = basicProfileImgPath;
 		}
-		else imagePath = basicProfileImgPath;
+
 	}
 
 	useEffect(() => {
@@ -57,7 +57,7 @@ function MainNav(props) {
 						<Nav.Link href="/home">Home</Nav.Link>
 						<Nav.Link href="/bloglist">Blog</Nav.Link>
 						<Nav.Link href="/resume">Resume</Nav.Link>
-						<Nav.Link href="/community/communitypost">Community</Nav.Link>
+						{/* <Nav.Link href="/community/communitypost">Community</Nav.Link> */}
 					</Nav>
 					{isLoggedIn ?
 						<>

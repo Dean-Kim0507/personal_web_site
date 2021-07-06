@@ -70,10 +70,9 @@ function AdminPage(props) {
 			<tbody>
 				{users != null ?
 					users.map(data => {
-						if (data.profile_img_path != null) {
-							data.profile_img_path = data.profile_img_path.substring(16, data.profile_img_path.length);
+						if (data.profile_img_path === null) {
+							data.profile_img_path = basicProfileImgPath;
 						}
-						else { data.profile_img_path = basicProfileImgPath; }
 						return (
 							<tr key={tableNum}>
 								<td>{++tableNum}</td>

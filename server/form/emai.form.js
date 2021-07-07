@@ -8,7 +8,7 @@ const forgotPW = (name, token, email) => {
 			html:
 				`<p>Hello ${name}</p>` +
 				`<p>Please click the URL to reset your password.<p>` +
-				`<a href='${process.env.DOMAIN}/resetpw/${token}/${email}'>Click here to reset Your Password</a><br/>` +
+				`<a href='${process.env.DOMAIN}/resetaccount/${token}/${email}'>Click here to reset Your Password</a><br/>` +
 				`If you don't request this, please contact us` +
 				`<h4> Dean's Blog</h4>`
 		}

@@ -61,6 +61,7 @@ function ResetAccount(props) {
 			type: RESET_PASSWORD_VERIFY_TOKEN
 		})
 			.then(response => {
+				console.log('response.data: ', response.data)
 				if (response.data.message === TOKEN_EXPIRED) {
 					alert(e_reset_password_token_expired);
 					history.push('/home');

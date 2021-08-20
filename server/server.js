@@ -24,7 +24,7 @@ const adminPage = require('./controllers/adminPageController');
 const port = process.env.PORT || 5000; //if deploy use, process.env.PORT will be used
 const cors = require('cors');
 const { body } = require('./middleware/multer');
-
+//
 (async () => {
   await Blogdata.sequelize.sync()
     .then(() => {
